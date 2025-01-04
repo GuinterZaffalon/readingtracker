@@ -194,7 +194,7 @@ class _RegisterState extends State<Register> {
                         ),
                       ),
                     ),
-          const SizedBox(height: 10),
+          const SizedBox(height: 15),
           const Text("Acabou a leitura?", style: TextStyle(fontSize: 20)),
           const SizedBox(height: 10),
           Row(
@@ -233,11 +233,11 @@ class _RegisterState extends State<Register> {
                   : (isReading!
                       ? const Text("Ainda estou lendo")
                       : Column(children: [
-                          const SizedBox(height: 10),
+                          const SizedBox(height: 15),
                           Text("Quando terminou a leitura?",
                               style: TextStyle(fontSize: 20)),
                           Padding(
-                              padding: EdgeInsets.fromLTRB(40, 10, 40, 10),
+                              padding: EdgeInsets.fromLTRB(40, 10, 40, 15),
                               child: TextField(
                                 controller: dateController,
                                 onTap: () {
@@ -279,7 +279,7 @@ class _RegisterState extends State<Register> {
                               });
                             },
                           ),
-                          const SizedBox(height: 10),
+                          const SizedBox(height: 15),
                           Text("Gostaria de deixar alguma anotação?",
                               style: TextStyle(fontSize: 20)),
                           const SizedBox(height: 10),
