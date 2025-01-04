@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:readingtracker/src/model/ServiceBookAPI.dart';
+import 'package:readingtracker/src/screens/register.dart';
 
 void main() {
   runApp(const MyApp());
@@ -102,11 +103,34 @@ class _MyHomePageState extends State<MyHomePage> {
                   title: Text(title),
                   subtitle: Text('Autor: $author\nEditora: $editora\nAno: $editionYear'),
                   style: ListTileStyle.list,
+                  onTap: () {
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => const Register()));
+                  },
                 );
               },
             ),
           ),
         ],
+      ),
+      bottomNavigationBar: BottomAppBar(
+        color: const Color.fromRGBO(189, 213, 234, 1),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            IconButton(
+              icon: const Icon(Icons.add_home_outlined),
+              color: Colors.black,
+              onPressed: () {
+                // Ação para o ícone de início
+              },
+            ),
+            IconButton(
+                onPressed: () {},
+                icon: const Icon(Icons.person_2_outlined),
+                color: Colors.black
+            ),
+          ],
+        ),
       ),
     );
   }
