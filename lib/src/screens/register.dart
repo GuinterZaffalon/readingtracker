@@ -108,8 +108,8 @@ class _RegisterState extends State<Register> {
                       Text(widget.registro.title!),
                       Text(widget.registro.author!),
                       Text(widget.registro.publisher!),
-                      Text(widget.registro.editionYear ?? '')
-                  ])
+                      Text(widget.registro.editionYear?.isNotEmpty == "null" ? widget.registro.editionYear! : 'Ano não informado')
+                    ])
                 ],
               ),
           const SizedBox(height: 10),
