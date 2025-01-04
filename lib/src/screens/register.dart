@@ -49,7 +49,8 @@ class _RegisterState extends State<Register> {
       ),
       body: Column(
         children: [
-          Text("Livro: ${bookReceived["title"]}", style: TextStyle(fontSize: 20)),
+          Text("Livro: ${bookReceived["title"]}",
+              style: TextStyle(fontSize: 20)),
           const SizedBox(height: 10),
           const Text("Acabou a leitura?", style: TextStyle(fontSize: 20)),
           const SizedBox(height: 10),
@@ -164,19 +165,20 @@ class _RegisterState extends State<Register> {
                               )),
                           Row(
                               mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.fromLTRB(40, 10, 40, 10),
-                                child: ElevatedButton(
-                                  onPressed: () {},
-                                  child: const Text("Salvar"),
-                                  style: ButtonStyle(
-                                    padding: MaterialStateProperty.all(
-                                        const EdgeInsets.fromLTRB(40, 10, 40, 10)),
-                                  ),
-                                )
-                              )]
-                          )
+                              children: [
+                                Padding(
+                                    padding: const EdgeInsets.fromLTRB(
+                                        40, 10, 40, 10),
+                                    child: ElevatedButton(
+                                      onPressed: () {},
+                                      child: const Text("Salvar"),
+                                      style: ButtonStyle(
+                                        padding: MaterialStateProperty.all(
+                                            const EdgeInsets.fromLTRB(
+                                                40, 10, 40, 10)),
+                                      ),
+                                    ))
+                              ])
                         ])),
             ),
           ),
