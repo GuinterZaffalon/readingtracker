@@ -104,7 +104,14 @@ class _MyHomePageState extends State<MyHomePage> {
                   subtitle: Text('Autor: $author\nEditora: $editora\nAno: $editionYear'),
                   style: ListTileStyle.list,
                   onTap: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => const Register()));
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) =>
+                        Register(registro: {
+                          'title': title,
+                          'author': author,
+                          'editionYear': editionYear,
+                          'publisher': editora
+                        },)));
                   },
                 );
               },

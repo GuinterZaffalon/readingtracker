@@ -1,8 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
+class registro {
+  String? title;
+  String? author;
+  String? publisher;
+  int? editionYear;
+}
+
 class Register extends StatefulWidget {
-  const Register({super.key});
+  final Map<String, dynamic> registro;
+  const Register({super.key, required this.registro});
 
   @override
   State<Register> createState() => _RegisterState();
@@ -32,6 +40,7 @@ class _RegisterState extends State<Register> {
 
   @override
   Widget build(BuildContext context) {
+    final bookReceived = widget.registro;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: const Color.fromRGBO(189, 213, 234, 1),
@@ -40,6 +49,7 @@ class _RegisterState extends State<Register> {
       ),
       body: Column(
         children: [
+          Text("Livro: ${bookReceived["title"]}", style: TextStyle(fontSize: 20)),
           const SizedBox(height: 10),
           const Text("Acabou a leitura?", style: TextStyle(fontSize: 20)),
           const SizedBox(height: 10),
