@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 
 class BookService {
   static Future<List<dynamic>> getBooks(String search) async {
-    final searchParam = search.split("+");
+    final searchParam = search.replaceAll(" ", "+");
     final url = Uri.parse(
         "http://openlibrary.org/search.json?q=$searchParam&fields=key,title,author_name,number_of_pages_median,isbn,first_publish_year,publisher&sort=new");
     try {
