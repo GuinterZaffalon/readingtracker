@@ -96,12 +96,12 @@ class _MyHomePageState extends State<MyHomePage> {
                 final author = (book['author_name'] as List<dynamic>?)
                     ?.join(', ') ??
                     'Autor desconhecido';
-                final isbn = (book['isbn'] as List<dynamic>?)
-                    ?.join(', ') ??
-                    'ISBN indisponível';
+                final editionYear = book['first_publish_year'] ?? 'Ano desconhecido';
+                final editora = book['publisher'] ?? 'Editora desconhecida';
                 return ListTile(
                   title: Text(title),
-                  subtitle: Text('Autor: $author\nISBN: $isbn'),
+                  subtitle: Text('Autor: $author\nEditora: $editora\nAno: $editionYear'),
+                  style: ListTileStyle.list,
                 );
               },
             ),
