@@ -89,35 +89,109 @@ class _RegisterState extends State<Register> {
           isLoading
               ? const CircularProgressIndicator()
               : cover.isEmpty
-                  ? Column(
-                      children: [
-                        Text(widget.registro.title!),
-                        Text(widget.registro.author!),
-                        Text(widget.registro.publisher!),
-                        Text(widget.registro.editionYear!),
-                      ],
-                    )
+                  // ? Column(
+                  //     children: [
+                  //       Text(widget.registro.title!),
+                  //       Text(widget.registro.author!),
+                  //       Text(widget.registro.publisher!),
+                  //       Text(widget.registro.editionYear!),
+                  //     ],
+                  //   )
+                  ? Padding(
+            padding: const EdgeInsets.fromLTRB(10, 30, 10, 0),
+            child: Container(
+              decoration: BoxDecoration(
+                color: Colors.white, // Cor de fundo
+                borderRadius: BorderRadius.circular(
+                    12), // Raio da borda arredondada
+                boxShadow: [
+                  BoxShadow(
+                    color:
+                    Colors.grey.withOpacity(0.3), // Sombra suave
+                    spreadRadius: 2,
+                    blurRadius: 5,
+                    offset: Offset(0, 3), // Deslocamento da sombra
+                  ),
+                ],
+              ),
+              padding:
+              const EdgeInsets.all(10), // Espaçamento interno
+              child: Row(
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        widget.registro.title!,
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 14,
+                        ),
+                      ),
+                      Text(widget.registro.author!),
+                      Text(widget.registro.publisher!),
+                      Text(
+                        widget.registro.editionYear?.isNotEmpty ==
+                            true
+                            ? widget.registro.editionYear!
+                            : 'Ano não informado',
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          )
                   : Padding(
                       padding: const EdgeInsets.fromLTRB(10, 30, 10, 0),
-                      child: Row(
-                        children: [
-                          Image.memory(
-                            base64Decode(cover),
-                            width: 80,
-                            height: 130,
-                            fit: BoxFit.cover,
-                          ),
-                          SizedBox(width: 10),
-                          Column(children: [
-                            Text(widget.registro.title!),
-                            Text(widget.registro.author!),
-                            Text(widget.registro.publisher!),
-                            Text(widget.registro.editionYear?.isNotEmpty ==
-                                    "null"
-                                ? widget.registro.editionYear!
-                                : 'Ano não informado')
-                          ])
-                        ],
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: Colors.white, // Cor de fundo
+                          borderRadius: BorderRadius.circular(
+                              12), // Raio da borda arredondada
+                          boxShadow: [
+                            BoxShadow(
+                              color:
+                                  Colors.grey.withOpacity(0.3), // Sombra suave
+                              spreadRadius: 2,
+                              blurRadius: 5,
+                              offset: Offset(0, 3), // Deslocamento da sombra
+                            ),
+                          ],
+                        ),
+                        padding:
+                            const EdgeInsets.all(10), // Espaçamento interno
+                        child: Row(
+                          children: [
+                            Image.memory(
+                              base64Decode(cover),
+                              width: 80,
+                              height: 130,
+                              fit: BoxFit.cover,
+                            ),
+                            const SizedBox(width: 10),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  widget.registro.title!,
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 14,
+                                  ),
+                                ),
+                                Text(widget.registro.author!),
+                                Text(widget.registro.publisher!),
+                                Text(
+                                  widget.registro.editionYear?.isNotEmpty ==
+                                          true
+                                      ? widget.registro.editionYear!
+                                      : 'Ano não informado',
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
                     ),
           const SizedBox(height: 10),
@@ -155,7 +229,7 @@ class _RegisterState extends State<Register> {
           Expanded(
             child: Container(
               child: isReading == null
-                  ? const Text("Escolha uma opção.")
+                  ? const Text("")
                   : (isReading!
                       ? const Text("Ainda estou lendo")
                       : Column(children: [
