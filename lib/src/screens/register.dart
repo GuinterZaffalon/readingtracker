@@ -13,7 +13,8 @@ class Registro {
   String? isbn;
   String? editionYear;
 
-  Registro({this.title, this.author, this.publisher, this.isbn, this.editionYear});
+  Registro(
+      {this.title, this.author, this.publisher, this.isbn, this.editionYear});
 }
 
 class Register extends StatefulWidget {
@@ -34,7 +35,7 @@ class _RegisterState extends State<Register> {
 
   initState() {
     super.initState();
-    if(widget.registro.isbn == null || widget.registro.isbn == '') {
+    if (widget.registro.isbn == null || widget.registro.isbn == '') {
       return;
     } else {
       fetchBooks(widget.registro.isbn!);
@@ -53,9 +54,9 @@ class _RegisterState extends State<Register> {
     } catch (e) {
       print('Erro ao buscar livros: $e');
     } finally {
-       setState(() {
-       isLoading = false;
-       });
+      setState(() {
+        isLoading = false;
+      });
     }
   }
 
@@ -85,33 +86,40 @@ class _RegisterState extends State<Register> {
       ),
       body: Column(
         children: [
-          isLoading ? const CircularProgressIndicator() :
-          cover.isEmpty ?
-              Column(
-                children: [
-                  Text(widget.registro.title!),
-                  Text(widget.registro.author!),
-                  Text(widget.registro.publisher!),
-                  Text(widget.registro.editionYear!),
-                ],
-              ) :
-              Row(
-                children: [
-                  Image.memory(
-                    base64Decode(cover),
-                    width: 100,
-                    height: 150,
-                    fit: BoxFit.cover,
-                  ),
-                  Column(
-                    children: [
-                      Text(widget.registro.title!),
-                      Text(widget.registro.author!),
-                      Text(widget.registro.publisher!),
-                      Text(widget.registro.editionYear?.isNotEmpty == "null" ? widget.registro.editionYear! : 'Ano não informado')
-                    ])
-                ],
-              ),
+          isLoading
+              ? const CircularProgressIndicator()
+              : cover.isEmpty
+                  ? Column(
+                      children: [
+                        Text(widget.registro.title!),
+                        Text(widget.registro.author!),
+                        Text(widget.registro.publisher!),
+                        Text(widget.registro.editionYear!),
+                      ],
+                    )
+                  : Padding(
+                      padding: const EdgeInsets.fromLTRB(10, 30, 10, 0),
+                      child: Row(
+                        children: [
+                          Image.memory(
+                            base64Decode(cover),
+                            width: 80,
+                            height: 130,
+                            fit: BoxFit.cover,
+                          ),
+                          SizedBox(width: 10),
+                          Column(children: [
+                            Text(widget.registro.title!),
+                            Text(widget.registro.author!),
+                            Text(widget.registro.publisher!),
+                            Text(widget.registro.editionYear?.isNotEmpty ==
+                                    "null"
+                                ? widget.registro.editionYear!
+                                : 'Ano não informado')
+                          ])
+                        ],
+                      ),
+                    ),
           const SizedBox(height: 10),
           const Text("Acabou a leitura?", style: TextStyle(fontSize: 20)),
           const SizedBox(height: 10),
