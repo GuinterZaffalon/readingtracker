@@ -1,16 +1,3 @@
-# readingtracker
-
-A tracker for your reading!
-
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+O que resta fazer atualmente:
+Criar os parametros da rota do pageRouter para cadastro
+Usar isso para unir com o que foi inputado e enviar para o banco de dados sqlite

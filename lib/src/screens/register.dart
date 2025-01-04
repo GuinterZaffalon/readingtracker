@@ -22,9 +22,10 @@ class _RegisterState extends State<Register> {
       lastDate: DateTime(2100),
     );
 
-    if(_pickedDate != null) {
+    if (_pickedDate != null) {
       setState(() {
-        dateController.text = "${_pickedDate.day}/${_pickedDate.month}/${_pickedDate.year}";
+        dateController.text =
+            "${_pickedDate.day}/${_pickedDate.month}/${_pickedDate.year}";
       });
     }
   }
@@ -76,80 +77,101 @@ class _RegisterState extends State<Register> {
               child: isReading == null
                   ? const Text("Escolha uma opção.")
                   : (isReading!
-                  ? const Text("Ainda estou lendo")
-                  : Column(
-                  children: [
-                    const SizedBox(height: 10),
-                    Text("Quando terminou a leitura?", style: TextStyle(fontSize: 20)),
-                    Padding(padding: EdgeInsets.fromLTRB(40, 10, 40, 10),
-                    child: TextField(
-                      controller: dateController,
-                      onTap: () {
-                        _showDatePicker();
-                      },
-                      decoration: InputDecoration(
-                        labelText: "Insira a data",
-                        filled: true,
-                        prefixIcon: Icon(Icons.calendar_today),
-                        border: OutlineInputBorder(
-                          borderSide: BorderSide.none,
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Color.fromRGBO(189, 213, 234, 1)),
-                        ),
-                      ),
-                      readOnly: true,
-                    )),
-                    Text("Quantas estrelas daria para a obra?", style: TextStyle(fontSize: 20)),
-                    const SizedBox(height: 10),
-                    RatingBar.builder(
-                      initialRating: 0,
-                      minRating: 0,
-                      direction: Axis.horizontal,
-                      allowHalfRating: true,
-                      itemCount: 5,
-                      itemPadding: const EdgeInsets.symmetric(horizontal: 4.0),
-                      itemBuilder: (context, _) => const Icon(
-                        Icons.star,
-                        color: Colors.amber,
-                      ),
-                      onRatingUpdate: (rating) {
-                        setState(() {
-                          this.rating = rating.toInt();
-                        });
-                      },
-                    ),
-                    const SizedBox(height: 10),
-                    Text("Gostaria de deixar alguma anotação?", style: TextStyle(fontSize: 20)),
-                    const SizedBox(height: 10),
-                    Padding(padding: EdgeInsets.fromLTRB(40, 10, 40, 10),
-                    child:TextField(
-                      onChanged: (value) {
-                        setState(() {
-                          comment = value;
-                        });
-                      },
-                      decoration: InputDecoration(
-                        labelText: "Escreva aqui",
-                        filled: true,
-                        prefixIcon: Icon(Icons.note_alt_outlined),
-                        border: OutlineInputBorder(
-                          borderSide: BorderSide.none,
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Color.fromRGBO(189, 213, 234, 1)),
-                        ),
-                      ),
-                      maxLines: null,
-                    ))
-                  ]
-              )
-              ),
+                      ? const Text("Ainda estou lendo")
+                      : Column(children: [
+                          const SizedBox(height: 10),
+                          Text("Quando terminou a leitura?",
+                              style: TextStyle(fontSize: 20)),
+                          Padding(
+                              padding: EdgeInsets.fromLTRB(40, 10, 40, 10),
+                              child: TextField(
+                                controller: dateController,
+                                onTap: () {
+                                  _showDatePicker();
+                                },
+                                decoration: InputDecoration(
+                                  labelText: "Insira a data",
+                                  filled: true,
+                                  prefixIcon: Icon(Icons.calendar_today),
+                                  border: OutlineInputBorder(
+                                    borderSide: BorderSide.none,
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                        color:
+                                            Color.fromRGBO(189, 213, 234, 1)),
+                                  ),
+                                ),
+                                readOnly: true,
+                              )),
+                          Text("Quantas estrelas daria para a obra?",
+                              style: TextStyle(fontSize: 20)),
+                          const SizedBox(height: 10),
+                          RatingBar.builder(
+                            initialRating: 0,
+                            minRating: 0,
+                            direction: Axis.horizontal,
+                            allowHalfRating: true,
+                            itemCount: 5,
+                            itemPadding:
+                                const EdgeInsets.symmetric(horizontal: 4.0),
+                            itemBuilder: (context, _) => const Icon(
+                              Icons.star,
+                              color: Colors.amber,
+                            ),
+                            onRatingUpdate: (rating) {
+                              setState(() {
+                                this.rating = rating.toInt();
+                              });
+                            },
+                          ),
+                          const SizedBox(height: 10),
+                          Text("Gostaria de deixar alguma anotação?",
+                              style: TextStyle(fontSize: 20)),
+                          const SizedBox(height: 10),
+                          Padding(
+                              padding: EdgeInsets.fromLTRB(40, 10, 40, 10),
+                              child: TextField(
+                                onChanged: (value) {
+                                  setState(() {
+                                    comment = value;
+                                  });
+                                },
+                                decoration: InputDecoration(
+                                  labelText: "Escreva aqui",
+                                  filled: true,
+                                  prefixIcon: Icon(Icons.note_alt_outlined),
+                                  border: OutlineInputBorder(
+                                    borderSide: BorderSide.none,
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                        color:
+                                            Color.fromRGBO(189, 213, 234, 1)),
+                                  ),
+                                ),
+                                maxLines: null,
+                              )),
+                          Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.fromLTRB(40, 10, 40, 10),
+                                child: ElevatedButton(
+                                  onPressed: () {},
+                                  child: const Text("Salvar"),
+                                  style: ButtonStyle(
+                                    padding: MaterialStateProperty.all(
+                                        const EdgeInsets.fromLTRB(40, 10, 40, 10)),
+                                  ),
+                                )
+                              )]
+                          )
+                        ])),
             ),
           ),
         ],
       ),
     );
   }
-
 }
