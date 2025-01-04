@@ -34,12 +34,24 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   final TextEditingController _searchController = TextEditingController();
   List<dynamic> _books = [];
+  bool isLoading = false;
 
   Future<void> fetchBooks(String search) async {
-    final result = await BookService.getBooks(search);
-    setState(() {
-      _books = result;
-    });
+    try {
+      setState(() {
+        isLoading = true;
+      });
+      final result = await BookService.getBooks(search);
+      setState(() {
+        _books = result;
+      });
+    } catch (e) {
+      print('Erro ao buscar livros: $e');
+    } finally {
+       setState(() {
+         isLoading = false;
+       });
+    }
   }
 
   @override
@@ -86,6 +98,9 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
           ),
           const SizedBox(height: 20),
+          isLoading
+              ? const Center(child: CircularProgressIndicator(), heightFactor: 3)
+              :
           Expanded(
             child: _books.isEmpty
                 ? const Center(child: Text("Busque um livro para começar."))
