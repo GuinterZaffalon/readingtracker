@@ -1,15 +1,23 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:readingtracker/src/model/ServiceCoverGet.dart';
 
-class registro {
+import '../model/ServiceBookAPI.dart';
+
+class Registro {
   String? title;
   String? author;
   String? publisher;
-  int? editionYear;
+  String? isbn;
+  String? editionYear;
+
+  Registro({this.title, this.author, this.publisher, this.isbn, this.editionYear});
 }
 
 class Register extends StatefulWidget {
-  final Map<String, dynamic> registro;
+  final Registro registro;
   const Register({super.key, required this.registro});
 
   @override
@@ -21,6 +29,35 @@ class _RegisterState extends State<Register> {
   TextEditingController dateController = TextEditingController();
   int rating = 0;
   String comment = "";
+  String cover = "";
+  bool isLoading = false;
+
+  initState() {
+    super.initState();
+    if(widget.registro.isbn == null || widget.registro.isbn == '') {
+      return;
+    } else {
+      fetchBooks(widget.registro.isbn!);
+    }
+  }
+
+  Future<void> fetchBooks(String isbn) async {
+    try {
+      setState(() {
+        isLoading = true;
+      });
+      final result = await CoverService.getCover(isbn);
+      setState(() {
+        cover = result;
+      });
+    } catch (e) {
+      print('Erro ao buscar livros: $e');
+    } finally {
+       setState(() {
+       isLoading = false;
+       });
+    }
+  }
 
   Future<void> _showDatePicker() async {
     DateTime? _pickedDate = await showDatePicker(
@@ -40,7 +77,6 @@ class _RegisterState extends State<Register> {
 
   @override
   Widget build(BuildContext context) {
-    final bookReceived = widget.registro;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: const Color.fromRGBO(189, 213, 234, 1),
@@ -49,8 +85,33 @@ class _RegisterState extends State<Register> {
       ),
       body: Column(
         children: [
-          Text("Livro: ${bookReceived["title"]}",
-              style: TextStyle(fontSize: 20)),
+          isLoading ? const CircularProgressIndicator() :
+          cover.isEmpty ?
+              Column(
+                children: [
+                  Text(widget.registro.title!),
+                  Text(widget.registro.author!),
+                  Text(widget.registro.publisher!),
+                  Text(widget.registro.editionYear!),
+                ],
+              ) :
+              Row(
+                children: [
+                  Image.memory(
+                    base64Decode(cover),
+                    width: 100,
+                    height: 150,
+                    fit: BoxFit.cover,
+                  ),
+                  Column(
+                    children: [
+                      Text(widget.registro.title!),
+                      Text(widget.registro.author!),
+                      Text(widget.registro.publisher!),
+                      Text(widget.registro.editionYear ?? '')
+                  ])
+                ],
+              ),
           const SizedBox(height: 10),
           const Text("Acabou a leitura?", style: TextStyle(fontSize: 20)),
           const SizedBox(height: 10),

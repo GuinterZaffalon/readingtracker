@@ -121,12 +121,15 @@ class _MyHomePageState extends State<MyHomePage> {
                   onTap: () {
                     Navigator.push(context,
                         MaterialPageRoute(builder: (context) =>
-                        Register(registro: {
-                          'title': title,
-                          'author': author,
-                          'editionYear': editionYear,
-                          'publisher': editora
-                        },)));
+                        Register(registro: Registro(
+                          title: book['title'].toString(),
+                          author: (book["author_name"] as List<dynamic>?)?.join(', '),
+                          editionYear: book['first_publish_year'].toString(),
+                          publisher: book['publisher'].toString(),
+                          isbn: (book['isbn'][0]).toString()
+                        ))
+                        )
+                    );
                   },
                 );
               },
