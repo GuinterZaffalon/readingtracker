@@ -36,18 +36,12 @@ class _RegisterState extends State<Register> {
   String cover = "";
   bool isLoading = false;
   late DateTime date;
-  // int counter = 0;
-  //
-  // void increentCounterStep() {
-  //   if (counter <= 3) {
-  //     setState(() {
-  //       counter++;
-  //     });
-  //   }
-  // }
+  late PageController _pageController;
+  int _currentPage = 0;
 
   initState() {
     super.initState();
+    _pageController = PageController(initialPage: 0);
     if (widget.registro.isbn == null || widget.registro.isbn == '') {
       return;
     } else {
@@ -69,22 +63,6 @@ class _RegisterState extends State<Register> {
     } finally {
       setState(() {
         isLoading = false;
-      });
-    }
-  }
-
-  Future<void> _showDatePicker() async {
-    DateTime? _pickedDate = await showDatePicker(
-      context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime(2000),
-      lastDate: DateTime(2100),
-    );
-
-    if (_pickedDate != null) {
-      setState(() {
-        dateController.text =
-        "${_pickedDate.day}/${_pickedDate.month}/${_pickedDate.year}";
       });
     }
   }
@@ -250,8 +228,14 @@ class _RegisterState extends State<Register> {
            Container(
               child: isReading == null
                   ? const Text("")
-                  : (isReading!
+                  : (isReading! //aqui começa o trecho que muda de acordo com o sim ou não
                   ? Column(children: [
+                const SizedBox(height: 15),
+                    DatePickerField(onDateSelected: (date) {
+                      setState(() {
+                        this.date = date;
+                      });
+                    }),
                 const SizedBox(height: 15),
                 CommentBox(onChange: (value) {
                   setState(() {
@@ -261,30 +245,6 @@ class _RegisterState extends State<Register> {
               ])
                   : Column(children: [
                 const SizedBox(height: 15),
-                // Text("Quando terminou a leitura?",
-                //     style: TextStyle(fontSize: 20)),
-                // Padding(
-                //     padding: EdgeInsets.fromLTRB(40, 10, 40, 15),
-                //     child: TextField(
-                //       controller: dateController,
-                //       onTap: () {
-                //         _showDatePicker();
-                //       },
-                //       decoration: InputDecoration(
-                //         labelText: "Insira a data",
-                //         filled: true,
-                //         prefixIcon: Icon(Icons.calendar_today),
-                //         border: OutlineInputBorder(
-                //           borderSide: BorderSide.none,
-                //         ),
-                //         focusedBorder: OutlineInputBorder(
-                //           borderSide: BorderSide(
-                //               color:
-                //               Color.fromRGBO(189, 213, 234, 1)),
-                //         ),
-                //       ),
-                //       readOnly: true,
-                //     )),
                 DatePickerField(onDateSelected: (date) {
                   setState(() {
                     this.date = date;
