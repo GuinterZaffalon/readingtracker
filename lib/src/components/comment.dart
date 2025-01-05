@@ -8,8 +8,9 @@ class CommentBox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Text("Gostaria de deixar alguma anotação?",
+        Text("Gostaria de anotar algo?",
             style: TextStyle(fontSize: 20)),
         const SizedBox(height: 10),
         Padding(

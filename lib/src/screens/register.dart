@@ -2,9 +2,10 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:readingtracker/src/components/comment.dart';
 import 'package:readingtracker/src/model/ServiceCoverGet.dart';
-
 import '../model/ServiceBookAPI.dart';
+import 'package:linear_progress_bar/linear_progress_bar.dart';
 
 class Registro {
   String? title;
@@ -33,6 +34,15 @@ class _RegisterState extends State<Register> {
   String commentNotFinished = "";
   String cover = "";
   bool isLoading = false;
+  int counter = 0;
+
+  void increentCounterStep() {
+    if (counter <= 3) {
+      setState(() {
+        counter++;
+      });
+    }
+  }
 
   initState() {
     super.initState();
@@ -89,11 +99,17 @@ class _RegisterState extends State<Register> {
         children: [
           isLoading
               ?
-              Column(
-                children: const [
-                  const SizedBox(height: 10),
-                  const CircularProgressIndicator()
-              ])
+              Expanded(
+                child: Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: const [
+                      CircularProgressIndicator(),
+                      SizedBox(height: 10),
+                      Text('Carregando...'),
+                    ],
+                  )
+                ))
               : cover.isEmpty
                   ? Padding(
                       padding: const EdgeInsets.fromLTRB(10, 30, 10, 0),
@@ -193,37 +209,41 @@ class _RegisterState extends State<Register> {
                       ),
                     ),
           const SizedBox(height: 15),
-          const Text("Acabou a leitura?", style: TextStyle(fontSize: 20)),
-          const SizedBox(height: 10),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              ElevatedButton(
-                onPressed: () {
-                  setState(() {
-                    isReading = false;
-                  });
-                },
-                child: const Text("Sim"),
-                style: ButtonStyle(
-                  padding: MaterialStateProperty.all(
-                      const EdgeInsets.fromLTRB(40, 10, 40, 10)),
-                ),
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  setState(() {
-                    isReading = true;
-                  });
-                },
-                child: const Text("Não"),
-                style: ButtonStyle(
-                  padding: MaterialStateProperty.all(
-                      const EdgeInsets.fromLTRB(40, 10, 40, 10)),
-                ),
-              ),
-            ],
-          ),
+          isLoading ? const Text("") :
+              Column(
+                children: [
+                  const Text("Acabou a leitura?", style: TextStyle(fontSize: 20)),
+                  const SizedBox(height: 10),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      ElevatedButton(
+                        onPressed: () {
+                          setState(() {
+                            isReading = false;
+                          });
+                        },
+                        child: const Text("Sim"),
+                        style: ButtonStyle(
+                          padding: MaterialStateProperty.all(
+                              const EdgeInsets.fromLTRB(40, 10, 40, 10)),
+                        ),
+                      ),
+                      ElevatedButton(
+                        onPressed: () {
+                          setState(() {
+                            isReading = true;
+                          });
+                        },
+                        child: const Text("Não"),
+                        style: ButtonStyle(
+                          padding: MaterialStateProperty.all(
+                              const EdgeInsets.fromLTRB(40, 10, 40, 10)),
+                        ),
+                      ),
+                    ],
+                  ),
+              ]),
           Expanded(
             child: Container(
               child: isReading == null
@@ -231,31 +251,11 @@ class _RegisterState extends State<Register> {
                   : (isReading!
                       ? Column(children: [
                           const SizedBox(height: 15),
-                          Text("Quando iniciou a leitura?",
-                              style: TextStyle(fontSize: 20)),
-                          Padding(
-                              padding: EdgeInsets.fromLTRB(40, 10, 40, 15),
-                              child: TextField(
-                                onChanged: (value) {
-                                  setState(() {
-                                    commentNotFinished = value;
-                                  });
-                                },
-                                decoration: InputDecoration(
-                                  labelText: "Escreva aqui",
-                                  filled: true,
-                                  prefixIcon: Icon(Icons.note_alt_outlined),
-                                  border: OutlineInputBorder(
-                                    borderSide: BorderSide.none,
-                                  ),
-                                  focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color:
-                                            Color.fromRGBO(189, 213, 234, 1)),
-                                  ),
-                                ),
-                                maxLines: null,
-                              ))
+                          CommentBox(onChange: (value) {
+                            setState(() {
+                              commentNotFinished = value;
+                            });
+                          })
                         ])
                       : Column(children: [
                           const SizedBox(height: 15),
@@ -305,32 +305,12 @@ class _RegisterState extends State<Register> {
                             },
                           ),
                           const SizedBox(height: 15),
-                          Text("Gostaria de deixar alguma anotação?",
-                              style: TextStyle(fontSize: 20)),
-                          const SizedBox(height: 10),
-                          Padding(
-                              padding: EdgeInsets.fromLTRB(40, 10, 40, 10),
-                              child: TextField(
-                                onChanged: (value) {
-                                  setState(() {
-                                    comment = value;
-                                  });
-                                },
-                                decoration: InputDecoration(
-                                  labelText: "Escreva aqui",
-                                  filled: true,
-                                  prefixIcon: Icon(Icons.note_alt_outlined),
-                                  border: OutlineInputBorder(
-                                    borderSide: BorderSide.none,
-                                  ),
-                                  focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color:
-                                            Color.fromRGBO(189, 213, 234, 1)),
-                                  ),
-                                ),
-                                maxLines: null,
-                              )),
+                          CommentBox(onChange: (value) {
+                            setState(() {
+                              comment = value;
+                            });
+                          }
+                          ),
                           Row(
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: [
