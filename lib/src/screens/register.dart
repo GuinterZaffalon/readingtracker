@@ -1,8 +1,9 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:readingtracker/src/components/comment.dart';
+import 'package:readingtracker/src/components/date.dart';
+import 'package:readingtracker/src/components/ratting.dart';
 import 'package:readingtracker/src/model/ServiceCoverGet.dart';
 import '../model/ServiceBookAPI.dart';
 import 'package:linear_progress_bar/linear_progress_bar.dart';
@@ -34,15 +35,16 @@ class _RegisterState extends State<Register> {
   String commentNotFinished = "";
   String cover = "";
   bool isLoading = false;
-  int counter = 0;
-
-  void increentCounterStep() {
-    if (counter <= 3) {
-      setState(() {
-        counter++;
-      });
-    }
-  }
+  late DateTime date;
+  // int counter = 0;
+  //
+  // void increentCounterStep() {
+  //   if (counter <= 3) {
+  //     setState(() {
+  //       counter++;
+  //     });
+  //   }
+  // }
 
   initState() {
     super.initState();
@@ -82,7 +84,7 @@ class _RegisterState extends State<Register> {
     if (_pickedDate != null) {
       setState(() {
         dateController.text =
-            "${_pickedDate.day}/${_pickedDate.month}/${_pickedDate.year}";
+        "${_pickedDate.day}/${_pickedDate.month}/${_pickedDate.year}";
       });
     }
   }
@@ -99,8 +101,8 @@ class _RegisterState extends State<Register> {
         children: [
           isLoading
               ?
-              Expanded(
-                child: Center(
+          Expanded(
+              child: Center(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: const [
@@ -109,227 +111,215 @@ class _RegisterState extends State<Register> {
                       Text('Carregando...'),
                     ],
                   )
-                ))
+              ))
               : cover.isEmpty
-                  ? Padding(
-                      padding: const EdgeInsets.fromLTRB(10, 30, 10, 0),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(
-                              12),
-                          boxShadow: [
-                            BoxShadow(
-                              color:
-                                  Colors.grey.withOpacity(0.3),
-                              spreadRadius: 2,
-                              blurRadius: 5,
-                              offset: Offset(0, 3),
-                            ),
-                          ],
-                        ),
-                        padding:
-                            const EdgeInsets.all(10),
-                        child: Row(
-                          children: [
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  widget.registro.title!,
-                                  style: const TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 14,
-                                  ),
-                                ),
-                                Text(widget.registro.author!),
-                                Text(widget.registro.publisher!),
-                                Text(
-                                  widget.registro.editionYear?.isNotEmpty ==
-                                          true
-                                      ? widget.registro.editionYear!
-                                      : 'Ano não informado',
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                    )
-                  : Padding(
-                      padding: const EdgeInsets.fromLTRB(10, 30, 10, 0),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(
-                              12),
-                          boxShadow: [
-                            BoxShadow(
-                              color:
-                                  Colors.grey.withOpacity(0.3),
-                              spreadRadius: 2,
-                              blurRadius: 5,
-                              offset: Offset(0, 3),
-                            ),
-                          ],
-                        ),
-                        padding:
-                            const EdgeInsets.all(10),
-                        child: Row(
-                          children: [
-                            Image.memory(
-                              base64Decode(cover),
-                              width: 80,
-                              height: 130,
-                              fit: BoxFit.cover,
-                            ),
-                            const SizedBox(width: 10),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  widget.registro.title!,
-                                  style: const TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 14,
-                                  ),
-                                ),
-                                Text(widget.registro.author!),
-                                Text(widget.registro.publisher!),
-                                Text(
-                                  widget.registro.editionYear?.isNotEmpty ==
-                                          true
-                                      ? widget.registro.editionYear!
-                                      : 'Ano não informado',
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-          const SizedBox(height: 15),
-          isLoading ? const Text("") :
-              Column(
+              ? Padding(
+            padding: const EdgeInsets.fromLTRB(10, 30, 10, 0),
+            child: Container(
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(
+                    12),
+                boxShadow: [
+                  BoxShadow(
+                    color:
+                    Colors.grey.withOpacity(0.3),
+                    spreadRadius: 2,
+                    blurRadius: 5,
+                    offset: Offset(0, 3),
+                  ),
+                ],
+              ),
+              padding:
+              const EdgeInsets.all(10),
+              child: Row(
                 children: [
-                  const Text("Acabou a leitura?", style: TextStyle(fontSize: 20)),
-                  const SizedBox(height: 10),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      ElevatedButton(
-                        onPressed: () {
-                          setState(() {
-                            isReading = false;
-                          });
-                        },
-                        child: const Text("Sim"),
-                        style: ButtonStyle(
-                          padding: MaterialStateProperty.all(
-                              const EdgeInsets.fromLTRB(40, 10, 40, 10)),
+                      Text(
+                        widget.registro.title!,
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 14,
                         ),
                       ),
-                      ElevatedButton(
-                        onPressed: () {
-                          setState(() {
-                            isReading = true;
-                          });
-                        },
-                        child: const Text("Não"),
-                        style: ButtonStyle(
-                          padding: MaterialStateProperty.all(
-                              const EdgeInsets.fromLTRB(40, 10, 40, 10)),
-                        ),
+                      Text(widget.registro.author!),
+                      Text(widget.registro.publisher!),
+                      Text(
+                        widget.registro.editionYear?.isNotEmpty ==
+                            true
+                            ? widget.registro.editionYear!
+                            : 'Ano não informado',
                       ),
                     ],
                   ),
-              ]),
-          Expanded(
+                ],
+              ),
+            ),
+          )
+              : Padding(
+            padding: const EdgeInsets.fromLTRB(10, 30, 10, 0),
             child: Container(
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(
+                    12),
+                boxShadow: [
+                  BoxShadow(
+                    color:
+                    Colors.grey.withOpacity(0.3),
+                    spreadRadius: 2,
+                    blurRadius: 5,
+                    offset: Offset(0, 3),
+                  ),
+                ],
+              ),
+              padding:
+              const EdgeInsets.all(10),
+              child: Row(
+                children: [
+                  Image.memory(
+                    base64Decode(cover),
+                    width: 80,
+                    height: 130,
+                    fit: BoxFit.cover,
+                  ),
+                  const SizedBox(width: 10),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        widget.registro.title!,
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 14,
+                        ),
+                      ),
+                      Text(widget.registro.author!),
+                      Text(widget.registro.publisher!),
+                      Text(
+                        widget.registro.editionYear?.isNotEmpty ==
+                            true
+                            ? widget.registro.editionYear!
+                            : 'Ano não informado',
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ),
+          const SizedBox(height: 15),
+          isLoading ? const Text("") :
+              Container(
+                child: Column(
+              children: [
+                const Text("Acabou a leitura?", style: TextStyle(fontSize: 20)),
+                const SizedBox(height: 10),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    ElevatedButton(
+                      onPressed: () {
+                        setState(() {
+                          isReading = false;
+                        });
+                      },
+                      child: const Text("Sim"),
+                      style: ButtonStyle(
+                        padding: MaterialStateProperty.all(
+                            const EdgeInsets.fromLTRB(40, 10, 40, 10)),
+                      ),
+                    ),
+                    ElevatedButton(
+                      onPressed: () {
+                        setState(() {
+                          isReading = true;
+                        });
+                      },
+                      child: const Text("Não"),
+                      style: ButtonStyle(
+                        padding: MaterialStateProperty.all(
+                            const EdgeInsets.fromLTRB(40, 10, 40, 10)),
+                      ),
+                    ),
+                  ],
+                ),
+              ])),
+           Container(
               child: isReading == null
                   ? const Text("")
                   : (isReading!
-                      ? Column(children: [
-                          const SizedBox(height: 15),
-                          CommentBox(onChange: (value) {
-                            setState(() {
-                              commentNotFinished = value;
-                            });
-                          })
-                        ])
-                      : Column(children: [
-                          const SizedBox(height: 15),
-                          Text("Quando terminou a leitura?",
-                              style: TextStyle(fontSize: 20)),
-                          Padding(
-                              padding: EdgeInsets.fromLTRB(40, 10, 40, 15),
-                              child: TextField(
-                                controller: dateController,
-                                onTap: () {
-                                  _showDatePicker();
-                                },
-                                decoration: InputDecoration(
-                                  labelText: "Insira a data",
-                                  filled: true,
-                                  prefixIcon: Icon(Icons.calendar_today),
-                                  border: OutlineInputBorder(
-                                    borderSide: BorderSide.none,
-                                  ),
-                                  focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color:
-                                            Color.fromRGBO(189, 213, 234, 1)),
-                                  ),
-                                ),
-                                readOnly: true,
-                              )),
-                          Text("Quantas estrelas daria para a obra?",
-                              style: TextStyle(fontSize: 20)),
-                          const SizedBox(height: 10),
-                          RatingBar.builder(
-                            initialRating: 0,
-                            minRating: 0,
-                            direction: Axis.horizontal,
-                            allowHalfRating: true,
-                            itemCount: 5,
-                            itemPadding:
-                                const EdgeInsets.symmetric(horizontal: 4.0),
-                            itemBuilder: (context, _) => const Icon(
-                              Icons.star,
-                              color: Colors.amber,
+                  ? Column(children: [
+                const SizedBox(height: 15),
+                CommentBox(onChange: (value) {
+                  setState(() {
+                    commentNotFinished = value;
+                  });
+                })
+              ])
+                  : Column(children: [
+                const SizedBox(height: 15),
+                // Text("Quando terminou a leitura?",
+                //     style: TextStyle(fontSize: 20)),
+                // Padding(
+                //     padding: EdgeInsets.fromLTRB(40, 10, 40, 15),
+                //     child: TextField(
+                //       controller: dateController,
+                //       onTap: () {
+                //         _showDatePicker();
+                //       },
+                //       decoration: InputDecoration(
+                //         labelText: "Insira a data",
+                //         filled: true,
+                //         prefixIcon: Icon(Icons.calendar_today),
+                //         border: OutlineInputBorder(
+                //           borderSide: BorderSide.none,
+                //         ),
+                //         focusedBorder: OutlineInputBorder(
+                //           borderSide: BorderSide(
+                //               color:
+                //               Color.fromRGBO(189, 213, 234, 1)),
+                //         ),
+                //       ),
+                //       readOnly: true,
+                //     )),
+                DatePickerField(onDateSelected: (date) {
+                  setState(() {
+                    this.date = date;
+                  });
+                }),
+                Ratting(rattingStar: (rating) {
+                  setState(() {
+                    this.rating = rating.toInt();
+                  });
+                }),
+                const SizedBox(height: 15),
+                CommentBox(onChange: (value) {
+                  setState(() {
+                    comment = value;
+                  });
+                }
+                ),
+                Row( //botão de salvar atual
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Padding(
+                          padding: const EdgeInsets.fromLTRB(
+                              40, 10, 40, 10),
+                          child: ElevatedButton(
+                            onPressed: () {},
+                            child: const Text("Salvar"),
+                            style: ButtonStyle(
+                              padding: MaterialStateProperty.all(
+                                  const EdgeInsets.fromLTRB(
+                                      40, 10, 40, 10)),
                             ),
-                            onRatingUpdate: (rating) {
-                              setState(() {
-                                this.rating = rating.toInt();
-                              });
-                            },
-                          ),
-                          const SizedBox(height: 15),
-                          CommentBox(onChange: (value) {
-                            setState(() {
-                              comment = value;
-                            });
-                          }
-                          ),
-                          Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                Padding(
-                                    padding: const EdgeInsets.fromLTRB(
-                                        40, 10, 40, 10),
-                                    child: ElevatedButton(
-                                      onPressed: () {},
-                                      child: const Text("Salvar"),
-                                      style: ButtonStyle(
-                                        padding: MaterialStateProperty.all(
-                                            const EdgeInsets.fromLTRB(
-                                                40, 10, 40, 10)),
-                                      ),
-                                    ))
-                              ])
-                        ])),
+                          ))
+                    ])
+              ])),
             ),
-          ),
         ],
       ),
     );
