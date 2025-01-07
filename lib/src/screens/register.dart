@@ -279,7 +279,7 @@ class _RegisterState extends State<Register> {
                                 "editionYear": widget.registro.editionYear,
                                 "cover": cover,
                                 "comment": comment,
-                                "date": date,
+                                "date": date.toString(),
                                 "rating": rating,
                               };
                               await sqfliteHelper.insertBookFinished(book);
