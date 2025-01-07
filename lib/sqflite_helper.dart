@@ -8,7 +8,7 @@ class SqfliteHelper {
       version: 1,
       onCreate: (db, version) async {
         await db.execute(
-          "CREATE TABLE booksFinished(id INTEGER PRIMARY KEY, title TEXT, author TEXT, publisher TEXT, rating INTEGER, date TEXT, editionYear INTEGER, cover TEXT, comment TEXT)",
+          "CREATE TABLE booksFinished(id INTEGER PRIMARY KEY, title TEXT, pages INTEGER, author TEXT, publisher TEXT, rating INTEGER, date TEXT, editionYear INTEGER, cover TEXT, comment TEXT)",
         );
         await db.execute(
           "CREATE TABLE booksReading(id INTEGER PRIMARY KEY, title TEXT, author TEXT, pages INTEGER, date TEXT)",
@@ -55,5 +55,11 @@ class SqfliteHelper {
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
     print("Progresso salvo com sucesso do livro ${book['title']}.");
+  }
+
+  Future<void> getBooksFinished() async {
+    final db = await openMyDatabase();
+    final result = await db.query('booksFinished');
+    print(result);
   }
 }

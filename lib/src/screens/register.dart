@@ -5,6 +5,7 @@ import 'package:readingtracker/src/components/comment.dart';
 import 'package:readingtracker/src/components/date.dart';
 import 'package:readingtracker/src/components/ratting.dart';
 import 'package:readingtracker/src/model/ServiceCoverGet.dart';
+import 'package:readingtracker/src/screens/perfil.dart';
 import '../../sqflite_helper.dart';
 import '../model/ServiceBookAPI.dart';
 import 'package:linear_progress_bar/linear_progress_bar.dart';
@@ -285,6 +286,9 @@ class _RegisterState extends State<Register> {
                                 "rating": rating,
                               };
                               await sqfliteHelper.insertBookFinished(book);
+                              Navigator.push(context, MaterialPageRoute(
+                                builder: (context) => const perfilPage(),
+                              ));
                             },
                             child: const Text("Salvar"),
                             style: ButtonStyle(
