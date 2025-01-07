@@ -6,14 +6,17 @@ class SqfliteHelper {
     return await openDatabase(
       join(await getDatabasesPath(), 'books.db'),
       version: 1,
-      onCreate: (db, version) {
-        return db.execute(
-          "CREATE TABLE booksFinished(id INTEGER PRIMARY KEY, title TEXT, author TEXT, pages INTEGER, rating INTEGER, date TEXT)"
+      onCreate: (db, version) async {
+        await db.execute(
+          "CREATE TABLE booksFinished(id INTEGER PRIMARY KEY, title TEXT, author TEXT, publisher TEXT, rating INTEGER, date TEXT, editionYear INTEGER, cover TEXT, comment TEXT)",
+        );
+        await db.execute(
           "CREATE TABLE booksReading(id INTEGER PRIMARY KEY, title TEXT, author TEXT, pages INTEGER, date TEXT)",
         );
       },
     );
   }
+
 
   Future<void> insertBookFinished(Map<String, dynamic> book) async {
     final db = await openMyDatabase();

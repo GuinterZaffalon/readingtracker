@@ -5,6 +5,7 @@ import 'package:readingtracker/src/components/comment.dart';
 import 'package:readingtracker/src/components/date.dart';
 import 'package:readingtracker/src/components/ratting.dart';
 import 'package:readingtracker/src/model/ServiceCoverGet.dart';
+import '../../sqflite_helper.dart';
 import '../model/ServiceBookAPI.dart';
 import 'package:linear_progress_bar/linear_progress_bar.dart';
 
@@ -38,6 +39,7 @@ class _RegisterState extends State<Register> {
   late DateTime date;
   late PageController _pageController;
   int _currentPage = 0;
+  final sqfliteHelper = SqfliteHelper();
 
   initState() {
     super.initState();
@@ -269,7 +271,19 @@ class _RegisterState extends State<Register> {
                           padding: const EdgeInsets.fromLTRB(
                               40, 10, 40, 10),
                           child: ElevatedButton(
-                            onPressed: () {},
+                            onPressed: () async {
+                              final book = {
+                                "title": widget.registro.title,
+                                "author": widget.registro.author,
+                                "publisher": widget.registro.publisher,
+                                "editionYear": widget.registro.editionYear,
+                                "cover": cover,
+                                "comment": comment,
+                                "date": date,
+                                "rating": rating,
+                              };
+                              await sqfliteHelper.insertBookFinished(book);
+                            },
                             child: const Text("Salvar"),
                             style: ButtonStyle(
                               padding: MaterialStateProperty.all(
