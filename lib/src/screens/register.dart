@@ -120,6 +120,7 @@ class _RegisterState extends State<Register> {
                       Text(
                         widget.registro.title!,
                         style: const TextStyle(
+                          overflow: TextOverflow.ellipsis,
                           fontWeight: FontWeight.bold,
                           fontSize: 14,
                         ),
@@ -172,6 +173,7 @@ class _RegisterState extends State<Register> {
                       Text(
                         widget.registro.title!,
                         style: const TextStyle(
+                          overflow: TextOverflow.ellipsis,
                           fontWeight: FontWeight.bold,
                           fontSize: 14,
                         ),
