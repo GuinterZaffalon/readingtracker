@@ -17,22 +17,43 @@ class SqfliteHelper {
     );
   }
 
+  Future<bool> titleExists(String table ,String title) async {
+    final db = await openMyDatabase();
+    final result = await db.query(
+      table,
+      where: 'title = ?',
+      whereArgs: [title],
+    );
+    return result.isNotEmpty;
+  }
 
   Future<void> insertBookFinished(Map<String, dynamic> book) async {
     final db = await openMyDatabase();
+    final title = book['title'];
+    if (await titleExists('booksFinished', title)) {
+      print('O livro "$title" já existe na tabela booksFinished. Não será salvo.');
+      return;
+    }
     await db.insert(
       'booksFinished',
       book,
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
+    print('Livro "$title" salvo com sucesso na tabela booksFinished.');
   }
 
   Future<void> insertBookReading(Map<String, dynamic> book) async {
     final db = await openMyDatabase();
+    final title = book['title'];
+    if (await titleExists('booksReading', title)) {
+      print('O livro "$title" já existe na tabela booksReading. Não será salvo.');
+      return;
+    }
     await db.insert(
       'booksReading',
       book,
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
+    print("Progresso salvo com sucesso do livro ${book['title']}.");
   }
 }
