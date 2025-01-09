@@ -50,7 +50,7 @@ class _DatePickerFieldState extends State<DatePickerField> {
           style: TextStyle(fontSize: 20),
         ),
         Padding(
-          padding: const EdgeInsets.fromLTRB(40, 10, 40, 15),
+          padding: const EdgeInsets.fromLTRB(0, 14, 0, 10),
           child: TextField(
             controller: _controllerDate,
             onTap: _showDatePicker,

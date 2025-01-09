@@ -11,7 +11,7 @@ class Ratting extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Text("Quantas estrelas daria para a obra?",
+        Text("Quantas estrelas para a obra?",
             style: TextStyle(fontSize: 20)),
         const SizedBox(height: 10),
         RatingBar.builder(

@@ -7,14 +7,15 @@ class CommentBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return
+      Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Text("Gostaria de anotar algo?",
             style: TextStyle(fontSize: 20)),
         const SizedBox(height: 10),
         Padding(
-            padding: EdgeInsets.fromLTRB(40, 10, 40, 10),
+            padding: EdgeInsets.fromLTRB(0, 14, 0, 10),
             child: TextField(
               onChanged: onChange,
               decoration: InputDecoration(
