@@ -63,4 +63,14 @@ class SqfliteHelper {
     final result = await db.query('booksFinished');
     return result;
   }
+
+  Future<List<Map<dynamic, dynamic>>> getBookById(int id) async{
+    final db = await openMyDatabase();
+    final result = await db.query(
+      'booksFinished',
+      whereArgs: [id],
+    );
+    return result;
+  }
+
 }

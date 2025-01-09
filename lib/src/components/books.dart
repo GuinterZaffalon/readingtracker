@@ -3,8 +3,10 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:readingtracker/src/components/starBook.dart';
+import '../screens/expanded.dart';
 
 abstract class BooksInterface {
+  int? id;
   String? title;
   String? author;
   String? publisher;
@@ -22,9 +24,12 @@ class Books extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-        // onTap: () {
-        //
-        // }
+        onTap: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => ExpandedPage(bookId: book.id!)));
+        },
         child: Container(
             child: Padding(
       padding: const EdgeInsets.fromLTRB(10, 30, 10, 0),

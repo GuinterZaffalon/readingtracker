@@ -11,6 +11,8 @@ class perfilPage extends StatefulWidget {
 
 class BookData implements BooksInterface {
   @override
+  int? id;
+  @override
   String? title;
   @override
   String? author;
@@ -28,6 +30,7 @@ class BookData implements BooksInterface {
   String? comment;
 
   BookData({
+    this.id,
     this.title,
     this.author,
     this.publisher,
@@ -48,6 +51,7 @@ class _perfilPageState extends State<perfilPage> {
     final result = await sqfliteHelper.getBooksFinished();
     return result.map((book) {
       return BookData(
+        id: book['id'],
         title: book['title']?.toString(),
         author: book['author']?.toString(),
         publisher: book['publisher']?.toString(),
@@ -102,7 +106,7 @@ class _perfilPageState extends State<perfilPage> {
                 itemCount: books.length,
                 itemBuilder: (context, index) {
                   return Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.all(5.0),
                     child: Books(book: books[index]),
                   );
                 },
