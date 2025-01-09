@@ -89,48 +89,23 @@ class _RegisterState extends State<Register> {
             });
           }),
         ),
-        Step(
-            isActive: currentStep >= 2,
-            title: const Text(""),
-            content: Column(
-              children: [
-                CommentBox(onChange: (value) {
-                  setState(() {
-                    commentNotFinished = value;
-                  });
-                }),
-                Row(mainAxisAlignment: MainAxisAlignment.end, children: [
-                  Padding(
-                      padding: const EdgeInsets.fromLTRB(40, 10, 40, 10),
-                      child: ElevatedButton(
-                        onPressed: () async {
-                          final book = {
-                            "title": widget.registro.title,
-                            "author": widget.registro.author,
-                            "publisher": widget.registro.publisher,
-                            "editionYear": widget.registro.editionYear,
-                            "cover": cover,
-                            "comment": comment,
-                            "date": date.toString(),
-                            "rating": rating,
-                          };
-                          await sqfliteHelper.insertBookFinished(book);
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => const perfilPage(),
-                              ));
-                        },
-                        child: const Text("Salvar"),
-                        style: ButtonStyle(
-                          padding: MaterialStateProperty.all(
-                              const EdgeInsets.fromLTRB(40, 10, 40, 10)),
-                        ),
-                      ))
-                ])
-            ])
-            )
-      ];
+    Step(
+      isActive: currentStep >= 2,
+      title: const Text(""),
+      content: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            CommentBox(onChange: (value) {
+              setState(() {
+                comment = value;
+              });
+            }),
+          ],
+        ),
+      ),
+    )
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -140,162 +115,191 @@ class _RegisterState extends State<Register> {
         title: const Text("ReadingTracker"),
         centerTitle: true,
       ),
-      body: Column(children: [
-        isLoading
-            ? Expanded(
-                child: Center(
-                    child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: const [
-                  CircularProgressIndicator(),
-                  SizedBox(height: 10),
-                  Text('Carregando...'),
-                ],
-              )))
-            : cover.isEmpty
-                ? Padding(
-                    padding: const EdgeInsets.fromLTRB(10, 30, 10, 0),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(12),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey.withOpacity(0.3),
-                            spreadRadius: 2,
-                            blurRadius: 5,
-                            offset: Offset(0, 3),
-                          ),
-                        ],
-                      ),
-                      padding: const EdgeInsets.all(10),
-                      child: Row(
-                        children: [
+      resizeToAvoidBottomInset: true,
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              if (isLoading)
+                Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: const [
+                      CircularProgressIndicator(),
+                      SizedBox(height: 10),
+                      Text('Carregando...'),
+                    ],
+                  ),
+                )
+              else
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(10, 30, 10, 0),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(12),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.3),
+                          spreadRadius: 2,
+                          blurRadius: 5,
+                          offset: Offset(0, 3),
+                        ),
+                      ],
+                    ),
+                    padding: const EdgeInsets.all(10),
+                    child: Row(
+                      children: [
+                        if (cover.isEmpty)
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               SizedBox(
-                                  width: 180,
-                                  child: Text(
+                                width: 180,
+                                child: Text(
+                                  widget.registro.title!,
+                                  style: const TextStyle(
+                                    overflow: TextOverflow.ellipsis,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 14,
+                                  ),
+                                ),
+                              ),
+                              SizedBox(
+                                width: 180,
+                                child: Text(widget.registro.author!),
+                              ),
+                              Text(widget.registro.publisher!),
+                              Text(
+                                widget.registro.editionYear?.isNotEmpty == true
+                                    ? widget.registro.editionYear!
+                                    : 'Ano não informado',
+                              ),
+                            ],
+                          )
+                        else
+                          Row(
+                            children: [
+                              Image.memory(
+                                base64Decode(cover),
+                                width: 80,
+                                height: 130,
+                                fit: BoxFit.cover,
+                              ),
+                              const SizedBox(width: 10),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
                                     widget.registro.title!,
                                     style: const TextStyle(
                                       overflow: TextOverflow.ellipsis,
                                       fontWeight: FontWeight.bold,
                                       fontSize: 14,
                                     ),
-                                  )),
-                              SizedBox(
-                                  width: 180,
-                                  child: Text(widget.registro.author!)),
-                              Text(widget.registro.publisher!),
-                              Text(
-                                widget.registro.editionYear?.isNotEmpty == true
-                                    ? widget.registro.editionYear!
-                                    : 'Ano não informado',
+                                  ),
+                                  Text(widget.registro.author!),
+                                  Text(widget.registro.publisher!),
+                                  Text(
+                                    widget.registro.editionYear?.isNotEmpty == true
+                                        ? widget.registro.editionYear!
+                                        : 'Ano não informado',
+                                  ),
+                                ],
                               ),
                             ],
                           ),
-                        ],
-                      ),
-                    ),
-                  )
-                : Padding(
-                    padding: const EdgeInsets.fromLTRB(10, 30, 10, 0),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(12),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey.withOpacity(0.3),
-                            spreadRadius: 2,
-                            blurRadius: 5,
-                            offset: Offset(0, 3),
-                          ),
-                        ],
-                      ),
-                      padding: const EdgeInsets.all(10),
-                      child: Row(
-                        children: [
-                          Image.memory(
-                            base64Decode(cover),
-                            width: 80,
-                            height: 130,
-                            fit: BoxFit.cover,
-                          ),
-                          const SizedBox(width: 10),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                widget.registro.title!,
-                                style: const TextStyle(
-                                  overflow: TextOverflow.ellipsis,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 14,
-                                ),
-                              ),
-                              Text(widget.registro.author!),
-                              Text(widget.registro.publisher!),
-                              Text(
-                                widget.registro.editionYear?.isNotEmpty == true
-                                    ? widget.registro.editionYear!
-                                    : 'Ano não informado',
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
+                      ],
                     ),
                   ),
-        const SizedBox(height: 15),
-        isLoading
-            ? const Text("")
-            : Container(
-                height: 300,
-                child:
-                    Stepper(
-                        steps: steps(),
-                        type: StepperType.horizontal,
-                        currentStep: currentStep,
-                        controlsBuilder: (context, details) => Padding(
-                            padding: const EdgeInsets.only(top: 32),
-                            child: Row(
-                              children: [
+                ),
+              const SizedBox(height: 15),
+              if (!isLoading)
+                SizedBox(
+                  height: 300,
+                  child: Stepper(
+                    steps: steps(),
+                    type: StepperType.horizontal,
+                    currentStep: currentStep,
+                    controlsBuilder: (context, details) =>
+                        Padding(
+                      padding: const EdgeInsets.only(top: 32),
+                      child: Row(
+                        children: [
+                          if (!isFrirstStep)
+                            Expanded(
+                              child: ElevatedButton(
+                                onPressed: details.onStepCancel,
+                                child: const Text("Voltar"),
+                              ),
+                            ),
+                          const SizedBox(width: 16),
+                          currentStep >= 2 ?
+                          // const SizedBox()
+                          Expanded(child:
+                          ElevatedButton(
+                            onPressed: () async {
+                              final book = {
+                                "title": widget.registro.title,
+                                "author": widget.registro.author,
+                                "publisher": widget.registro.publisher,
+                                "editionYear": widget.registro.editionYear,
+                                "cover": cover,
+                                "comment": comment,
+                                "date": date.toString(),
+                                "rating": rating,
+                              };
+                              await sqfliteHelper.insertBookFinished(book);
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const perfilPage(),
+                                ),
+                              );
+                            },
+                            child: const Text("Cadastrar"),
+                            // style: ButtonStyle(
+                            //   padding: MaterialStateProperty.all(
+                            //     const EdgeInsets.fromLTRB(40, 10, 40, 10),
+                            //   ),
+                            // ),
+                          ))
+                              :
+                          Expanded(
+                            child: ElevatedButton(
+                              onPressed: details.onStepContinue,
+                              child: const Text("Avançar"),
 
-                                if (!isFrirstStep) ...[
-                                  Expanded(child: ElevatedButton(
-                                    onPressed: isFrirstStep ? null : details.onStepCancel,
-                                    child: const Text("Voltar"),
-                                  ))
-                                ],
-                                  const SizedBox(width: 16),
-                                Expanded(
-                                    child: ElevatedButton(
-                                        onPressed: details.onStepContinue,
-                                        child: Text(isLastStep ? "Finalizar" : "Avançar"))),
-
-                              ],
-                            )),
-                        onStepContinue: () {
-                          if (isLastStep) {
-                            setState(() {
-                              isComplete = true;
-                            });
-                          } else {
-                            setState(() {
-                              currentStep += 1;
-                            });
-                          }
-                        },
-                        onStepTapped: (step) =>
-                            setState(() => currentStep = step),
-                        onStepCancel: () {
-                          isFrirstStep
-                              ? null
-                              : () => setState(() => currentStep -= 1);
-                        })),
-      ]),
+                              // Text(isLastStep ? "Finalizar" : "Avançar"),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    onStepContinue: () {
+                      if (isLastStep) {
+                        setState(() {
+                          isComplete = true;
+                        });
+                      } else {
+                        setState(() {
+                          currentStep += 1;
+                        });
+                      }
+                    },
+                    onStepTapped: (step) =>
+                        setState(() => currentStep = step),
+                    onStepCancel: () {
+                      if (!isFrirstStep) {
+                        setState(() => currentStep -= 1);
+                      }
+                    },
+                  ),
+                ),
+            ],
+          ),
+        ),
+      ),
     );
   }
-}
+  }
