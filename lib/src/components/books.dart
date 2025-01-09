@@ -41,7 +41,7 @@ class Books extends StatelessWidget {
           padding:
           const EdgeInsets.all(10),
           child: Row(
-            children: [ book.cover == null ? Container() :
+            children: [ book.cover == null || book.cover!.isEmpty ? Text("Capa não \n disponível", style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, fontStyle: FontStyle.italic), textAlign: TextAlign.center ,) :
               Image.memory(
                 base64Decode(book.cover!),
                 width: 80,
@@ -52,6 +52,10 @@ class Books extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  SizedBox(
+                    width: 180,
+                    child:
+
                   Text(
                     book.title!,
                     style: const TextStyle(
@@ -59,7 +63,7 @@ class Books extends StatelessWidget {
                       fontWeight: FontWeight.bold,
                       fontSize: 14,
                     ),
-                  ),
+                  )),
                   Text(book.author!, style: const TextStyle(
                     overflow: TextOverflow.ellipsis)),
                   Text(book.publisher!, style: const TextStyle(

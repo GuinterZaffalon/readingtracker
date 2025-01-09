@@ -176,7 +176,7 @@ class _MyHomePageState extends State<MyHomePage> {
               },
             ),
             IconButton(
-                onPressed: () {
+                onPressed: () async {
                   Navigator.push(
                       context,
                       MaterialPageRoute(

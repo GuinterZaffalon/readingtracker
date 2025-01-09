@@ -118,6 +118,10 @@ class _RegisterState extends State<Register> {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      SizedBox(
+                        width: 180,
+                        child:
+
                       Text(
                         widget.registro.title!,
                         style: const TextStyle(
@@ -125,7 +129,7 @@ class _RegisterState extends State<Register> {
                           fontWeight: FontWeight.bold,
                           fontSize: 14,
                         ),
-                      ),
+                      )),
                       Text(widget.registro.author!),
                       Text(widget.registro.publisher!),
                       Text(
