@@ -83,16 +83,32 @@ class _perfilPageState extends State<perfilPage> {
       ),
       body: Column(
         children: [
-          ListView.builder(
-            shrinkWrap: true,
-            itemCount: books.length,
-            itemBuilder: (context, index) {
-              return Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Books(book: books[index]),
-              );
-            },
-          ),
+          Row(children: [
+            Padding(
+              padding: const EdgeInsets.fromLTRB(20, 18, 10, 10),
+              child:
+              SizedBox
+                ( height: 20,
+                  child: Text(
+                "Livros lidos!",
+                style: TextStyle(fontSize: 20, fontFamily: "Roboto", fontWeight: FontWeight.bold),
+              )),
+            )
+          ]),
+          Expanded(
+            child:
+              ListView.builder(
+                shrinkWrap: true,
+                itemCount: books.length,
+                itemBuilder: (context, index) {
+                  return Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Books(book: books[index]),
+                  );
+                },
+              )
+          )
+          ,
 
         ],
       ),

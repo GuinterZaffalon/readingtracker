@@ -130,7 +130,10 @@ class _RegisterState extends State<Register> {
                           fontSize: 14,
                         ),
                       )),
-                      Text(widget.registro.author!),
+                      SizedBox( width: 180,
+                        child:
+                      Text(widget.registro.author!)),
+
                       Text(widget.registro.publisher!),
                       Text(
                         widget.registro.editionYear?.isNotEmpty ==
