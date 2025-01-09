@@ -1,4 +1,5 @@
 import 'package:path/path.dart';
+import 'package:readingtracker/src/components/books.dart';
 import 'package:sqflite/sqflite.dart';
 
 class SqfliteHelper {
@@ -57,9 +58,9 @@ class SqfliteHelper {
     print("Progresso salvo com sucesso do livro ${book['title']}.");
   }
 
-  Future<void> getBooksFinished() async {
+  Future<List<Map<dynamic, dynamic>>> getBooksFinished() async {
     final db = await openMyDatabase();
     final result = await db.query('booksFinished');
-    print(result);
+    return result;
   }
 }

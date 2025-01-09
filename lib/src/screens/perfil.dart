@@ -44,7 +44,7 @@ class _perfilPageState extends State<perfilPage> {
   final sqfliteHelper = SqfliteHelper();
   late List<BooksInterface> books = [];
 
-  Future<List<BooksInterface>> getBooksFinished() async {
+  Future<List<BooksInterface>> getBooks() async {
     final result = await sqfliteHelper.getBooksFinished();
     return result.map((book) {
       return BookData(
@@ -60,17 +60,17 @@ class _perfilPageState extends State<perfilPage> {
     }).toList();
   }
 
-
   Future<void> saveBooksFinished() async {
-      final fetchedBooks = await getBooksFinished();
-      setState(() {
-        books = fetchedBooks;
-      });
-    }
+    final fetchedBooks = await getBooks();
+    setState(() {
+      books = fetchedBooks;
+    });
+  }
+
 
   void initState() {
     super.initState();
-    getBooksFinished();
+    saveBooksFinished();
   }
 
   @override
