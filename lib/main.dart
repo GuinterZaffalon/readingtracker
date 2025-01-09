@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:readingtracker/src/model/ServiceBookAPI.dart';
+import 'package:readingtracker/src/screens/perfil.dart';
 import 'package:readingtracker/src/screens/register.dart';
 
 void main() {
@@ -151,7 +152,11 @@ class _MyHomePageState extends State<MyHomePage> {
               },
             ),
             IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(context, MaterialPageRoute(
+                    builder: (context) => const perfilPage(),
+                  ));
+                },
                 icon: const Icon(Icons.person_2_outlined),
                 color: Colors.black
             ),
