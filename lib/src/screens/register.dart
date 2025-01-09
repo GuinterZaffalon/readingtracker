@@ -30,7 +30,6 @@ class Register extends StatefulWidget {
 }
 
 class _RegisterState extends State<Register> {
-  bool? isReading;
   TextEditingController dateController = TextEditingController();
   int rating = 0;
   String comment = "";
@@ -202,79 +201,28 @@ class _RegisterState extends State<Register> {
           ),
           const SizedBox(height: 15),
           isLoading ? const Text("") :
-              Container(
-                child: Column(
-              children: [
-                const Text("Acabou a leitura?", style: TextStyle(fontSize: 20)),
-                const SizedBox(height: 10),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    ElevatedButton(
-                      onPressed: () {
-                        setState(() {
-                          isReading = false;
-                        });
-                      },
-                      child: const Text("Sim"),
-                      style: ButtonStyle(
-                        padding: MaterialStateProperty.all(
-                            const EdgeInsets.fromLTRB(40, 10, 40, 10)),
-                      ),
-                    ),
-                    ElevatedButton(
-                      onPressed: () {
-                        setState(() {
-                          isReading = true;
-                        });
-                      },
-                      child: const Text("Não"),
-                      style: ButtonStyle(
-                        padding: MaterialStateProperty.all(
-                            const EdgeInsets.fromLTRB(40, 10, 40, 10)),
-                      ),
-                    ),
-                  ],
-                ),
-              ])),
            Container(
-              child: isReading == null
-                  ? const Text("")
-                  : (isReading! //aqui começa o trecho que muda de acordo com o sim ou não
-                  ? Column(children: [
-                const SizedBox(height: 15),
-                    DatePickerField(onDateSelected: (date) {
-                      setState(() {
-                        this.date = date;
-                      });
-                    }),
-                const SizedBox(height: 15),
-                CommentBox(onChange: (value) {
-                  setState(() {
-                    commentNotFinished = value;
-                  });
-                })
-              ])
-                  : Column(children: [
-                const SizedBox(height: 15),
-                DatePickerField(onDateSelected: (date) {
-                  setState(() {
-                    this.date = date;
-                  });
-                }),
-                Ratting(rattingStar: (rating) {
-                  setState(() {
-                    this.rating = rating.toInt();
-                  });
-                }),
-                const SizedBox(height: 15),
-                CommentBox(onChange: (value) {
-                  setState(() {
-                    comment = value;
-                  });
-                }
+              child:
+                  Stepper(
+                    steps: steps(),
+                    currentStep: _currentPage,
+                    onStepContinue: () {
+                      if (_currentPage < steps().length - 1) {
+                        _pageController.nextPage(
+                            duration: const Duration(milliseconds: 100),
+                            curve: Curves.linear);
+                      }
+                    },
+                    onStepCancel: () {
+                      if (_currentPage > 0) {
+                        _pageController.previousPage(
+                            duration: const Duration(milliseconds: 100),
+                            curve: Curves.linear);
+                      }
+                    },
+                  )
                 ),
-                Row( //botão de salvar atual
+                Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       Padding(
@@ -305,10 +253,36 @@ class _RegisterState extends State<Register> {
                             ),
                           ))
                     ])
-              ])),
-            ),
-        ],
+              ]
       ),
     );
   }
+
+  List<Step> steps() => [
+     Step(
+      title: const Text(""),
+      content: DatePickerField(onDateSelected: (date) {
+        setState(() {
+          this.date = date;
+        });
+      }),
+    ),
+    Step(
+      title: const Text(""),
+      content: Ratting(rattingStar: (rating) {
+        setState(() {
+          this.rating = rating.toInt();
+        });
+      }),
+    ),
+    Step(
+        title: const Text(""),
+        content:
+        CommentBox(onChange: (value) {
+          setState(() {
+            comment = value;
+        });
+      })
+    )
+  ];
 }

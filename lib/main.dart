@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:readingtracker/src/components/navigationBar.dart';
 import 'package:readingtracker/src/model/ServiceBookAPI.dart';
 import 'package:readingtracker/src/screens/perfil.dart';
 import 'package:readingtracker/src/screens/register.dart';
@@ -159,35 +160,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
         ],
       ),
-      bottomNavigationBar: BottomAppBar(
-        color: const Color.fromRGBO(189, 213, 234, 1),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            IconButton(
-              icon: const Icon(Icons.add_home_outlined),
-              color: Colors.black,
-              onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const MyHomePage(),
-                    ));
-              },
-            ),
-            IconButton(
-                onPressed: () async {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const perfilPage(),
-                      ));
-                },
-                icon: const Icon(Icons.person_2_outlined),
-                color: Colors.black),
-          ],
-        ),
-      ),
+      bottomNavigationBar: NavigationBottomBar(),
     );
   }
 }
