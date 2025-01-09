@@ -68,6 +68,7 @@ class SqfliteHelper {
     final db = await openMyDatabase();
     final result = await db.query(
       'booksFinished',
+      where: 'id = ?',
       whereArgs: [id],
     );
     return result;
