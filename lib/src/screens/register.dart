@@ -120,18 +120,17 @@ class _RegisterState extends State<Register> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              if (isLoading)
+              isLoading ?
                 Center(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: const [
+                    children: [
+                      SizedBox(height: 30),
                       CircularProgressIndicator(),
-                      SizedBox(height: 10),
-                      Text('Carregando...'),
                     ],
                   ),
                 )
-              else
+              :
                 Padding(
                   padding: const EdgeInsets.fromLTRB(10, 30, 10, 0),
                   child: Container(
