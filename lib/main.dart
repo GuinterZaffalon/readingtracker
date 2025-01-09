@@ -49,10 +49,9 @@ class _MyHomePageState extends State<MyHomePage> {
     } catch (e) {
       print('Erro ao buscar livros: $e');
     } finally {
-       setState(() {
-         isLoading = false;
-       });
-
+      setState(() {
+        isLoading = false;
+      });
     }
   }
 
@@ -67,8 +66,18 @@ class _MyHomePageState extends State<MyHomePage> {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
+          Row(children: [
+            Padding(
+              padding: const EdgeInsets.fromLTRB(15, 12, 10, 0),
+              child: Text(
+                "Olá, Guinter!",
+                style: TextStyle(fontSize: 20),
+              ),
+            )
+
+          ]),
           Padding(
-            padding: const EdgeInsets.fromLTRB(10, 30, 10, 0),
+            padding: const EdgeInsets.fromLTRB(10, 20, 10, 0),
             child: TextField(
               controller: _searchController,
               textInputAction: TextInputAction.search,
@@ -95,48 +104,59 @@ class _MyHomePageState extends State<MyHomePage> {
                   child: const Icon(Icons.search),
                 ),
                 contentPadding: const EdgeInsets.all(15.0),
-                hintText: 'Search ',
+                hintText: 'Buscar ',
               ),
             ),
           ),
           const SizedBox(height: 20),
           isLoading
-              ? const Center(child: CircularProgressIndicator(), heightFactor: 3)
-              :
-          Expanded(
-            child: _books.isEmpty
-                ? const Center(child: Text("Busque um livro para começar."))
-                : ListView.builder(
-              itemCount: _books.length,
-              itemBuilder: (context, index) {
-                final book = _books[index];
-                final title = book['title'] ?? 'Título desconhecido';
-                final author = (book['author_name'] as List<dynamic>?)
-                    ?.join(', ') ??
-                    'Autor desconhecido';
-                final editionYear = book['first_publish_year'] ?? 'Ano desconhecido';
-                final editora = book['publisher'] ?? 'Editora desconhecida';
-                return ListTile(
-                  title: Text(title),
-                  subtitle: Text('Autor: $author\nEditora: $editora\nAno: $editionYear'),
-                  style: ListTileStyle.list,
-                  onTap: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) =>
-                        Register(registro: Registro(
-                          title: book['title'].toString(),
-                          author: (book["author_name"] as List<dynamic>?)?.join(', '),
-                          editionYear: book['first_publish_year'].toString(),
-                          publisher: book['publisher'].toString(),
-                          isbn: (book['isbn'][0]).toString()
-                        ))
-                        )
-                    );
-                  },
-                );
-              },
-            ),
-          ),
+              ? const Center(
+                  child: CircularProgressIndicator(), heightFactor: 3)
+              : Expanded(
+                  child: _books.isEmpty
+                      ? const Center(
+                          child: Text("Busque um livro para começar."))
+                      : ListView.builder(
+                          itemCount: _books.length,
+                          itemBuilder: (context, index) {
+                            final book = _books[index];
+                            final title =
+                                book['title'] ?? 'Título desconhecido';
+                            final author =
+                                (book['author_name'] as List<dynamic>?)
+                                        ?.join(', ') ??
+                                    'Autor desconhecido';
+                            final editionYear = book['first_publish_year'] ??
+                                'Ano desconhecido';
+                            final editora =
+                                book['publisher'] ?? 'Editora desconhecida';
+                            return ListTile(
+                              title: Text(title),
+                              subtitle: Text(
+                                  'Autor: $author\nEditora: $editora\nAno: $editionYear'),
+                              style: ListTileStyle.list,
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => Register(
+                                            registro: Registro(
+                                                title: book['title'].toString(),
+                                                author: (book["author_name"]
+                                                        as List<dynamic>?)
+                                                    ?.join(', '),
+                                                editionYear:
+                                                    book['first_publish_year']
+                                                        .toString(),
+                                                publisher: book['publisher']
+                                                    .toString(),
+                                                isbn: (book['isbn'][0])
+                                                    .toString()))));
+                              },
+                            );
+                          },
+                        ),
+                ),
         ],
       ),
       bottomNavigationBar: BottomAppBar(
@@ -148,18 +168,23 @@ class _MyHomePageState extends State<MyHomePage> {
               icon: const Icon(Icons.add_home_outlined),
               color: Colors.black,
               onPressed: () {
-                // Ação para o ícone de início
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const MyHomePage(),
+                    ));
               },
             ),
             IconButton(
                 onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(
-                    builder: (context) => const perfilPage(),
-                  ));
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const perfilPage(),
+                      ));
                 },
                 icon: const Icon(Icons.person_2_outlined),
-                color: Colors.black
-            ),
+                color: Colors.black),
           ],
         ),
       ),

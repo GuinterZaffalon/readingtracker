@@ -83,10 +83,6 @@ class _perfilPageState extends State<perfilPage> {
       ),
       body: Column(
         children: [
-          Padding(
-            padding: const EdgeInsets.fromLTRB(20, 30, 10, 0),
-            child: Text("Suas leituras!", style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),),
-          ),
           ListView.builder(
             shrinkWrap: true,
             itemCount: books.length,
