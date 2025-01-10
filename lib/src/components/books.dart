@@ -87,10 +87,15 @@ class Books extends StatelessWidget {
                       style: const TextStyle(overflow: TextOverflow.ellipsis)),
                 ),
                 const SizedBox(height: 5),
-                Text(book.publisher!,
-                    style: const TextStyle(
-                      overflow: TextOverflow.ellipsis,
-                    )),
+                SizedBox(
+                  width: 180,
+                  child:
+                  Text(book.publisher!,
+                      style: const TextStyle(
+                        overflow: TextOverflow.ellipsis,
+                      )),
+                ),
+
                 const SizedBox(height: 5),
                 RatingStars(rating: book.rating!),
               ],

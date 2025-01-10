@@ -245,7 +245,7 @@ class _ExpandedPageState extends State<ExpandedPage> {
                           style: TextStyle(
                               fontSize: 17, fontWeight: FontWeight.bold)),
                       const SizedBox(height: 10),
-                      Text(book.comment ?? 'Nenhum comentário', style: TextStyle(fontSize: 16), textAlign: TextAlign.center),
+                      Text(book.comment!.isNotEmpty ? book.comment! : 'Nenhum comentário', style: TextStyle(fontSize: 16), textAlign: TextAlign.center),
                       const SizedBox(height: 10),
 
                     ]),
