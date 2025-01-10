@@ -257,11 +257,6 @@ class _RegisterState extends State<Register> {
                               );
                             },
                             child: const Text("Cadastrar"),
-                            // style: ButtonStyle(
-                            //   padding: MaterialStateProperty.all(
-                            //     const EdgeInsets.fromLTRB(40, 10, 40, 10),
-                            //   ),
-                            // ),
                           ))
                               :
                           Expanded(
