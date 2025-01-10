@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:readingtracker/src/components/starBook.dart';
+import '../../sqflite_helper.dart';
 import '../screens/expanded.dart';
 
 abstract class BooksInterface {
@@ -20,6 +21,7 @@ abstract class BooksInterface {
 class Books extends StatelessWidget {
   final BooksInterface book;
   const Books({Key? key, required this.book}) : super(key: key);
+
 
   @override
   Widget build(BuildContext context) {

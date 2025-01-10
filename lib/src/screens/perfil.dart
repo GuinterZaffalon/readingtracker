@@ -86,6 +86,7 @@ class _perfilPageState extends State<perfilPage> {
         backgroundColor: const Color.fromRGBO(189, 213, 234, 1),
         title: const Text("ReadingTracker"),
         centerTitle: true,
+        automaticallyImplyLeading: false,
       ),
       body: Column(
         children: [

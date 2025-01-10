@@ -6,6 +6,7 @@ import 'package:readingtracker/src/screens/perfil.dart';
 import '../../main.dart';
 import '../../sqflite_helper.dart';
 import '../components/books.dart';
+import '../components/comment.dart';
 import '../components/navigationBar.dart';
 import 'package:intl/intl.dart';
 
@@ -220,7 +221,36 @@ class _ExpandedPageState extends State<ExpandedPage> {
                           RatingStars(rating: book.rating!),
                         ]),
                       ))
-                ])
+                ]),
+                const SizedBox(height: 10),
+                Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Container(
+                    width: 0.9 * MediaQuery.of(context).size.width,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(12),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.3),
+                          spreadRadius: 2,
+                          blurRadius: 5,
+                          offset: const Offset(0, 3),
+                        ),
+                      ],
+                    ),
+                    padding: const EdgeInsets.all(10),
+                    child: Column(children: [
+                      Text("Comentarios",
+                          style: TextStyle(
+                              fontSize: 17, fontWeight: FontWeight.bold)),
+                      const SizedBox(height: 10),
+                      Text(book.comment ?? 'Nenhum comentário', style: TextStyle(fontSize: 16), textAlign: TextAlign.center),
+                      const SizedBox(height: 10),
+
+                    ]),
+                  )
+                )
               ]);
             },
           ),

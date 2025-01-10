@@ -74,4 +74,5 @@ class SqfliteHelper {
     return result;
   }
 
+  Future<void> deleteBookById(int id) async => await openMyDatabase().then((db) => db.delete('booksFinished', where: 'id = ?', whereArgs: [id]).then((value) => print('Livro deletado com sucesso.')));
 }
