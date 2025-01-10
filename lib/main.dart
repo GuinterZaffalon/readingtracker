@@ -106,6 +106,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
                 contentPadding: const EdgeInsets.all(15.0),
                 hintText: 'Buscar ',
+
               ),
             ),
           ),
