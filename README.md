@@ -26,7 +26,7 @@ O projeto ainda está em desenvolvimento e as próximas atualizações serão vo
 
 Antes de começar, verifique se você atendeu aos seguintes requisitos:
 
-- Você instalou a versão `flutter` >= `3.22.1`
+- Você instalou a versão `'>=3.4.1 <4.0.0' do Flutter`
 - Você tem uma máquina `Windows / Linux / Mac`
 - Você conhece o `git`
 
@@ -37,7 +37,7 @@ Para contribuir com <nome_do_projeto>, siga estas etapas:
 1. Bifurque este repositório.
 2. Crie um branch: `git checkout -b <nome_branch>`.
 3. Faça suas alterações e confirme-as: `git commit -m '<mensagem_commit>'`
-4. Envie para o branch original: `git push origin <readingtracker>
+4. Envie para o branch original: `git push origin <readingtracker>`.
 5. Crie a solicitação de pull.
 
 Como alternativa, consulte a documentação do GitHub em [como criar uma solicitação pull](https://help.github.com/en/github/collaborating-with-issues-and-pull-requests/creating-a-pull-request).
