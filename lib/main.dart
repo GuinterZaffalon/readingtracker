@@ -18,7 +18,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Reading Tracker',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme:
+            ColorScheme.fromSeed(seedColor: Color.fromRGBO(189, 213, 234, 1)),
         useMaterial3: false,
       ),
       home: const MyHomePage(),
@@ -37,6 +38,7 @@ class _MyHomePageState extends State<MyHomePage> {
   final TextEditingController _searchController = TextEditingController();
   List<dynamic> _books = [];
   bool isLoading = false;
+  bool notFound = false;
 
   Future<void> fetchBooks(String search) async {
     try {
@@ -44,11 +46,19 @@ class _MyHomePageState extends State<MyHomePage> {
         isLoading = true;
       });
       final result = await BookService.getBooks(search);
-      setState(() {
-        _books = result;
-      });
+      if (result.isEmpty) {
+        setState(() {
+          notFound = true;
+        });
+      } else {
+        setState(() {
+          _books = result;
+        });
+      }
     } catch (e) {
-      print('Erro ao buscar livros: $e');
+      setState(() {
+        notFound = true;
+      });
     } finally {
       setState(() {
         isLoading = false;
@@ -76,7 +86,6 @@ class _MyHomePageState extends State<MyHomePage> {
                 style: TextStyle(fontSize: 20),
               ),
             )
-
           ]),
           Padding(
             padding: const EdgeInsets.fromLTRB(10, 20, 10, 0),
@@ -107,7 +116,6 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
                 contentPadding: const EdgeInsets.all(15.0),
                 hintText: 'Buscar ',
-
               ),
             ),
           ),
@@ -115,51 +123,60 @@ class _MyHomePageState extends State<MyHomePage> {
           isLoading
               ? const Center(
                   child: CircularProgressIndicator(), heightFactor: 3)
-              : Expanded(
-                  child: _books.isEmpty
-                      ? const Center(
-                          child: Text("Busque um livro para começar."))
-                      : ListView.builder(
-                          itemCount: _books.length,
-                          itemBuilder: (context, index) {
-                            final book = _books[index];
-                            final title =
-                                book['title'] ?? 'Título desconhecido';
-                            final author =
-                                (book['author_name'] as List<dynamic>?)
-                                        ?.join(', ') ??
-                                    'Autor desconhecido';
-                            final editionYear = book['first_publish_year'] ??
-                                'Ano desconhecido';
-                            final editora =
-                                book['publisher'] ?? 'Editora desconhecida';
-                            return ListTile(
-                              title: Text(title),
-                              subtitle: Text(
-                                  'Autor: $author\nEditora: $editora\nAno: $editionYear'),
-                              style: ListTileStyle.list,
-                              onTap: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => Register(
-                                            registro: Registro(
-                                                title: book['title'].toString(),
-                                                author: (book["author_name"]
-                                                        as List<dynamic>?)
-                                                    ?.join(', '),
-                                                editionYear:
-                                                    book['first_publish_year']
+              : notFound
+                  ?   Column(children: [
+                      Center(child: Text("Livro não encontrado.")),
+                      SizedBox(height: 10),
+                      ElevatedButton(onPressed:
+                          () => Navigator.pushNamed(context, '/register'), child: Text("Cadastrar manualmente"))
+                    ])
+                  : Expanded(
+                      child: _books.isEmpty
+                          ? const Center(
+                              child: Text("Busque um livro para começar."))
+                          : ListView.builder(
+                              itemCount: _books.length,
+                              itemBuilder: (context, index) {
+                                final book = _books[index];
+                                final title =
+                                    book['title'] ?? 'Título desconhecido';
+                                final author =
+                                    (book['author_name'] as List<dynamic>?)
+                                            ?.join(', ') ??
+                                        'Autor desconhecido';
+                                final editionYear =
+                                    book['first_publish_year'] ??
+                                        'Ano desconhecido';
+                                final editora =
+                                    book['publisher'] ?? 'Editora desconhecida';
+                                return ListTile(
+                                  title: Text(title),
+                                  subtitle: Text(
+                                      'Autor: $author\nEditora: $editora\nAno: $editionYear'),
+                                  style: ListTileStyle.list,
+                                  onTap: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => Register(
+                                                registro: Registro(
+                                                    title: book['title']
                                                         .toString(),
-                                                publisher: book['publisher']
-                                                    .toString(),
-                                                isbn: (book['isbn'][0])
-                                                    .toString()))));
+                                                    author: (book["author_name"]
+                                                            as List<dynamic>?)
+                                                        ?.join(', '),
+                                                    editionYear: book[
+                                                            'first_publish_year']
+                                                        .toString(),
+                                                    publisher: book['publisher']
+                                                        .toString(),
+                                                    isbn: (book['isbn'][0])
+                                                        .toString()))));
+                                  },
+                                );
                               },
-                            );
-                          },
-                        ),
-                ),
+                            ),
+                    ),
         ],
       ),
       bottomNavigationBar: NavigationBottomBar(),
