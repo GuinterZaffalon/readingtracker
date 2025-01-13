@@ -31,36 +31,75 @@ class _ManualRegisterState extends State<ManualRegister> {
   List<Step> steps() => [
         Step(
           isActive: currentStep >= 0,
-          title: const Text("Qual o nome do livro?"),
-          content: TextField(
-            onChanged: (value) {
-              setState(() {
-                title = value;
-              });
-            },
-          ),
+          title: const Text(""),
+          content: Column(
+            children: [
+              const Text(
+                "Qual o nome do livro?",
+                style: TextStyle(
+                  fontSize: 20,
+                )
+              ),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(0, 14, 0, 10),
+                child: TextField(
+                  onChanged: (value) {
+                    setState(() {
+                      title = value;
+                    });
+                  },
+                ),
+              )
+          ]
+          )
         ),
         Step(
           isActive: currentStep >= 1,
-          title: const Text("Qual o autor do livro?"),
-          content: TextField(
-            onChanged: (value) {
-              setState(() {
-                author = value;
-              });
-            },
-          ),
+          title: const Text(""),
+            content: Column(
+                children: [
+                  const Text(
+                      "Qual o autor do livro?",
+                      style: TextStyle(
+                        fontSize: 20,
+                      )
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(0, 14, 0, 10),
+                    child: TextField(
+                      onChanged: (value) {
+                        setState(() {
+                          author = value;
+                        });
+                      },
+                    ),
+                  )
+                ]
+            )
         ),
         Step(
           isActive: currentStep >= 2,
-          title: const Text("Qual o editora do livro?"),
-          content: TextField(
-            onChanged: (value) {
-              setState(() {
-                publisher = value;
-              });
-            },
-          ),
+          title: const Text(""),
+            content: Column(
+                children: [
+                  const Text(
+                      "Qual o editora do livro?",
+                      style: TextStyle(
+                        fontSize: 20,
+                      )
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(0, 14, 0, 10),
+                    child: TextField(
+                      onChanged: (value) {
+                        setState(() {
+                          publisher = value;
+                        });
+                      },
+                    ),
+                  )
+                ]
+            )
         ),
         Step(
           isActive: currentStep >= 3,
