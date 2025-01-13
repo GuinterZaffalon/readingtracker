@@ -14,6 +14,9 @@ class SqfliteHelper {
         await db.execute(
           "CREATE TABLE booksReading(id INTEGER PRIMARY KEY, title TEXT, author TEXT, pages INTEGER, date TEXT)",
         );
+        await db.execute(
+          "CCREATE TABLE userList(id INTEGER PRIMARY KEY AUTOINCREENT, name TEXT, bookID INTEGER, FOREIGN KEY(bookID) REFERENCES booksFinished(id))",
+        );
       },
     );
   }
@@ -88,5 +91,23 @@ class SqfliteHelper {
       whereArgs: [dateInitial, dateFinal],
     );
     return result;
+  }
+
+  Future<void> createBookList (String name) async {
+    final db = await openMyDatabase();
+    await db.insert(
+      'userList',
+      {'name': name},
+      conflictAlgorithm: ConflictAlgorithm.replace,
+    );
+  }
+
+  Future<void> insertBookInList (int bookID, String name) async {
+    final db = await openMyDatabase();
+    await db.insert(
+      'userList',
+      {'bookID': bookID, 'name': name},
+      conflictAlgorithm: ConflictAlgorithm.replace,
+    );
   }
 }
