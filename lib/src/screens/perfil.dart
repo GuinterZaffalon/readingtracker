@@ -129,7 +129,6 @@ class _perfilPageState extends State<perfilPage> {
                             final dateRange = await (
                                 showDateRangePicker(
                                   context: context,
-                                  locale: const Locale("pt", "BR"),
                                   confirmText: "Confirmar",
                                   cancelText: "Cancelar",
                                   firstDate: DateTime(2000),
