@@ -48,6 +48,7 @@ class BookData implements BooksInterface {
 class _perfilPageState extends State<perfilPage> {
   final sqfliteHelper = SqfliteHelper();
   late List<BooksInterface> books = [];
+  bool isFiltered = false;
 
   Future<List<BooksInterface>> getBooks() async {
     final result = await sqfliteHelper.getBooksFinished();
@@ -73,6 +74,23 @@ class _perfilPageState extends State<perfilPage> {
     });
   }
 
+ void filterBooksByDate(DateTime startDate, DateTime endDate) async {
+   setState(() {
+     books = books.where((book) {
+       if (book.date == null || book.date!.isEmpty) return false;
+
+       try {
+         final bookDate = DateTime.parse(book.date!);
+         isFiltered = true;
+         return bookDate.isAfter(startDate.subtract(Duration(days: 1))) &&
+             bookDate.isBefore(endDate.add(Duration(days: 1)));
+       } catch (e) {
+         return false;
+       }
+     }).toList();
+   });
+ }
+
 
   void initState() {
     super.initState();
@@ -90,18 +108,49 @@ class _perfilPageState extends State<perfilPage> {
       ),
       body: Column(
         children: [
-          Row(children: [
-            Padding(
-              padding: const EdgeInsets.fromLTRB(20, 18, 10, 10),
-              child:
-              SizedBox
-                ( height: 20,
-                  child: Text(
-                "Livros lidos!",
-                style: TextStyle(fontSize: 20, fontFamily: "Roboto", fontWeight: FontWeight.bold),
-              )),
-            )
-          ]),
+          Padding(
+              padding: const EdgeInsets.all(10),
+              child: Row(
+                  children: [
+                    Text(
+                      "Livros lidos!",
+                      style: TextStyle
+                        (fontSize: 20,
+                          fontFamily: "Roboto",
+                          fontWeight: FontWeight.bold
+                      ),
+                    ),
+                    Spacer(),
+                     IconButton(
+                          icon: const Icon(Icons.filter_list_outlined),
+                          iconSize: 35,
+                          color: Colors.black,
+                          onPressed: () async {
+                            final dateRange = await (
+                                showDateRangePicker(
+                                  context: context,
+                                  locale: const Locale("pt", "BR"),
+                                  confirmText: "Confirmar",
+                                  cancelText: "Cancelar",
+                                  firstDate: DateTime(2000),
+                                  lastDate: DateTime.now(),
+                                )
+                            );
+                            if (dateRange != null) {
+                              filterBooksByDate(dateRange.start, dateRange.end);
+                            }
+                          },
+                        ), isFiltered ?
+                    TextButton(onPressed: () async {
+                      saveBooksFinished();
+                      setState(() {
+                        isFiltered = false;
+                      });
+                    }, child: Text("Limpar", style: TextStyle(color: Colors.black),),) :
+                    Container()
+                  ]
+              )
+            ),
           Expanded(
             child:
               ListView.builder(

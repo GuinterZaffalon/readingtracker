@@ -151,10 +151,20 @@ class _ExpandedPageState extends State<ExpandedPage> {
                                   style: TextStyle(
                                       overflow: TextOverflow.ellipsis)),
                             ),
-                            Text(book.publisher ?? 'Editora não informada'),
-                            Text(book.editionYear != 0
-                                ? 'Ano: ${book.editionYear}'
-                                : 'Ano não informado'),
+                            SizedBox(
+                              width: 180,
+                              child: Text(
+                                  book.publisher ?? 'Editora não informada',
+                                  style: TextStyle(
+                                      overflow: TextOverflow.ellipsis)),
+                            ),
+                            SizedBox(
+                              width: 180,
+                              child: Text(book.editionYear != 0
+                                  ? 'Ano: ${book.editionYear}'
+                                  : 'Ano não informado', style: TextStyle(
+                                      overflow: TextOverflow.ellipsis)),
+                            )
                           ],
                         ),
                       ],
@@ -224,33 +234,36 @@ class _ExpandedPageState extends State<ExpandedPage> {
                 ]),
                 const SizedBox(height: 10),
                 Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: Container(
-                    width: 0.9 * MediaQuery.of(context).size.width,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(12),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.3),
-                          spreadRadius: 2,
-                          blurRadius: 5,
-                          offset: const Offset(0, 3),
-                        ),
-                      ],
-                    ),
-                    padding: const EdgeInsets.all(10),
-                    child: Column(children: [
-                      Text("Comentarios",
-                          style: TextStyle(
-                              fontSize: 17, fontWeight: FontWeight.bold)),
-                      const SizedBox(height: 10),
-                      Text(book.comment!.isNotEmpty ? book.comment! : 'Nenhum comentário', style: TextStyle(fontSize: 16), textAlign: TextAlign.center),
-                      const SizedBox(height: 10),
-
-                    ]),
-                  )
-                )
+                    padding: const EdgeInsets.all(10.0),
+                    child: Container(
+                      width: 0.9 * MediaQuery.of(context).size.width,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(12),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.3),
+                            spreadRadius: 2,
+                            blurRadius: 5,
+                            offset: const Offset(0, 3),
+                          ),
+                        ],
+                      ),
+                      padding: const EdgeInsets.all(10),
+                      child: Column(children: [
+                        Text("Comentarios",
+                            style: TextStyle(
+                                fontSize: 17, fontWeight: FontWeight.bold)),
+                        const SizedBox(height: 10),
+                        Text(
+                            book.comment!.isNotEmpty
+                                ? book.comment!
+                                : 'Nenhum comentário',
+                            style: TextStyle(fontSize: 16),
+                            textAlign: TextAlign.center),
+                        const SizedBox(height: 10),
+                      ]),
+                    ))
               ]);
             },
           ),
