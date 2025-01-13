@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 
 class CommentBox extends StatelessWidget {
   final Function(String) onChange;
+  final String comment;
 
-  const CommentBox({Key? key, required this.onChange}) : super(key: key);
+  const CommentBox({Key? key, required this.onChange, required this.comment}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -11,7 +12,7 @@ class CommentBox extends StatelessWidget {
       Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Text("Gostaria de anotar algo?",
+        Text(comment,
             style: TextStyle(fontSize: 20)),
         const SizedBox(height: 10),
         Padding(

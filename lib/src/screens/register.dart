@@ -96,7 +96,7 @@ class _RegisterState extends State<Register> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            CommentBox(onChange: (value) {
+            CommentBox(comment: "Gostaria de anotar algo", onChange: (value) {
               setState(() {
                 comment = value;
               });

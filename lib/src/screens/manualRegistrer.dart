@@ -126,7 +126,7 @@ class _ManualRegisterState extends State<ManualRegister> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                CommentBox(onChange: (value) {
+                CommentBox(comment: "Gostaria de anotar algo?", onChange: (value) {
                   setState(() {
                     comment = value;
                   });
