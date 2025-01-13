@@ -73,6 +73,17 @@ class _perfilPageState extends State<perfilPage> {
     });
   }
 
+ void filterBooksByDate(DateTime initialDate, DateTime finalDate) async {
+   setState(() {
+     books = books.where(
+         (books) {
+           final bookDate = DateTime.parse(books.date!);
+           return bookDate.isAfter(initialDate) && bookDate.isBefore(finalDate);
+         }
+     ).toList();
+   });
+ }
+
 
   void initState() {
     super.initState();
@@ -107,14 +118,18 @@ class _perfilPageState extends State<perfilPage> {
                           icon: const Icon(Icons.filter_list_outlined),
                           iconSize: 35,
                           color: Colors.black,
-                          onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => const MyHomePage(),
-                                ));
+                          onPressed: () async {
+                            final dateRange = await showDateRangePicker(
+                              context: context,
+                              firstDate: DateTime(2000),
+                              lastDate: DateTime.now(),
+                            );
+                            if (dateRange != null) {
+                              filterBooksByDate(dateRange.start, dateRange.end);
+                            }
                           },
-                        )
+                        ),
+                    TextButton(onPressed: () => saveBooksFinished(), child: Text("Limpar"))
                   ]
               )
             ),

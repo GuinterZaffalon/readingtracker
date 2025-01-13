@@ -18,7 +18,7 @@ class SqfliteHelper {
     );
   }
 
-  Future<bool> titleExists(String table ,String title) async {
+  Future<bool> titleExists(String table, String title) async {
     final db = await openMyDatabase();
     final result = await db.query(
       table,
@@ -32,7 +32,8 @@ class SqfliteHelper {
     final db = await openMyDatabase();
     final title = book['title'];
     if (await titleExists('booksFinished', title)) {
-      print('O livro "$title" já existe na tabela booksFinished. Não será salvo.');
+      print(
+          'O livro "$title" já existe na tabela booksFinished. Não será salvo.');
       return;
     }
     await db.insert(
@@ -47,7 +48,8 @@ class SqfliteHelper {
     final db = await openMyDatabase();
     final title = book['title'];
     if (await titleExists('booksReading', title)) {
-      print('O livro "$title" já existe na tabela booksReading. Não será salvo.');
+      print(
+          'O livro "$title" já existe na tabela booksReading. Não será salvo.');
       return;
     }
     await db.insert(
@@ -64,7 +66,7 @@ class SqfliteHelper {
     return result;
   }
 
-  Future<List<Map<dynamic, dynamic>>> getBookById(int id) async{
+  Future<List<Map<dynamic, dynamic>>> getBookById(int id) async {
     final db = await openMyDatabase();
     final result = await db.query(
       'booksFinished',
@@ -74,5 +76,17 @@ class SqfliteHelper {
     return result;
   }
 
-  Future<void> deleteBookById(int id) async => await openMyDatabase().then((db) => db.delete('booksFinished', where: 'id = ?', whereArgs: [id]).then((value) => print('Livro deletado com sucesso.')));
+  Future<void> deleteBookById(int id) async => await openMyDatabase().then(
+      (db) => db.delete('booksFinished', where: 'id = ?', whereArgs: [id]).then(
+          (value) => print('Livro deletado com sucesso.')));
+
+  Future<List<Map<dynamic, dynamic>>> getBooksByDate(String dateInitial, String dateFinal) async {
+    final db = await openMyDatabase();
+    final result = await db.query(
+      'booksFinished',
+      where: 'date = ?',
+      whereArgs: [dateInitial, dateFinal],
+    );
+    return result;
+  }
 }
