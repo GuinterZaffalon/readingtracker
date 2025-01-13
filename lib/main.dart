@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:readingtracker/src/components/navigationBar.dart';
 import 'package:readingtracker/src/model/ServiceBookAPI.dart';
+import 'package:readingtracker/src/screens/manualRegistrer.dart';
 import 'package:readingtracker/src/screens/perfil.dart';
 import 'package:readingtracker/src/screens/register.dart';
 
@@ -127,8 +128,15 @@ class _MyHomePageState extends State<MyHomePage> {
                   ?   Column(children: [
                       Center(child: Text("Livro não encontrado.")),
                       SizedBox(height: 10),
-                      ElevatedButton(onPressed:
-                          () => Navigator.pushNamed(context, '/register'), child: Text("Cadastrar manualmente"))
+                      ElevatedButton(
+                          onPressed: () async {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const ManualRegister(),
+                                ));
+                          },
+                          child: Text("Cadastrar manualmente"))
                     ])
                   : Expanded(
                       child: _books.isEmpty
