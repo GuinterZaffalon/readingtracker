@@ -90,18 +90,34 @@ class _perfilPageState extends State<perfilPage> {
       ),
       body: Column(
         children: [
-          Row(children: [
-            Padding(
-              padding: const EdgeInsets.fromLTRB(20, 18, 10, 10),
-              child:
-              SizedBox
-                ( height: 20,
-                  child: Text(
-                "Livros lidos!",
-                style: TextStyle(fontSize: 20, fontFamily: "Roboto", fontWeight: FontWeight.bold),
-              )),
-            )
-          ]),
+          Padding(
+              padding: const EdgeInsets.all(10),
+              child: Row(
+                  children: [
+                    Text(
+                      "Livros lidos!",
+                      style: TextStyle
+                        (fontSize: 20,
+                          fontFamily: "Roboto",
+                          fontWeight: FontWeight.bold
+                      ),
+                    ),
+                    Spacer(),
+                     IconButton(
+                          icon: const Icon(Icons.filter_list_outlined),
+                          iconSize: 35,
+                          color: Colors.black,
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const MyHomePage(),
+                                ));
+                          },
+                        )
+                  ]
+              )
+            ),
           Expanded(
             child:
               ListView.builder(
