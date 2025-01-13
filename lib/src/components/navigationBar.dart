@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:readingtracker/src/screens/list.dart';
 import '../../main.dart';
 import '../screens/perfil.dart';
 
@@ -23,6 +23,18 @@ class NavigationBottomBar extends StatelessWidget {
                     builder: (context) => const MyHomePage(),
                   ));
             },
+          ),
+          IconButton(
+            onPressed: () async {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const List(),
+                  ));
+            },
+            icon: const Icon(Icons.list_rounded),
+            iconSize: 35,
+            color: Colors.black,
           ),
           IconButton(
               onPressed: () async {
