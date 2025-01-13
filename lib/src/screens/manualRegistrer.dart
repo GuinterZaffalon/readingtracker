@@ -32,73 +32,49 @@ class _ManualRegisterState extends State<ManualRegister> {
         Step(
           isActive: currentStep >= 0,
           title: const Text(""),
-          content: Column(
-            children: [
-              const Text(
-                "Qual o nome do livro?",
-                style: TextStyle(
-                  fontSize: 20,
-                )
-              ),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(0, 14, 0, 10),
-                child: TextField(
-                  onChanged: (value) {
-                    setState(() {
-                      title = value;
-                    });
-                  },
-                ),
+          content: SingleChildScrollView(
+              child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    CommentBox(onChange: (value) {
+                      setState(() {
+                        title = value;
+                      });
+                    }, comment: "Qual o nome do livro?"),
+                  ]
               )
-          ]
           )
         ),
         Step(
           isActive: currentStep >= 1,
           title: const Text(""),
-            content: Column(
-                children: [
-                  const Text(
-                      "Qual o autor do livro?",
-                      style: TextStyle(
-                        fontSize: 20,
-                      )
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(0, 14, 0, 10),
-                    child: TextField(
-                      onChanged: (value) {
+            content: SingleChildScrollView(
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      CommentBox(onChange: (value) {
                         setState(() {
                           author = value;
                         });
-                      },
-                    ),
-                  )
-                ]
+                      }, comment: "Qual o autor do livro?"),
+                    ]
+                )
             )
         ),
         Step(
           isActive: currentStep >= 2,
           title: const Text(""),
-            content: Column(
+            content: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  const Text(
-                      "Qual o editora do livro?",
-                      style: TextStyle(
-                        fontSize: 20,
-                      )
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(0, 14, 0, 10),
-                    child: TextField(
-                      onChanged: (value) {
-                        setState(() {
-                          publisher = value;
-                        });
-                      },
-                    ),
-                  )
-                ]
+                  CommentBox(onChange: (value) {
+                    setState(() {
+                      publisher = value;
+                    });
+                  }, comment: "Qual a editora do livro?"),
+                  ]
+              )
             )
         ),
         Step(
