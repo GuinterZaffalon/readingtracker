@@ -28,7 +28,7 @@ class ListItems extends StatelessWidget {
           ),
           child: Column(
             children: [
-              Text(title.title),
+              Text(title.title, style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
             ],
           )
         )

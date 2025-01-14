@@ -6,7 +6,7 @@ class SqfliteHelper {
   Future<Database> openMyDatabase() async {
     return await openDatabase(
       join(await getDatabasesPath(), 'books.db'),
-      version: 1,
+      version: 2,
       onCreate: (db, version) async {
         await db.execute(
           "CREATE TABLE booksFinished(id INTEGER PRIMARY KEY, title TEXT, pages INTEGER, author TEXT, publisher TEXT, rating INTEGER, date TEXT, editionYear INTEGER, cover TEXT, comment TEXT)",
@@ -14,9 +14,13 @@ class SqfliteHelper {
         await db.execute(
           "CREATE TABLE booksReading(id INTEGER PRIMARY KEY, title TEXT, author TEXT, pages INTEGER, date TEXT)",
         );
-        await db.execute(
-          "CCREATE TABLE userList(id INTEGER PRIMARY KEY AUTOINCREENT, name TEXT, bookID INTEGER, FOREIGN KEY(bookID) REFERENCES booksFinished(id))",
-        );
+      },
+      onUpgrade: (db, oldVersion, newVersion) async {
+        if (oldVersion < 2) {
+          await db.execute(
+            "CREATE TABLE userList(id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, bookID INTEGER, FOREIGN KEY(bookID) REFERENCES booksFinished(id))",
+          );
+        }
       },
     );
   }
@@ -109,5 +113,13 @@ class SqfliteHelper {
       {'bookID': bookID, 'name': name},
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
+  }
+
+  Future<List<Map<dynamic, dynamic>>> getUserList(String name) async {
+    final db = await openMyDatabase();
+    final result = await db.query(
+      'userList',
+    );
+    return result;
   }
 }
