@@ -1,22 +1,48 @@
 import 'package:flutter/material.dart';
+import 'package:readingtracker/src/components/listItems.dart';
 import 'package:readingtracker/src/model/sqflite_helper.dart';
 import 'package:readingtracker/src/components/comment.dart';
 
 import '../components/navigationBar.dart';
 
-class List extends StatefulWidget {
-  const List({Key? key}) : super(key: key);
+class ListScreen extends StatefulWidget {
+  const ListScreen({Key? key}) : super(key: key);
 
   @override
-  State<List> createState() => _ListState();
+  State<ListScreen> createState() => _ListScreenState();
 }
 
-class _ListState extends State<List> {
+class ListItemsObject implements ListItemsInterface{
+  @override
+  late String title;
+
+  ListItemsObject(this.title);
+}
+
+class _ListScreenState extends State<ListScreen> {
   String comment = "";
   SqfliteHelper sqfliteHelper = SqfliteHelper();
 
   Future<void> saveList(comment) async {
     await sqfliteHelper.createBookList(comment);
+  }
+
+  // Future<List<Widget>> getLists() async {
+  //   final result = await sqfliteHelper.getUserList();
+  //   return result.map((list) {
+  //     final listItem = ListItemsObject(list['name']);
+  //     return ListItems(listItem: listItem);
+  //   }).toList();
+  // }
+
+  Future<List<Widget>> getLists() async {
+    final result = await sqfliteHelper.getUserList();
+    // Mapeia os resultados para uma lista de widgets
+    return result.map((list) {
+      // Cria uma instância de ConcreteListItem
+      final listItem = ListItemsObject(list['name']);
+      return ListItems(title: listItem); // Passa a instância correta
+    }).toList(); // Retorna uma List<Widget>
   }
 
   @override
@@ -80,7 +106,25 @@ class _ListState extends State<List> {
                             );
                           });
                     }),
-              ]))
+              ])),
+          FutureBuilder<List<Widget>>(
+            future: getLists(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Center(child: CircularProgressIndicator());
+              } else if (snapshot.hasError) {
+                return Center(child: Text('Erro: ${snapshot.error}'));
+              } else if (snapshot.hasData && snapshot.data!.isNotEmpty) {
+                return Expanded(
+                  child: ListView(
+                    children: snapshot.data!,
+                  ),
+                );
+              } else {
+                return const Center(child: Text('Que tal começar criando \br uma lista?'));
+              }
+            },
+          )
         ],
       ),
       bottomNavigationBar: NavigationBottomBar(),

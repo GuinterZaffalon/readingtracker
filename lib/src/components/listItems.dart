@@ -11,8 +11,10 @@ class ListItems extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      height: 100,
         child: Padding(
-        padding: const EdgeInsets.fromLTRB(10, 30, 10, 0),
+          padding: EdgeInsets.all(10),
+        // padding: const EdgeInsets.fromLTRB(10, 30, 10, 0),
         child: Container(
           decoration: BoxDecoration(
             color: Colors.white,
@@ -26,8 +28,11 @@ class ListItems extends StatelessWidget {
               ),
             ],
           ),
-          child: Column(
+          child: Row(
             children: [
+              SizedBox(width: 10,),
+              Icon(Icons.list_rounded, color: Colors.black, size: 35,),
+              SizedBox(width: 20,),
               Text(title.title, style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
             ],
           )

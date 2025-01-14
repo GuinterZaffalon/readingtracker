@@ -29,7 +29,7 @@ class NavigationBottomBar extends StatelessWidget {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const List(),
+                    builder: (context) => const ListScreen(),
                   ));
             },
             icon: const Icon(Icons.list_rounded),

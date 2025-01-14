@@ -115,7 +115,7 @@ class SqfliteHelper {
     );
   }
 
-  Future<List<Map<dynamic, dynamic>>> getUserList(String name) async {
+  Future<List<Map<dynamic, dynamic>>> getUserList() async {
     final db = await openMyDatabase();
     final result = await db.query(
       'userList',
