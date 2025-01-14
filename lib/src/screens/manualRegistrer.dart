@@ -169,7 +169,6 @@ class _ManualRegisterState extends State<ManualRegister> {
                                 child: ElevatedButton(
                                   onPressed: details.onStepContinue,
                                   child: const Text("Avançar"),
-
                                   // Text(isLastStep ? "Finalizar" : "Avançar"),
                                 ),
                               ),
