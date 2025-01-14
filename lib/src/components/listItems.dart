@@ -30,10 +30,10 @@ class ListItems extends StatelessWidget {
           ),
           child: Row(
             children: [
-              SizedBox(width: 10,),
-              Icon(Icons.list_rounded, color: Colors.black, size: 35,),
-              SizedBox(width: 20,),
-              Text(title.title, style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
+              const SizedBox(width: 10,),
+              const Icon(Icons.list_rounded, color: Colors.black, size: 35,),
+              const VerticalDivider(width:20, color: Colors.black12, endIndent: 10, indent: 10, thickness: 2,),
+              Text(title.title, style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
             ],
           )
         )
