@@ -34,7 +34,7 @@ class _ListState extends State<List> {
               padding: const EdgeInsets.all(10),
               child: Row(children: [
                 Text(
-                  "Livros lidos!",
+                  "Listas!",
                   style: TextStyle(
                       fontSize: 20,
                       fontFamily: "Roboto",
