@@ -6,7 +6,7 @@ import 'package:readingtracker/src/components/date.dart';
 import 'package:readingtracker/src/components/ratting.dart';
 import 'package:readingtracker/src/model/ServiceCoverGet.dart';
 import 'package:readingtracker/src/screens/perfil.dart';
-import '../../sqflite_helper.dart';
+import '../model/sqflite_helper.dart';
 import '../model/ServiceBookAPI.dart';
 import 'package:linear_progress_bar/linear_progress_bar.dart';
 

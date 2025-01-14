@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:readingtracker/src/screens/perfil.dart';
 
-import '../../sqflite_helper.dart';
+import '../model/sqflite_helper.dart';
 import '../components/comment.dart';
 import '../components/date.dart';
 import '../components/ratting.dart';

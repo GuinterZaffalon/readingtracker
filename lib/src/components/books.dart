@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:readingtracker/src/components/starBook.dart';
-import '../../sqflite_helper.dart';
+import '../model/sqflite_helper.dart';
 import '../screens/expanded.dart';
 
 abstract class BooksInterface {

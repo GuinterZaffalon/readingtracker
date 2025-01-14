@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:readingtracker/src/components/starBook.dart';
 import 'package:readingtracker/src/screens/perfil.dart';
 import '../../main.dart';
-import '../../sqflite_helper.dart';
+import '../model/sqflite_helper.dart';
 import '../components/books.dart';
 import '../components/comment.dart';
 import '../components/navigationBar.dart';
