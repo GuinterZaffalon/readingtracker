@@ -82,10 +82,19 @@ class _MyHomePageState extends State<MyHomePage> {
           Row(children: [
             Padding(
               padding: const EdgeInsets.fromLTRB(15, 12, 10, 0),
-              child: Text(
-                "Olá, Guinter!",
-                style: TextStyle(fontSize: 20),
-              ),
+              child:
+         RichText(
+    text: TextSpan(
+    style: const TextStyle(
+      fontSize: 20.0,
+      color: Colors.black,
+    ),
+    children: <TextSpan>[
+    TextSpan(text: 'Olá,'),
+    TextSpan(text: ' Guinter', style: const TextStyle(fontWeight: FontWeight.bold)),
+    ],
+    ),
+    )
             )
           ]),
           Padding(
