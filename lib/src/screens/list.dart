@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:readingtracker/src/components/listItems.dart';
 import 'package:readingtracker/src/model/sqflite_helper.dart';
 import 'package:readingtracker/src/components/comment.dart';
+import 'package:readingtracker/src/screens/expandedList.dart';
 
 import '../components/navigationBar.dart';
 
@@ -30,11 +31,19 @@ class _ListScreenState extends State<ListScreen> {
 
   Future<List<Widget>> getLists() async {
     final result = await sqfliteHelper.getUserList();
-    // Mapeia os resultados para uma lista de widgets
     return result.map((list) {
-      // Cria uma instância de ConcreteListItem
-      final listItem = ListItemsObject(list['name'], list['id']);
-      return ListItems(title: listItem, id: listItem,);
+      final ListItemsObject listItem = ListItemsObject(list['name'], list['id']);
+      return GestureDetector(
+        onTap: () =>
+        Navigator.push(
+          context,
+        MaterialPageRoute(builder: (context) => Expandedlist(
+            title: listItem,
+            id: listItem)
+        )
+        ),
+            child: ListItems(title: listItem, id: listItem),
+      );
     }).toList();
   }
 
@@ -67,16 +76,19 @@ class _ListScreenState extends State<ListScreen> {
                     onPressed: () {
                       showModalBottomSheet(
                           context: context,
+                          isScrollControlled: true,
                           shape: RoundedRectangleBorder(borderRadius: BorderRadius.only(
                             topRight: Radius.circular(20),
                             topLeft: Radius.circular(20),
                           )),
                           builder: (content) {
-                            return Container(
-                              height: 400,
+                            return Padding(
+                              padding: EdgeInsets.all(20.0).copyWith(
+                                bottom: MediaQuery.of(context).viewInsets.bottom
+                              ),
                               child: Column(
+                                mainAxisSize: MainAxisSize.min,
                                 children: [
-                                  SizedBox(height: 15,),
                                   Padding(
                                     padding: const EdgeInsets.all(10),
                                     child: CommentBox(
@@ -103,23 +115,21 @@ class _ListScreenState extends State<ListScreen> {
           FutureBuilder<List<Widget>>(
             future: getLists(),
             builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return const Center(child: CircularProgressIndicator());
-              } else if (snapshot.hasError) {
+               if (snapshot.hasError) {
                 return Center(child: Text('Erro: ${snapshot.error}'));
               } else if (snapshot.hasData && snapshot.data!.isNotEmpty) {
                 return Expanded(
-                  child: GestureDetector(
-                    child: ListView(
-                      children: snapshot.data!,
-                    ),
-                  )
+                  child: ListView(
+                    children: snapshot.data!,
+                  ),
                 );
               } else {
-                return const Center(child: Text('Que tal começar criando \b uma lista?'));
+                return const Center(
+                    child: Text('Que tal começar criando \b uma lista?'));
               }
             },
           )
+
         ],
       ),
       bottomNavigationBar: NavigationBottomBar(),
