@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 
 abstract class ListItemsInterface {
+  late int id;
   late String title;
 }
 
 class ListItems extends StatelessWidget {
   final ListItemsInterface title;
-  const ListItems({Key? key, required this.title}) : super(key: key);
+  final ListItemsInterface id;
+  const ListItems({Key? key, required this.title, required this.id}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

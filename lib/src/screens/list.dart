@@ -15,8 +15,9 @@ class ListScreen extends StatefulWidget {
 class ListItemsObject implements ListItemsInterface{
   @override
   late String title;
+  late int id;
 
-  ListItemsObject(this.title);
+  ListItemsObject(this.title, this.id);
 }
 
 class _ListScreenState extends State<ListScreen> {
@@ -27,22 +28,14 @@ class _ListScreenState extends State<ListScreen> {
     await sqfliteHelper.createBookList(comment);
   }
 
-  // Future<List<Widget>> getLists() async {
-  //   final result = await sqfliteHelper.getUserList();
-  //   return result.map((list) {
-  //     final listItem = ListItemsObject(list['name']);
-  //     return ListItems(listItem: listItem);
-  //   }).toList();
-  // }
-
   Future<List<Widget>> getLists() async {
     final result = await sqfliteHelper.getUserList();
     // Mapeia os resultados para uma lista de widgets
     return result.map((list) {
       // Cria uma instância de ConcreteListItem
-      final listItem = ListItemsObject(list['name']);
-      return ListItems(title: listItem); // Passa a instância correta
-    }).toList(); // Retorna uma List<Widget>
+      final listItem = ListItemsObject(list['name'], list['id']);
+      return ListItems(title: listItem, id: listItem,);
+    }).toList();
   }
 
   @override
@@ -116,12 +109,14 @@ class _ListScreenState extends State<ListScreen> {
                 return Center(child: Text('Erro: ${snapshot.error}'));
               } else if (snapshot.hasData && snapshot.data!.isNotEmpty) {
                 return Expanded(
-                  child: ListView(
-                    children: snapshot.data!,
-                  ),
+                  child: GestureDetector(
+                    child: ListView(
+                      children: snapshot.data!,
+                    ),
+                  )
                 );
               } else {
-                return const Center(child: Text('Que tal começar criando \br uma lista?'));
+                return const Center(child: Text('Que tal começar criando \b uma lista?'));
               }
             },
           )
