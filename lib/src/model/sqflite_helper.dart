@@ -132,4 +132,17 @@ class SqfliteHelper {
     );
     return result;
   }
+
+  Future<List<Map<String, dynamic>>> getBooksOfList(int listId) async {
+    final db = await openMyDatabase();
+    final result = await db.rawQuery('''
+    SELECT booksFinished.*
+    FROM userList
+    INNER JOIN booksFinished ON userList.bookID = booksFinished.id
+    WHERE userList.id = ?
+  ''', [listId]);
+    return result;
+  }
+
+
 }
