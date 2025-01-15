@@ -106,13 +106,23 @@ class SqfliteHelper {
     );
   }
 
-  Future<void> insertBookInList (int bookID, String name) async {
+  Future<void> insertBookInList(int bookID, int id) async {
     final db = await openMyDatabase();
-    await db.insert(
+
+    final existing = await db.query(
       'userList',
-      {'bookID': bookID, 'name': name},
-      conflictAlgorithm: ConflictAlgorithm.replace,
+      where: 'id = ?',
+      whereArgs: [id],
     );
+
+    if (existing.isNotEmpty) {
+      await db.update(
+        'userList',
+        {'bookID': bookID},
+        where: 'id = ?',
+        whereArgs: [id],
+      );
+    }
   }
 
   Future<List<Map<dynamic, dynamic>>> getUserList() async {
