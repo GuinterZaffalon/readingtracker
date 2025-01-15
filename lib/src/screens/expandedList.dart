@@ -103,7 +103,7 @@ class _ExpandedlistState extends State<Expandedlist> {
   Future<void> saveBooksFinished() async {
     final fetchedBooks = await getBooks();
     setState(() {
-      books = fetchedBooks;
+      bookConsulting = fetchedBooks;
     });
   }
 
@@ -133,14 +133,41 @@ class _ExpandedlistState extends State<Expandedlist> {
                     fontFamily: "Roboto",
                     fontWeight: FontWeight.bold),
               ),
-              Spacer(),
+              const Spacer(),
               Row(
                 children: [
                   IconButton(
                       icon: const Icon(Icons.add_rounded),
                       iconSize: 25,
                       color: Colors.black,
-                      onPressed: () {}),
+                      onPressed: ()  {
+                        showModalBottomSheet(
+                          context: context,
+                          isScrollControlled: true,
+                          shape: const RoundedRectangleBorder(
+                            borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20)),
+                          ),
+                          builder: (context) => Container(
+                            height: 0.65 * MediaQuery.of(context).size.height,
+                            child: Column(
+                                children: [
+                                  Expanded(
+                                      child:
+                                      ListView.builder(
+                                        shrinkWrap: true,
+                                        itemCount: bookConsulting.length,
+                                        itemBuilder: (context, index) {
+                                          return Padding(
+                                            padding: const EdgeInsets.all(5.0),
+                                            child: Books(book: bookConsulting[index]),
+                                          );
+                                        },
+                                      )
+                                  )
+                                ],
+                          ))
+                        );
+                      }),
                   IconButton(
                       icon: const Icon(Icons.edit_outlined),
                       iconSize: 25,

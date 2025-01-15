@@ -77,7 +77,7 @@ class _ListScreenState extends State<ListScreen> {
                       showModalBottomSheet(
                           context: context,
                           isScrollControlled: true,
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.only(
+                          shape: const RoundedRectangleBorder(borderRadius: BorderRadius.only(
                             topRight: Radius.circular(20),
                             topLeft: Radius.circular(20),
                           )),
