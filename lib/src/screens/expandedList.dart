@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:readingtracker/src/model/sqflite_helper.dart';
 import '../components/booksList.dart';
+import '../components/comment.dart';
 import '../components/listItems.dart';
 
 class ListItemsObject implements ListItemsInterface {
@@ -58,6 +59,8 @@ class _ExpandedlistState extends State<Expandedlist> {
   SqfliteHelper sqfliteHelper = SqfliteHelper();
   List<BooksInterface> books = [];
   List<BooksInterface> bookConsulting = [];
+  String title = '';
+  String author = '';
 
   Future<List<BooksInterface>> getBooksList(int listId) async {
     final books = await sqfliteHelper.getBooksOfList(listId);
@@ -140,33 +143,37 @@ class _ExpandedlistState extends State<Expandedlist> {
                       icon: const Icon(Icons.add_rounded),
                       iconSize: 25,
                       color: Colors.black,
-                      onPressed: ()  {
+                      onPressed: () {
                         showModalBottomSheet(
-                          context: context,
-                          isScrollControlled: true,
-                          shape: const RoundedRectangleBorder(
-                            borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20)),
-                          ),
-                          builder: (context) => Container(
-                            height: 0.65 * MediaQuery.of(context).size.height,
-                            child: Column(
-                                children: [
-                                  Expanded(
-                                      child:
-                                      ListView.builder(
-                                        shrinkWrap: true,
-                                        itemCount: bookConsulting.length,
-                                        itemBuilder: (context, index) {
-                                          return Padding(
-                                            padding: const EdgeInsets.all(5.0),
-                                            child: BooksList(book: bookConsulting[index], id: widget.id),
-                                          );
-                                        },
-                                      )
-                                  )
-                                ],
-                          ))
-                        );
+                            context: context,
+                            isScrollControlled: true,
+                            shape: const RoundedRectangleBorder(
+                              borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(20),
+                                  topRight: Radius.circular(20)),
+                            ),
+                            builder: (context) => Container(
+                                height:
+                                    0.65 * MediaQuery.of(context).size.height,
+                                child:
+                                Column(
+                                  children: [
+                                    Expanded(
+                                        child: ListView.builder(
+                                      shrinkWrap: true,
+                                      itemCount: bookConsulting.length,
+                                      itemBuilder: (context, index) {
+                                        return Padding(
+                                          padding: const EdgeInsets.all(5.0),
+                                          child: BooksList(
+                                              book: bookConsulting[index],
+                                              id: widget.id),
+                                        );
+                                      },
+                                    ))
+                                  ],
+                                )
+                            ));
                       }),
                   IconButton(
                       icon: const Icon(Icons.edit_outlined),
@@ -176,7 +183,6 @@ class _ExpandedlistState extends State<Expandedlist> {
                 ],
               )
             ])),
-
       ])),
     );
   }

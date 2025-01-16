@@ -167,15 +167,15 @@ class SqfliteHelper {
 
   Future<void> insertReadingBookInList(int listId, String name, String author) async {
     final db = await openMyDatabase();
-    final validate = await db.query('bookReadingList',
+    final validateBookExists = await db.query('bookReadingList',
         where: 'name = ? AND author = ?',
         whereArgs: [name, author]);
 
-    final validate2 = await db.query('listBooks',
+    final validateIdExists = await db.query('listBooks',
         where: 'listId = ? AND bookReadingListId = ?',
-        whereArgs: [listId, validate[0]['id']]);
+        whereArgs: [listId, validateBookExists[0]['id']]); //isso aqui talvez quebre tudo
 
-    if (validate.isEmpty && validate2.isEmpty) {
+    if (validateBookExists.isEmpty && validateIdExists.isEmpty) {
       await db.insert(
         'bookReadingList',
         {'name': name, 'author': author},
@@ -184,7 +184,7 @@ class SqfliteHelper {
 
       await db.insert(
         'listBooks',
-        {'listId': listId, 'bookId': validate[0]['id']},
+        {'listId': listId, 'bookId': validateBookExists[0]['id']},
         conflictAlgorithm: ConflictAlgorithm.ignore,
       );
     }
