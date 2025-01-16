@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:readingtracker/src/model/sqflite_helper.dart';
+import 'package:readingtracker/src/screens/insertBooksList.dart';
 import '../components/booksList.dart';
 import '../components/comment.dart';
 import '../components/listItems.dart';
@@ -86,34 +87,34 @@ class _ExpandedlistState extends State<Expandedlist> {
     });
   }
 
-  Future<List<BooksInterface>> getBooks() async {
-    final result = await sqfliteHelper.getBooksFinished();
-    return result.map((book) {
-      return BookData(
-        id: book['id'],
-        title: book['title']?.toString(),
-        author: book['author']?.toString(),
-        publisher: book['publisher']?.toString(),
-        rating: int.tryParse(book['rating']?.toString() ?? '') ?? 0,
-        date: book['date']?.toString(),
-        editionYear: int.tryParse(book['editionYear']?.toString() ?? '') ?? 0,
-        cover: book['cover']?.toString(),
-        comment: book['comment']?.toString(),
-      );
-    }).toList();
-  }
-
-  Future<void> saveBooksFinished() async {
-    final fetchedBooks = await getBooks();
-    setState(() {
-      bookConsulting = fetchedBooks;
-    });
-  }
+  // Future<List<BooksInterface>> getBooks() async {
+  //   final result = await sqfliteHelper.getBooksFinished();
+  //   return result.map((book) {
+  //     return BookData(
+  //       id: book['id'],
+  //       title: book['title']?.toString(),
+  //       author: book['author']?.toString(),
+  //       publisher: book['publisher']?.toString(),
+  //       rating: int.tryParse(book['rating']?.toString() ?? '') ?? 0,
+  //       date: book['date']?.toString(),
+  //       editionYear: int.tryParse(book['editionYear']?.toString() ?? '') ?? 0,
+  //       cover: book['cover']?.toString(),
+  //       comment: book['comment']?.toString(),
+  //     );
+  //   }).toList();
+  // }
+  //
+  // Future<void> saveBooksFinished() async {
+  //   final fetchedBooks = await getBooks();
+  //   setState(() {
+  //     bookConsulting = fetchedBooks;
+  //   });
+  // }
 
   void initState() {
     super.initState();
     saveBooksList();
-    saveBooksFinished();
+    // saveBooksFinished();
   }
 
   @override
@@ -152,28 +153,44 @@ class _ExpandedlistState extends State<Expandedlist> {
                                   topLeft: Radius.circular(20),
                                   topRight: Radius.circular(20)),
                             ),
-                            builder: (context) => Container(
-                                height:
-                                    0.65 * MediaQuery.of(context).size.height,
-                                child:
+                            builder: (context) =>
                                 Column(
+                                  mainAxisSize: MainAxisSize.min,
                                   children: [
-                                    Expanded(
-                                        child: ListView.builder(
-                                      shrinkWrap: true,
-                                      itemCount: bookConsulting.length,
-                                      itemBuilder: (context, index) {
-                                        return Padding(
-                                          padding: const EdgeInsets.all(5.0),
-                                          child: BooksList(
-                                              book: bookConsulting[index],
-                                              id: widget.id),
-                                        );
-                                      },
-                                    ))
+                                    SizedBox(height: 10),
+                                    Text("Terminou o livro?", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
+                                    SizedBox(height: 10),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceEvenly,
+                                      children: [
+                                        ElevatedButton(
+                                            onPressed: () async {
+                                              Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (context)
+                                                    => InsertBooksList(
+                                                        id: widget.id),
+                                                  ));
+                                            },
+                                            child: Text("Sim")),
+                                        ElevatedButton(
+                                            onPressed: () async {
+                                              Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (context)
+                                                    => InsertBooksList(
+                                                        id: widget.id),
+                                                  ));
+                                            },
+                                            child: Text("Sim"))
+                                      ],
+                                    )
                                   ],
                                 )
-                            ));
+                            );
                       }),
                   IconButton(
                       icon: const Icon(Icons.edit_outlined),
