@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:readingtracker/src/model/sqflite_helper.dart';
-import '../components/books.dart';
+import '../components/booksList.dart';
 import '../components/listItems.dart';
 
 class ListItemsObject implements ListItemsInterface {
@@ -159,7 +159,7 @@ class _ExpandedlistState extends State<Expandedlist> {
                                         itemBuilder: (context, index) {
                                           return Padding(
                                             padding: const EdgeInsets.all(5.0),
-                                            child: Books(book: bookConsulting[index]),
+                                            child: BooksList(book: bookConsulting[index]),
                                           );
                                         },
                                       )
