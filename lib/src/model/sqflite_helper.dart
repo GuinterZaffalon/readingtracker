@@ -3,44 +3,11 @@ import 'package:readingtracker/src/components/books.dart';
 import 'package:sqflite/sqflite.dart';
 
 class SqfliteHelper {
-  // Future<Database> openMyDatabase() async {
-  //   return await openDatabase(
-  //     join(await getDatabasesPath(), 'books.db'),
-  //     version: 4,
-  //     onCreate: (db, version) async {
-  //       await db.execute(
-  //         "CREATE TABLE booksFinished(id INTEGER PRIMARY KEY, title TEXT, pages INTEGER, author TEXT, publisher TEXT, rating INTEGER, date TEXT, editionYear INTEGER, cover TEXT, comment TEXT)",
-  //       );
-  //       await db.execute(
-  //         "CREATE TABLE booksReading(id INTEGER PRIMARY KEY, title TEXT, author TEXT, pages INTEGER, date TEXT)",
-  //       );
-  //     },
-  //     onUpgrade: (db, oldVersion, newVersion) async {
-  //       if (oldVersion < 4) {
-  //         await db.execute(
-  //             "ALTER TABLE userList RENAME TO userList_old;"
-  //         );
-  //
-  //         await db.execute(
-  //             "CREATE TABLE userList(id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, bookID JSON, FOREIGN KEY(bookID) REFERENCES booksFinished(id));"
-  //         );
-  //
-  //         await db.execute(
-  //             "INSERT INTO userList (id, name) SELECT id, name FROM userList_old;"
-  //         );
-  //
-  //         // Remover a tabela antiga
-  //         await db.execute("DROP TABLE userList_old;");
-  //       }
-  //     },
-  //
-  //   );
-  // }
 
   Future<Database> openMyDatabase() async {
     return await openDatabase(
       join(await getDatabasesPath(), 'books.db'),
-      version: 9,
+      version: 10,
       onCreate: (db, version) async {
         await db.execute(
           "CREATE TABLE booksFinished(id INTEGER PRIMARY KEY, title TEXT, pages INTEGER, author TEXT, publisher TEXT, rating INTEGER, date TEXT, editionYear INTEGER, cover TEXT, comment TEXT)",
@@ -51,6 +18,10 @@ class SqfliteHelper {
         await db.execute(
           "CREATE TABLE listBooks(listId INTEGER, bookId INTEGER, PRIMARY KEY(listId, bookId), FOREIGN KEY(listId) REFERENCES lists(id), FOREIGN KEY(bookId) REFERENCES booksFinished(id))",
         );
+
+        await db.execute(
+        "CREATE TABLE booksReading(id INTEGER PRIMARY KEY, title TEXT, author TEXT)",
+      );
       },
       onUpgrade: (db, oldVersion, newVersion) async {
         // if (oldVersion < 8) {
@@ -59,16 +30,35 @@ class SqfliteHelper {
         //     "CREATE TABLE listBooks(id INTEGER PRIMARY KEY AUTOINCREMENT, listId INTEGER, bookId INTEGER, FOREIGN KEY(listId) REFERENCES userList(id), FOREIGN KEY(bookId) REFERENCES booksFinished(id))",
         //   );
         // }
-        if (oldVersion < 9) {
+        if (oldVersion < 10) {
+
           await db.execute(
-            "ALTER TABLE listBooks RENAME TO listBooks_old;"
+            "CREATE TABLE bookReadingList(id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, author TEXT)",
+          );
+
+          // Atualização da tabela listBooks
+          await db.execute(
+            "ALTER TABLE listBooks RENAME TO listBooks_old;",
           );
 
           await db.execute(
-                "CREATE TABLE listBooks(id INTEGER PRIMARY KEY AUTOINCREMENT, listId INTEGER, bookId INTEGER, FOREIGN KEY(listId) REFERENCES userList(id), FOREIGN KEY(bookId) REFERENCES booksFinished(id))",
-              );
+            """
+          CREATE TABLE listBooks(
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            listId INTEGER,
+            bookId INTEGER,
+            bookReadingListId INTEGER,
+            FOREIGN KEY(listId) REFERENCES userList(id),
+            FOREIGN KEY(bookId) REFERENCES booksFinished(id),
+            FOREIGN KEY(bookReadingListId) REFERENCES bookReadingList(id)
+          );
+          """,
+          );
 
-
+          await db.execute("""
+          INSERT INTO listBooks (listId, bookId)
+          SELECT listId, bookId FROM listBooks_old;
+        """);
 
           // Remover a tabela antiga
           await db.execute("DROP TABLE listBooks_old;");
@@ -160,25 +150,6 @@ class SqfliteHelper {
     );
   }
 
-  // Future<void> insertBookInList(int bookID, int id) async {
-  //   final db = await openMyDatabase();
-  //
-  //   final existing = await db.query(
-  //     'userList',
-  //     where: 'id = ?',
-  //     whereArgs: [id],
-  //   );
-  //
-  //   if (existing.isNotEmpty) {
-  //     await db.update(
-  //       'userList',
-  //       {'bookID': bookID},
-  //       where: 'id = ?',
-  //       whereArgs: [id],
-  //     );
-  //   }
-  // }
-
   Future<void> insertBookInList(int listId, int bookId) async {
     final db = await openMyDatabase();
     final result = await db.query('listBooks',
@@ -193,6 +164,33 @@ class SqfliteHelper {
       );
     }
   }
+
+  Future<void> insertReadingBookInList(int listId, String name, String author) async {
+    final db = await openMyDatabase();
+    final validate = await db.query('bookReadingList',
+        where: 'name = ? AND author = ?',
+        whereArgs: [name, author]);
+
+    final validate2 = await db.query('listBooks',
+        where: 'listId = ? AND bookReadingListId = ?',
+        whereArgs: [listId, validate[0]['id']]);
+
+    if (validate.isEmpty && validate2.isEmpty) {
+      await db.insert(
+        'bookReadingList',
+        {'name': name, 'author': author},
+        conflictAlgorithm: ConflictAlgorithm.ignore,
+      );
+
+      await db.insert(
+        'listBooks',
+        {'listId': listId, 'bookId': validate[0]['id']},
+        conflictAlgorithm: ConflictAlgorithm.ignore,
+      );
+    }
+  }
+
+
 
   Future<List<Map<String, dynamic>>> getBooksOfList(int listId) async {
     final db = await openMyDatabase();
