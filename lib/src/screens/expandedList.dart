@@ -159,7 +159,7 @@ class _ExpandedlistState extends State<Expandedlist> {
                                         itemBuilder: (context, index) {
                                           return Padding(
                                             padding: const EdgeInsets.all(5.0),
-                                            child: BooksList(book: bookConsulting[index]),
+                                            child: BooksList(book: bookConsulting[index], id: widget.id),
                                           );
                                         },
                                       )

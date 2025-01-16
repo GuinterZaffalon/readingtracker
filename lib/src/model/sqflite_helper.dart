@@ -3,27 +3,81 @@ import 'package:readingtracker/src/components/books.dart';
 import 'package:sqflite/sqflite.dart';
 
 class SqfliteHelper {
+  // Future<Database> openMyDatabase() async {
+  //   return await openDatabase(
+  //     join(await getDatabasesPath(), 'books.db'),
+  //     version: 4,
+  //     onCreate: (db, version) async {
+  //       await db.execute(
+  //         "CREATE TABLE booksFinished(id INTEGER PRIMARY KEY, title TEXT, pages INTEGER, author TEXT, publisher TEXT, rating INTEGER, date TEXT, editionYear INTEGER, cover TEXT, comment TEXT)",
+  //       );
+  //       await db.execute(
+  //         "CREATE TABLE booksReading(id INTEGER PRIMARY KEY, title TEXT, author TEXT, pages INTEGER, date TEXT)",
+  //       );
+  //     },
+  //     onUpgrade: (db, oldVersion, newVersion) async {
+  //       if (oldVersion < 4) {
+  //         await db.execute(
+  //             "ALTER TABLE userList RENAME TO userList_old;"
+  //         );
+  //
+  //         await db.execute(
+  //             "CREATE TABLE userList(id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, bookID JSON, FOREIGN KEY(bookID) REFERENCES booksFinished(id));"
+  //         );
+  //
+  //         await db.execute(
+  //             "INSERT INTO userList (id, name) SELECT id, name FROM userList_old;"
+  //         );
+  //
+  //         // Remover a tabela antiga
+  //         await db.execute("DROP TABLE userList_old;");
+  //       }
+  //     },
+  //
+  //   );
+  // }
+
   Future<Database> openMyDatabase() async {
     return await openDatabase(
       join(await getDatabasesPath(), 'books.db'),
-      version: 2,
+      version: 9,
       onCreate: (db, version) async {
         await db.execute(
           "CREATE TABLE booksFinished(id INTEGER PRIMARY KEY, title TEXT, pages INTEGER, author TEXT, publisher TEXT, rating INTEGER, date TEXT, editionYear INTEGER, cover TEXT, comment TEXT)",
         );
         await db.execute(
-          "CREATE TABLE booksReading(id INTEGER PRIMARY KEY, title TEXT, author TEXT, pages INTEGER, date TEXT)",
+          "CREATE TABLE userList(id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT)",
+        );
+        await db.execute(
+          "CREATE TABLE listBooks(listId INTEGER, bookId INTEGER, PRIMARY KEY(listId, bookId), FOREIGN KEY(listId) REFERENCES lists(id), FOREIGN KEY(bookId) REFERENCES booksFinished(id))",
         );
       },
       onUpgrade: (db, oldVersion, newVersion) async {
-        if (oldVersion < 2) {
+        // if (oldVersion < 8) {
+        //   // Alterações específicas para atualização
+        //   await db.execute(
+        //     "CREATE TABLE listBooks(id INTEGER PRIMARY KEY AUTOINCREMENT, listId INTEGER, bookId INTEGER, FOREIGN KEY(listId) REFERENCES userList(id), FOREIGN KEY(bookId) REFERENCES booksFinished(id))",
+        //   );
+        // }
+        if (oldVersion < 9) {
           await db.execute(
-            "CREATE TABLE userList(id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, bookID INTEGER, FOREIGN KEY(bookID) REFERENCES booksFinished(id))",
+            "ALTER TABLE listBooks RENAME TO listBooks_old;"
           );
-        }
+
+          await db.execute(
+                "CREATE TABLE listBooks(id INTEGER PRIMARY KEY AUTOINCREMENT, listId INTEGER, bookId INTEGER, FOREIGN KEY(listId) REFERENCES userList(id), FOREIGN KEY(bookId) REFERENCES booksFinished(id))",
+              );
+
+
+
+          // Remover a tabela antiga
+          await db.execute("DROP TABLE listBooks_old;");
+      }
       },
     );
   }
+
+
 
   Future<bool> titleExists(String table, String title) async {
     final db = await openMyDatabase();
@@ -106,24 +160,56 @@ class SqfliteHelper {
     );
   }
 
-  Future<void> insertBookInList(int bookID, int id) async {
+  // Future<void> insertBookInList(int bookID, int id) async {
+  //   final db = await openMyDatabase();
+  //
+  //   final existing = await db.query(
+  //     'userList',
+  //     where: 'id = ?',
+  //     whereArgs: [id],
+  //   );
+  //
+  //   if (existing.isNotEmpty) {
+  //     await db.update(
+  //       'userList',
+  //       {'bookID': bookID},
+  //       where: 'id = ?',
+  //       whereArgs: [id],
+  //     );
+  //   }
+  // }
+
+  Future<void> insertBookInList(int listId, int bookId) async {
     final db = await openMyDatabase();
+    final result = await db.query('listBooks',
+        where: 'listId = ? AND bookId = ?',
+        whereArgs: [listId, bookId]);
 
-    final existing = await db.query(
-      'userList',
-      where: 'id = ?',
-      whereArgs: [id],
-    );
-
-    if (existing.isNotEmpty) {
-      await db.update(
-        'userList',
-        {'bookID': bookID},
-        where: 'id = ?',
-        whereArgs: [id],
+    if (result.isEmpty) {
+      await db.insert(
+        'listBooks',
+        {'listId': listId, 'bookId': bookId},
+        conflictAlgorithm: ConflictAlgorithm.ignore,
       );
     }
   }
+
+  Future<List<Map<String, dynamic>>> getBooksOfList(int listId) async {
+    final db = await openMyDatabase();
+
+    return await db.rawQuery(
+      '''
+    SELECT booksFinished.*
+    FROM booksFinished
+    INNER JOIN listBooks ON booksFinished.id = listBooks.bookId
+    WHERE listBooks.listId = ?
+    ''',
+      [listId],
+    );
+  }
+
+
+
 
   Future<List<Map<dynamic, dynamic>>> getUserList() async {
     final db = await openMyDatabase();
@@ -133,16 +219,18 @@ class SqfliteHelper {
     return result;
   }
 
-  Future<List<Map<String, dynamic>>> getBooksOfList(int listId) async {
+  Future<void> clearTable(String tableName) async {
     final db = await openMyDatabase();
-    final result = await db.rawQuery('''
-    SELECT booksFinished.*
-    FROM userList
-    INNER JOIN booksFinished ON userList.bookID = booksFinished.id
-    WHERE userList.id = ?
-  ''', [listId]);
-    return result;
+    await db.delete(tableName);
   }
-
-
+  // Future<List<Map<String, dynamic>>> getBooksOfList(int listId) async {
+  //   final db = await openMyDatabase();
+  //   final result = await db.rawQuery('''
+  //   SELECT booksFinished.*
+  //   FROM userList
+  //   INNER JOIN booksFinished ON userList.bookID = booksFinished.id
+  //   WHERE userList.id = ?
+  // ''', [listId]);
+  //   return result;
+  // }
 }

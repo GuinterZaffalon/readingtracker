@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:readingtracker/src/components/listItems.dart';
 import 'package:readingtracker/src/components/starBook.dart';
 import '../model/sqflite_helper.dart';
 import '../screens/expanded.dart';
@@ -19,8 +20,18 @@ abstract class BooksInterface {
 }
 
 class BooksList extends StatelessWidget {
+  final ListItemsInterface id;
   final BooksInterface book;
-  const BooksList({Key? key, required this.book}) : super(key: key);
+  BooksList({Key? key, required this.book, required this.id}) : super(key: key);
+  SqfliteHelper sqfliteHelper = SqfliteHelper();
+
+  Future<void> saveBooksOnList() async {
+    await sqfliteHelper.insertBookInList(id.id, book.id!);
+  }
+
+  Future<void> deleteBooksOnList(tableName) async {
+    await sqfliteHelper.clearTable(tableName);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -114,10 +125,15 @@ class BooksList extends StatelessWidget {
           ),
         ]
       ),
-      child: const Icon(
-        Icons.add,
+      child: IconButton(
+        icon: Icon(Icons.add),
         color: Colors.white,
-        size: 25,
+        iconSize: 25,
+        onPressed: ()  {
+          saveBooksOnList();
+          // deleteBooksOnList("listBooks");
+          // deleteBooksOnList("userList");
+        },
       ),
     )
         )
