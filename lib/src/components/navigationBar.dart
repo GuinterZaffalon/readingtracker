@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:readingtracker/src/screens/list.dart';
 import '../../main.dart';
+import '../screens/homePage.dart';
 import '../screens/perfil.dart';
 
 class NavigationBottomBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BottomAppBar(
+
       height: 60,
       color: const Color.fromRGBO(189, 213, 234, 1),
       child: Row(
