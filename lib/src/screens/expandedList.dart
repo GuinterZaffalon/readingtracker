@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:readingtracker/src/model/sqflite_helper.dart';
 import 'package:readingtracker/src/screens/insertBooksList.dart';
 import '../components/booksList.dart';
-import '../components/comment.dart';
 import '../components/listItems.dart';
 
 class ListItemsObject implements ListItemsInterface {

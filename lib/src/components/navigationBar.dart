@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:readingtracker/src/screens/list.dart';
-import '../../main.dart';
 import '../screens/homePage.dart';
 import '../screens/perfil.dart';
 

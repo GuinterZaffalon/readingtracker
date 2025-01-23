@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:readingtracker/src/components/books.dart';
-import '../../main.dart';
 import '../model/sqflite_helper.dart';
 import '../components/navigationBar.dart';
 

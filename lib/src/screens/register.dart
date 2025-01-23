@@ -1,14 +1,11 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:readingtracker/src/components/comment.dart';
 import 'package:readingtracker/src/components/date.dart';
 import 'package:readingtracker/src/components/ratting.dart';
 import 'package:readingtracker/src/model/ServiceCoverGet.dart';
 import 'package:readingtracker/src/screens/perfil.dart';
 import '../model/sqflite_helper.dart';
-import '../model/ServiceBookAPI.dart';
-import 'package:linear_progress_bar/linear_progress_bar.dart';
 
 class Registro {
   String? title;

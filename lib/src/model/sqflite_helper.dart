@@ -1,5 +1,4 @@
 import 'package:path/path.dart';
-import 'package:readingtracker/src/components/books.dart';
 import 'package:sqflite/sqflite.dart';
 
 class SqfliteHelper {

@@ -1,10 +1,7 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 import 'package:readingtracker/src/components/navigationBar.dart';
 import 'package:readingtracker/src/model/ServiceBookAPI.dart';
 import 'package:readingtracker/src/screens/manualRegistrer.dart';
-import 'package:readingtracker/src/screens/perfil.dart';
 import 'package:readingtracker/src/screens/register.dart';
 
 class MyHomePage extends StatefulWidget {
