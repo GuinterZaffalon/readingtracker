@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:readingtracker/src/model/sqflite_helper.dart';
 import 'package:readingtracker/src/screens/insertBooksList.dart';
+import 'package:readingtracker/src/screens/manualRegisterList.dart';
 import '../components/booksList.dart';
 import '../components/listItems.dart';
 
@@ -173,14 +174,14 @@ class _ExpandedlistState extends State<Expandedlist> {
                                                         id: widget.id),
                                                   ));
                                             },
-                                            child: Text("Sim")),
+                                            child: Text("Não")),
                                         ElevatedButton(
                                             onPressed: () async {
                                               Navigator.push(
                                                   context,
                                                   MaterialPageRoute(
                                                     builder: (context)
-                                                    => InsertBooksList(
+                                                    => ManualRegisterList(
                                                         id: widget.id),
                                                   ));
                                             },
