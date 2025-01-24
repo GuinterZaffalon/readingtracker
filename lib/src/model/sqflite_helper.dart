@@ -6,7 +6,7 @@ class SqfliteHelper {
   Future<Database> openMyDatabase() async {
     return await openDatabase(
       join(await getDatabasesPath(), 'books.db'),
-      version: 10,
+      version: 11,
       onCreate: (db, version) async {
         await db.execute(
           "CREATE TABLE booksFinished(id INTEGER PRIMARY KEY, title TEXT, pages INTEGER, author TEXT, publisher TEXT, rating INTEGER, date TEXT, editionYear INTEGER, cover TEXT, comment TEXT)",
@@ -22,47 +22,40 @@ class SqfliteHelper {
         "CREATE TABLE booksReading(id INTEGER PRIMARY KEY, title TEXT, author TEXT)",
       );
       },
-      onUpgrade: (db, oldVersion, newVersion) async {
-        // if (oldVersion < 8) {
-        //   // Alterações específicas para atualização
-        //   await db.execute(
-        //     "CREATE TABLE listBooks(id INTEGER PRIMARY KEY AUTOINCREMENT, listId INTEGER, bookId INTEGER, FOREIGN KEY(listId) REFERENCES userList(id), FOREIGN KEY(bookId) REFERENCES booksFinished(id))",
-        //   );
-        // }
-        if (oldVersion < 10) {
-
-          await db.execute(
-            "CREATE TABLE bookReadingList(id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, author TEXT)",
-          );
-
-          // Atualização da tabela listBooks
-          await db.execute(
-            "ALTER TABLE listBooks RENAME TO listBooks_old;",
-          );
-
-          await db.execute(
-            """
-          CREATE TABLE listBooks(
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            listId INTEGER,
-            bookId INTEGER,
-            bookReadingListId INTEGER,
-            FOREIGN KEY(listId) REFERENCES userList(id),
-            FOREIGN KEY(bookId) REFERENCES booksFinished(id),
-            FOREIGN KEY(bookReadingListId) REFERENCES bookReadingList(id)
-          );
-          """,
-          );
-
-          await db.execute("""
-          INSERT INTO listBooks (listId, bookId)
-          SELECT listId, bookId FROM listBooks_old;
-        """);
-
-          // Remover a tabela antiga
-          await db.execute("DROP TABLE listBooks_old;");
-      }
-      },
+      // onUpgrade: (db, oldVersion, newVersion) async {
+      //   if (oldVersion < 10) {
+      //
+      //     await db.execute(
+      //       "CREATE TABLE bookReadingList(id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, author TEXT)",
+      //     );
+      //
+      //     // Atualização da tabela listBooks
+      //     await db.execute(
+      //       "ALTER TABLE listBooks RENAME TO listBooks_old;",
+      //     );
+      //
+      //     await db.execute(
+      //       """
+      //     CREATE TABLE listBooks(
+      //       id INTEGER PRIMARY KEY AUTOINCREMENT,
+      //       listId INTEGER,
+      //       bookId INTEGER,
+      //       bookReadingListId INTEGER,
+      //       FOREIGN KEY(listId) REFERENCES userList(id),
+      //       FOREIGN KEY(bookId) REFERENCES booksFinished(id),
+      //       FOREIGN KEY(bookReadingListId) REFERENCES bookReadingList(id)
+      //     );
+      //     """,
+      //     );
+      //
+      //     await db.execute("""
+      //     INSERT INTO listBooks (listId, bookId)
+      //     SELECT listId, bookId FROM listBooks_old;
+      //   """);
+      //
+      //     await db.execute("DROP TABLE listBooks_old;");
+      // }
+      // },
     );
   }
 
