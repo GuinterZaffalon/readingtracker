@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:readingtracker/src/model/sqflite_helper.dart';
 import 'package:readingtracker/src/screens/insertBooksList.dart';
 import 'package:readingtracker/src/screens/manualRegisterList.dart';
-import '../components/booksList.dart';
+import '../components/books.dart';
 import '../components/listItems.dart';
 
 class ListItemsObject implements ListItemsInterface {
@@ -88,7 +88,7 @@ class _ExpandedlistState extends State<Expandedlist> {
   }
 
   // Future<List<BooksInterface>> getBooks() async {
-  //   final result = await sqfliteHelper.getBooksFinished();
+  //   final result = await sqfliteHelper.getBooksOfList(widget.id.id);
   //   return result.map((book) {
   //     return BookData(
   //       id: book['id'],
@@ -200,6 +200,16 @@ class _ExpandedlistState extends State<Expandedlist> {
                 ],
               )
             ])),
+            // ListView.builder(
+            //   shrinkWrap: true,
+            //   itemCount: books.length,
+            //   itemBuilder: (context, index) {
+            //     return Padding(
+            //       padding: const EdgeInsets.all(5.0),
+            //       child: BooksList(book: books[index],  id: widget.id),
+            //     );
+            //   },
+            // )
       ])),
     );
   }

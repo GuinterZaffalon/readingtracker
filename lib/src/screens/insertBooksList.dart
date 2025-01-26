@@ -12,7 +12,7 @@ class ListItemsObject implements ListItemsInterface {
   ListItemsObject(this.title, this.id);
 }
 
-class BookData implements BooksInterface {
+class BookData implements BooksListInterface {
   @override
   int? id;
   @override
@@ -54,10 +54,10 @@ class InsertBooksList extends StatefulWidget {
 }
 
 class _InsertBooksListState extends State<InsertBooksList> {
-  List<BooksInterface> bookConsulting = [];
+  List<BooksListInterface> bookConsulting = [];
   SqfliteHelper sqfliteHelper = SqfliteHelper();
 
-  Future<List<BooksInterface>> getBooks() async {
+  Future<List<BooksListInterface>> getBooks() async {
     final result = await sqfliteHelper.getBooksFinished();
     return result.map((book) {
       return BookData(

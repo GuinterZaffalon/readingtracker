@@ -5,7 +5,7 @@ import 'package:readingtracker/src/components/listItems.dart';
 import 'package:readingtracker/src/components/starBook.dart';
 import '../model/sqflite_helper.dart';
 
-abstract class BooksInterface {
+abstract class BooksListInterface {
   int? id;
   String? title;
   String? author;
@@ -20,7 +20,7 @@ abstract class BooksInterface {
 
 class BooksList extends StatefulWidget {
   final ListItemsInterface id;
-  final BooksInterface book;
+  final BooksListInterface book;
 
   BooksList({
     Key? key,
