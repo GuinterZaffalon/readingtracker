@@ -107,7 +107,7 @@ class _ManualRegisterListState extends State<ManualRegisterList> {
               });
             } else {
               sqfliteHelper.insertReadingBookInList(
-                  widget.id as int, title, author);
+                  widget.id.id, title, author);
               Navigator.pop(context);
             }
           },

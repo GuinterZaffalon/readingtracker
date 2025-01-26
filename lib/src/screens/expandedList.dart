@@ -174,7 +174,7 @@ class _ExpandedlistState extends State<Expandedlist> {
                                                         id: widget.id),
                                                   ));
                                             },
-                                            child: Text("Não")),
+                                            child: Text("Sim")),
                                         ElevatedButton(
                                             onPressed: () async {
                                               Navigator.push(
@@ -185,7 +185,7 @@ class _ExpandedlistState extends State<Expandedlist> {
                                                         id: widget.id),
                                                   ));
                                             },
-                                            child: Text("Sim"))
+                                            child: Text("Não")),
                                       ],
                                     )
                                   ],
