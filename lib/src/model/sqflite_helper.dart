@@ -163,12 +163,18 @@ class SqfliteHelper {
         where: 'name = ? AND author = ?',
         whereArgs: [name, author]);
 
+    int? bookId;
+    if (validateBookExists.isNotEmpty) {
+      bookId = validateBookExists[0]['id'] as int;
+    }
+
     final validateIdExists = await db.query('listBooks',
         where: 'listId = ? AND bookReadingListId = ?',
-        whereArgs: [listId, validateBookExists[0]['id']]); //isso aqui talvez quebre tudo
+        whereArgs: [listId, bookId]);
 
-    if (validateBookExists.isEmpty && validateIdExists.isEmpty) {
-      await db.insert(
+    if (validateBookExists.isEmpty &&
+        (bookId == null || validateIdExists.isEmpty)) {
+      final newBookId = await db.insert(
         'bookReadingList',
         {'name': name, 'author': author},
         conflictAlgorithm: ConflictAlgorithm.ignore,
@@ -176,7 +182,7 @@ class SqfliteHelper {
 
       await db.insert(
         'listBooks',
-        {'listId': listId, 'bookId': validateBookExists[0]['id']},
+        {'listId': listId, 'bookId': newBookId},
         conflictAlgorithm: ConflictAlgorithm.ignore,
       );
     }

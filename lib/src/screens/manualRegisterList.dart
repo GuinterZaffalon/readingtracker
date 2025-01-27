@@ -1,5 +1,6 @@
 import "package:flutter/material.dart";
 import "package:readingtracker/src/components/listItems.dart";
+import "package:readingtracker/src/screens/expandedList.dart";
 
 import "../components/comment.dart";
 import "../model/sqflite_helper.dart";
@@ -28,6 +29,11 @@ class _ManualRegisterListState extends State<ManualRegisterList> {
   int currentStep = 0;
   bool get isFrirstStep => currentStep == 0;
   bool get isLastStep => currentStep == steps().length - 1;
+
+  Future<void> saveList() async {
+    final listId = (widget.id as ListItemsObject).id;
+    await sqfliteHelper.insertReadingBookInList(listId, title, author);
+  }
 
   List<Step> steps() => [
         Step(
@@ -106,8 +112,7 @@ class _ManualRegisterListState extends State<ManualRegisterList> {
                 currentStep += 1;
               });
             } else {
-              sqfliteHelper.insertReadingBookInList(
-                  widget.id.id, title, author);
+              saveList();
               Navigator.pop(context);
             }
           },
