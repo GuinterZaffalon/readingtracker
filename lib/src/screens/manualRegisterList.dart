@@ -14,7 +14,7 @@ class ListItemsObject implements ListItemsInterface{
 }
 
 class ManualRegisterList extends StatefulWidget {
-  final ListItemsInterface id;
+  final int id;
   const ManualRegisterList({Key? key, required, required this.id})
       : super(key: key);
 
@@ -31,8 +31,7 @@ class _ManualRegisterListState extends State<ManualRegisterList> {
   bool get isLastStep => currentStep == steps().length - 1;
 
   Future<void> saveList() async {
-    final listId = (widget.id as ListItemsObject).id;
-    await sqfliteHelper.insertReadingBookInList(listId, title, author);
+    await sqfliteHelper.insertReadingBookInList(widget.id, title, author);
   }
 
   List<Step> steps() => [

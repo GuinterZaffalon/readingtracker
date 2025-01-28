@@ -4,9 +4,9 @@ import 'package:sqflite/sqflite.dart';
 class SqfliteHelper {
 
   Future<Database> openMyDatabase() async {
-    return await openDatabase(
+    final db = await openDatabase(
       join(await getDatabasesPath(), 'books.db'),
-      version: 11,
+      version: 13,
       onCreate: (db, version) async {
         await db.execute(
           "CREATE TABLE booksFinished(id INTEGER PRIMARY KEY, title TEXT, pages INTEGER, author TEXT, publisher TEXT, rating INTEGER, date TEXT, editionYear INTEGER, cover TEXT, comment TEXT)",
@@ -17,49 +17,28 @@ class SqfliteHelper {
         await db.execute(
           "CREATE TABLE listBooks(listId INTEGER, bookId INTEGER, PRIMARY KEY(listId, bookId), FOREIGN KEY(listId) REFERENCES lists(id), FOREIGN KEY(bookId) REFERENCES booksFinished(id))",
         );
-
         await db.execute(
-        "CREATE TABLE booksReading(id INTEGER PRIMARY KEY, title TEXT, author TEXT)",
-      );
+          "CREATE TABLE booksReading(id INTEGER PRIMARY KEY, title TEXT, author TEXT)",
+        );
+        await db.execute(
+          "CREATE TABLE bookReadingList(id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, author TEXT)",
+        );
+        print("Tabela bookReadingList criada com sucesso!");
       },
-      // onUpgrade: (db, oldVersion, newVersion) async {
-      //   if (oldVersion < 10) {
-      //
-      //     await db.execute(
-      //       "CREATE TABLE bookReadingList(id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, author TEXT)",
-      //     );
-      //
-      //     // Atualização da tabela listBooks
-      //     await db.execute(
-      //       "ALTER TABLE listBooks RENAME TO listBooks_old;",
-      //     );
-      //
-      //     await db.execute(
-      //       """
-      //     CREATE TABLE listBooks(
-      //       id INTEGER PRIMARY KEY AUTOINCREMENT,
-      //       listId INTEGER,
-      //       bookId INTEGER,
-      //       bookReadingListId INTEGER,
-      //       FOREIGN KEY(listId) REFERENCES userList(id),
-      //       FOREIGN KEY(bookId) REFERENCES booksFinished(id),
-      //       FOREIGN KEY(bookReadingListId) REFERENCES bookReadingList(id)
-      //     );
-      //     """,
-      //     );
-      //
-      //     await db.execute("""
-      //     INSERT INTO listBooks (listId, bookId)
-      //     SELECT listId, bookId FROM listBooks_old;
-      //   """);
-      //
-      //     await db.execute("DROP TABLE listBooks_old;");
-      // }
-      // },
+      onUpgrade: (db, oldVersion, newVersion) async {
+        if (oldVersion < 12) {
+          await db.execute(
+            "CREATE TABLE bookReadingList(id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, author TEXT)",
+          );
+          await db.execute(
+            "CREATE TABLE listBooks(listId INTEGER, bookId INTEGER, PRIMARY KEY(listId, bookId), FOREIGN KEY(listId) REFERENCES lists(id), FOREIGN KEY(bookId) REFERENCES booksFinished(id))",
+          );
+          print("Tabela bookReadingList adicionada na atualização!");
+        }
+      },
     );
+    return db;
   }
-
-
 
   Future<bool> titleExists(String table, String title) async {
     final db = await openMyDatabase();
@@ -159,21 +138,28 @@ class SqfliteHelper {
 
   Future<void> insertReadingBookInList(int listId, String name, String author) async {
     final db = await openMyDatabase();
-    final validateBookExists = await db.query('bookReadingList',
-        where: 'name = ? AND author = ?',
-        whereArgs: [name, author]);
+
+    // Verifica se o livro já existe na tabela bookReadingList
+    final validateBookExists = await db.query(
+      'bookReadingList',
+      where: 'name = ? AND author = ?',
+      whereArgs: [name, author],
+    );
 
     int? bookId;
     if (validateBookExists.isNotEmpty) {
       bookId = validateBookExists[0]['id'] as int;
     }
 
-    final validateIdExists = await db.query('listBooks',
-        where: 'listId = ? AND bookReadingListId = ?',
-        whereArgs: [listId, bookId]);
+    // Verifica se o livro já está na lista
+    final validateIdExists = await db.query(
+      'listBooks',
+      where: 'listId = ? AND bookId = ?',
+      whereArgs: [listId, bookId],
+    );
 
-    if (validateBookExists.isEmpty &&
-        (bookId == null || validateIdExists.isEmpty)) {
+    // Se o livro não existe na tabela bookReadingList e não está na lista, insere
+    if (validateBookExists.isEmpty && (bookId == null || validateIdExists.isEmpty)) {
       final newBookId = await db.insert(
         'bookReadingList',
         {'name': name, 'author': author},

@@ -182,8 +182,8 @@ class _ExpandedlistState extends State<Expandedlist> {
                                                   MaterialPageRoute(
                                                     builder: (context)
                                                     => ManualRegisterList(
-                                                        id: widget.id),
-                                                  ));
+                                                        id: widget.id.id,
+                                                  )));
                                             },
                                             child: Text("Não")),
                                       ],
