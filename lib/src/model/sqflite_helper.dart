@@ -136,7 +136,6 @@ class SqfliteHelper {
   Future<void> insertReadingBookInList(int listId, String name, String author) async {
     final db = await openMyDatabase();
 
-    // Verifica se o livro já existe na tabela bookReadingList
     final validateBookExists = await db.query(
       'bookReadingList',
       where: 'name = ? AND author = ?',
@@ -165,7 +164,7 @@ class SqfliteHelper {
 
       await db.insert(
         'listBooks',
-        {'listId': listId, 'bookId': newBookId},
+        {'listId': listId, 'bookReadingListId': newBookId},
         conflictAlgorithm: ConflictAlgorithm.ignore,
       );
     }
