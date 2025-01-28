@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:readingtracker/src/components/booksList.dart';
 import 'package:readingtracker/src/model/sqflite_helper.dart';
 import 'package:readingtracker/src/screens/insertBooksList.dart';
 import 'package:readingtracker/src/screens/manualRegisterList.dart';
@@ -13,7 +16,7 @@ class ListItemsObject implements ListItemsInterface {
   ListItemsObject(this.title, this.id);
 }
 
-class BookData implements BooksInterface {
+class BookData implements BooksInterface, BooksListInterface {
   @override
   int? id;
   @override
@@ -63,7 +66,7 @@ class _ExpandedlistState extends State<Expandedlist> {
   String title = '';
   String author = '';
 
-  Future<List<BooksInterface>> getBooksList(int listId) async {
+  Future<List<BookData>> getBooksList(int listId) async {
     final books = await sqfliteHelper.getBooksOfList(listId);
     return books.map((book) {
       return BookData(
@@ -87,34 +90,19 @@ class _ExpandedlistState extends State<Expandedlist> {
     });
   }
 
-  // Future<List<BooksInterface>> getBooks() async {
-  //   final result = await sqfliteHelper.getBooksOfList(widget.id.id);
-  //   return result.map((book) {
-  //     return BookData(
-  //       id: book['id'],
-  //       title: book['title']?.toString(),
-  //       author: book['author']?.toString(),
-  //       publisher: book['publisher']?.toString(),
-  //       rating: int.tryParse(book['rating']?.toString() ?? '') ?? 0,
-  //       date: book['date']?.toString(),
-  //       editionYear: int.tryParse(book['editionYear']?.toString() ?? '') ?? 0,
-  //       cover: book['cover']?.toString(),
-  //       comment: book['comment']?.toString(),
-  //     );
-  //   }).toList();
-  // }
-  //
-  // Future<void> saveBooksFinished() async {
-  //   final fetchedBooks = await getBooks();
-  //   setState(() {
-  //     bookConsulting = fetchedBooks;
-  //   });
-  // }
+  Future<void> printBooksOfList(int listId) async {
+    final books = await sqfliteHelper.getBooksOfList(listId);
+
+    // Converte a lista de mapas para uma string JSON formatada
+    final prettyJson = JsonEncoder.withIndent('  ').convert(books);
+
+    print(prettyJson);
+  }
 
   void initState() {
     super.initState();
     saveBooksList();
-    // saveBooksFinished();
+    printBooksOfList(widget.id.id);
   }
 
   @override
@@ -200,16 +188,17 @@ class _ExpandedlistState extends State<Expandedlist> {
                 ],
               )
             ])),
-            // ListView.builder(
-            //   shrinkWrap: true,
-            //   itemCount: books.length,
-            //   itemBuilder: (context, index) {
-            //     return Padding(
-            //       padding: const EdgeInsets.all(5.0),
-            //       child: BooksList(book: books[index],  id: widget.id),
-            //     );
-            //   },
-            // )
+            ListView.builder(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount: books.length,
+              itemBuilder: (context, index) {
+                return Padding(
+                  padding: const EdgeInsets.all(5.0),
+                  child: Books(book: books[index]),
+                );
+              },
+            )
       ])),
     );
   }
