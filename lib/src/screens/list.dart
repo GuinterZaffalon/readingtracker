@@ -104,6 +104,7 @@ class _ListScreenState extends State<ListScreen> {
                                       ),
                                       onPressed: () {
                                         saveList(comment);
+                                        Navigator.pop(context);
                                       },
                                       child: Text("Criar"))
                                 ],
