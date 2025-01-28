@@ -1,5 +1,5 @@
 import 'dart:io';
-import 'dart:convert';
+
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -175,8 +175,7 @@ class SqfliteHelper {
   Future<List<Map<String, dynamic>>> getBooksOfList(int listId) async {
     final db = await openMyDatabase();
 
-    // Busca os livros finalizados
-    final booksFinished = await db.rawQuery(
+    return await db.rawQuery(
       '''
     SELECT booksFinished.*
     FROM booksFinished
@@ -185,23 +184,22 @@ class SqfliteHelper {
     ''',
       [listId],
     );
+  }
 
-    // Busca os livros na lista de leitura
-    final booksReading = await db.rawQuery(
+ Future<List<Map<String, dynamic>>> getBooksReadingOfList(int listId) async {
+    final db = await openMyDatabase();
+
+    return await db.rawQuery(
       '''
-    SELECT booksReading.*
-    FROM booksReading
-    INNER JOIN listBooks ON booksReading.id = listBooks.bookId
+    SELECT bookReadingList.*
+    FROM bookReadingList
+    INNER JOIN listBooks ON bookReadingList.id = listBooks.bookReadingListId
     WHERE listBooks.listId = ?
     ''',
       [listId],
     );
+ }
 
-    // Combina os resultados em uma lista única
-    final combinedBooks = [...booksFinished, ...booksReading];
-
-    return combinedBooks;
-  }
 
   Future<List<Map<dynamic, dynamic>>> getUserList() async {
     final db = await openMyDatabase();
@@ -215,4 +213,14 @@ class SqfliteHelper {
     final db = await openMyDatabase();
     await db.delete(tableName);
   }
+  // Future<List<Map<String, dynamic>>> getBooksOfList(int listId) async {
+  //   final db = await openMyDatabase();
+  //   final result = await db.rawQuery('''
+  //   SELECT booksFinished.*
+  //   FROM userList
+  //   INNER JOIN booksFinished ON userList.bookID = booksFinished.id
+  //   WHERE userList.id = ?
+  // ''', [listId]);
+  //   return result;
+  // }
 }
