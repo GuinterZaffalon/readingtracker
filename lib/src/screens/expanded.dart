@@ -248,7 +248,7 @@ class _ExpandedPageState extends State<ExpandedPage> {
                       ),
                       padding: const EdgeInsets.all(10),
                       child: Column(children: [
-                        Text("Comentarios",
+                        Text("Comentários",
                             style: TextStyle(
                                 fontSize: 17, fontWeight: FontWeight.bold)),
                         const SizedBox(height: 10),

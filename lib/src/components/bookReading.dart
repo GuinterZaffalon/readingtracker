@@ -23,7 +23,6 @@ class _BookReadingState extends State<BookReading> {
         padding: const EdgeInsets.fromLTRB(10,30,10,0),
         child: Container(
           height: 70,
-          width: 140,
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(12),
