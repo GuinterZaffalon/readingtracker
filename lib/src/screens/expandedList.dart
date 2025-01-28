@@ -96,8 +96,7 @@ class _ExpandedlistState extends State<Expandedlist> {
     final books = await sqfliteHelper.getBooksReadingOfList(listId);
     return books.map((book) {
       return BookReadingObject(
-         book['name'].toString(), book['author'].toString()
-      );
+          book['name'].toString(), book['author'].toString());
     }).toList();
   }
 
@@ -122,15 +121,13 @@ class _ExpandedlistState extends State<Expandedlist> {
     super.initState();
     saveBooksList();
     printBooksOfList(widget.id.id);
-
   }
 
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-        length: 2,
-        child:
-      Scaffold(
+      length: 2,
+      child: Scaffold(
           appBar: AppBar(
             backgroundColor: const Color.fromRGBO(189, 213, 234, 1),
             title: Text(
@@ -217,22 +214,17 @@ class _ExpandedlistState extends State<Expandedlist> {
               indicatorColor: Colors.black,
               tabs: [
                 Tab(
-                  child: Text("Lidos"),
+                  child: Text("Para ler"),
                 ),
                 Tab(
-                  child: Text("Para Ler"),
+                  child: Text("Lidos"),
                 ),
               ],
             ),
           ),
-      body: SingleChildScrollView(
-          child: Column(children: [
-        Padding(
-            padding: const EdgeInsets.all(10.0),
-            child:
+          body: TabBarView(children: [
             ListView.builder(
               shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
               itemCount: booksReading.length,
               itemBuilder: (context, index) {
                 return Padding(
@@ -242,9 +234,19 @@ class _ExpandedlistState extends State<Expandedlist> {
                       author: booksReading[index].author),
                 );
               },
-            )
-        )
-        ]),
-    )));
+            ),
+            ListView.builder(
+                shrinkWrap: true,
+                itemCount: books.length,
+                itemBuilder: (context, index) {
+                  return Padding(
+                    padding: const EdgeInsets.all(5.0),
+                    child: Books(
+                      book: books[index],
+                    ),
+                  );
+                }),
+          ])),
+    );
   }
 }
