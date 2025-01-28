@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -23,17 +25,12 @@ class SqfliteHelper {
         await db.execute(
           "CREATE TABLE bookReadingList(id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, author TEXT)",
         );
-        print("Tabela bookReadingList criada com sucesso!");
       },
       onUpgrade: (db, oldVersion, newVersion) async {
-        if (oldVersion < 12) {
+        if (oldVersion < 13) {
           await db.execute(
-            "CREATE TABLE bookReadingList(id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, author TEXT)",
+            "CREATE TABLE IF NOT EXISTS listBooks(listId INTEGER, bookId INTEGER, PRIMARY KEY(listId, bookId), FOREIGN KEY(listId) REFERENCES userList(id), FOREIGN KEY(bookId) REFERENCES booksFinished(id))",
           );
-          await db.execute(
-            "CREATE TABLE listBooks(listId INTEGER, bookId INTEGER, PRIMARY KEY(listId, bookId), FOREIGN KEY(listId) REFERENCES lists(id), FOREIGN KEY(bookId) REFERENCES booksFinished(id))",
-          );
-          print("Tabela bookReadingList adicionada na atualização!");
         }
       },
     );
