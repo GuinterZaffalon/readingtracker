@@ -1,6 +1,6 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
+import 'package:readingtracker/src/components/bookReading.dart';
 import 'package:readingtracker/src/components/booksList.dart';
 import 'package:readingtracker/src/model/sqflite_helper.dart';
 import 'package:readingtracker/src/screens/insertBooksList.dart';
@@ -49,6 +49,14 @@ class BookData implements BooksInterface, BooksListInterface {
   });
 }
 
+class BookReadingObject implements BookReadingInterface {
+  @override
+  late String name;
+  late String author;
+
+  BookReadingObject(this.name, this.author);
+}
+
 class Expandedlist extends StatefulWidget {
   final ListItemsInterface title;
   final ListItemsInterface id;
@@ -63,6 +71,7 @@ class _ExpandedlistState extends State<Expandedlist> {
   SqfliteHelper sqfliteHelper = SqfliteHelper();
   List<BooksInterface> books = [];
   List<BooksInterface> bookConsulting = [];
+  List<BookReadingInterface> booksReading = [];
   String title = '';
   String author = '';
 
@@ -83,10 +92,21 @@ class _ExpandedlistState extends State<Expandedlist> {
     }).toList();
   }
 
+  Future<List<BookReadingObject>> getBooksReading(int listId) async {
+    final books = await sqfliteHelper.getBooksReadingOfList(listId);
+    return books.map((book) {
+      return BookReadingObject(
+         book['name'].toString(), book['author'].toString()
+      );
+    }).toList();
+  }
+
   Future<void> saveBooksList() async {
-    final fetchedBooks = await getBooksList(widget.id.id);
+    final fetchedBooksFinished = await getBooksList(widget.id.id);
+    final fetchBooksReading = await getBooksReading(widget.id.id);
     setState(() {
-      books = fetchedBooks;
+      books = fetchedBooksFinished;
+      booksReading = fetchBooksReading;
     });
   }
 
@@ -103,6 +123,7 @@ class _ExpandedlistState extends State<Expandedlist> {
     super.initState();
     saveBooksList();
     printBooksOfList(widget.id.id);
+
   }
 
   @override
@@ -191,11 +212,13 @@ class _ExpandedlistState extends State<Expandedlist> {
             ListView.builder(
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
-              itemCount: books.length,
+              itemCount: booksReading.length,
               itemBuilder: (context, index) {
                 return Padding(
                   padding: const EdgeInsets.all(5.0),
-                  child: Books(book: books[index]),
+                  child: BookReading(
+                      name: booksReading[index].name,
+                      author: booksReading[index].author),
                 );
               },
             )

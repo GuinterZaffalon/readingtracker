@@ -2,15 +2,15 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 abstract class BookReadingInterface {
-  late String title;
+  late String name;
   late String author;
 }
 
 class BookReading extends StatefulWidget {
-  final String title;
+  final String name;
   final String author;
 
-  BookReading({Key? key, required this.title, required this.author});
+  BookReading({Key? key, required this.name, required this.author});
   @override
   _BookReadingState createState() => _BookReadingState();
 }
@@ -22,6 +22,8 @@ class _BookReadingState extends State<BookReading> {
       child: Padding(
         padding: const EdgeInsets.fromLTRB(10,30,10,0),
         child: Container(
+          height: 70,
+          width: 140,
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(12),
@@ -35,10 +37,10 @@ class _BookReadingState extends State<BookReading> {
             ],
           ),
           padding: const EdgeInsets.all(10),
-          child: Row(
+          child: Column(
             children: [
               Text(
-                widget.title,
+                widget.name,
                 style: const TextStyle(
                     fontSize: 20,
                     fontFamily: "Roboto",

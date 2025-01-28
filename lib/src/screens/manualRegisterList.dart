@@ -1,7 +1,5 @@
 import "package:flutter/material.dart";
 import "package:readingtracker/src/components/listItems.dart";
-import "package:readingtracker/src/screens/expandedList.dart";
-
 import "../components/comment.dart";
 import "../model/sqflite_helper.dart";
 

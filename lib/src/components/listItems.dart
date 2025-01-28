@@ -16,7 +16,6 @@ class ListItems extends StatelessWidget {
       height: 100,
         child: Padding(
           padding: EdgeInsets.all(10),
-        // padding: const EdgeInsets.fromLTRB(10, 30, 10, 0),
         child: Container(
           decoration: BoxDecoration(
             color: Colors.white,
@@ -26,7 +25,7 @@ class ListItems extends StatelessWidget {
                 color: Colors.grey.withOpacity(0.5),
                 spreadRadius: 5,
                 blurRadius: 7,
-                offset: Offset(0, 3), // changes position of shadow
+                offset: Offset(0, 3),
               ),
             ],
           ),
