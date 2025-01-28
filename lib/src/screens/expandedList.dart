@@ -113,7 +113,6 @@ class _ExpandedlistState extends State<Expandedlist> {
   Future<void> printBooksOfList(int listId) async {
     final books = await sqfliteHelper.getBooksOfList(listId);
 
-    // Converte a lista de mapas para uma string JSON formatada
     final prettyJson = JsonEncoder.withIndent('  ').convert(books);
 
     print(prettyJson);
@@ -128,87 +127,109 @@ class _ExpandedlistState extends State<Expandedlist> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: const Color.fromRGBO(189, 213, 234, 1),
-        title: const Text("ReadingTracker"),
-        centerTitle: true,
-      ),
+    return DefaultTabController(
+        length: 2,
+        child:
+      Scaffold(
+          appBar: AppBar(
+            backgroundColor: const Color.fromRGBO(189, 213, 234, 1),
+            title: Text(
+              widget.title.title,
+              style: const TextStyle(
+                  fontSize: 30,
+                  fontFamily: "Roboto",
+                  fontWeight: FontWeight.bold),
+            ),
+            centerTitle: true,
+            actions: [
+              IconButton(
+                icon: const Icon(Icons.add_rounded),
+                iconSize: 25,
+                color: Colors.black,
+                onPressed: () {
+                  showModalBottomSheet(
+                    context: context,
+                    isScrollControlled: true,
+                    shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(20),
+                        topRight: Radius.circular(20),
+                      ),
+                    ),
+                    builder: (context) => Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const SizedBox(height: 10),
+                        const Text(
+                          "Terminou o livro?",
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20,
+                          ),
+                        ),
+                        const SizedBox(height: 10),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            ElevatedButton(
+                              onPressed: () async {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => InsertBooksList(
+                                      id: widget.id,
+                                    ),
+                                  ),
+                                );
+                              },
+                              child: const Text("Sim"),
+                            ),
+                            ElevatedButton(
+                              onPressed: () async {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => ManualRegisterList(
+                                      id: widget.id.id,
+                                    ),
+                                  ),
+                                );
+                              },
+                              child: const Text("Não"),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  );
+                },
+              ),
+              IconButton(
+                icon: const Icon(Icons.edit_outlined),
+                iconSize: 25,
+                color: Colors.black,
+                onPressed: () {},
+              ),
+            ],
+            bottom: const TabBar(
+              labelColor: Colors.black,
+              unselectedLabelColor: Colors.black,
+              indicatorColor: Colors.black,
+              tabs: [
+                Tab(
+                  child: Text("Lidos"),
+                ),
+                Tab(
+                  child: Text("Para Ler"),
+                ),
+              ],
+            ),
+          ),
       body: SingleChildScrollView(
           child: Column(children: [
         Padding(
             padding: const EdgeInsets.all(10.0),
-            child: Row(children: [
-              Text(
-                widget.title.title,
-                style: const TextStyle(
-                    fontSize: 30,
-                    fontFamily: "Roboto",
-                    fontWeight: FontWeight.bold),
-              ),
-              const Spacer(),
-              Row(
-                children: [
-                  IconButton(
-                      icon: const Icon(Icons.add_rounded),
-                      iconSize: 25,
-                      color: Colors.black,
-                      onPressed: () {
-                        showModalBottomSheet(
-                            context: context,
-                            isScrollControlled: true,
-                            shape: const RoundedRectangleBorder(
-                              borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(20),
-                                  topRight: Radius.circular(20)),
-                            ),
-                            builder: (context) =>
-                                Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    SizedBox(height: 10),
-                                    Text("Terminou o livro?", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
-                                    SizedBox(height: 10),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceEvenly,
-                                      children: [
-                                        ElevatedButton(
-                                            onPressed: () async {
-                                              Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                    builder: (context)
-                                                    => InsertBooksList(
-                                                        id: widget.id),
-                                                  ));
-                                            },
-                                            child: Text("Sim")),
-                                        ElevatedButton(
-                                            onPressed: () async {
-                                              Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                    builder: (context)
-                                                    => ManualRegisterList(
-                                                        id: widget.id.id,
-                                                  )));
-                                            },
-                                            child: Text("Não")),
-                                      ],
-                                    )
-                                  ],
-                                )
-                            );
-                      }),
-                  IconButton(
-                      icon: const Icon(Icons.edit_outlined),
-                      iconSize: 25,
-                      color: Colors.black,
-                      onPressed: () {}),
-                ],
-              )
-            ])),
+            child:
             ListView.builder(
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
@@ -222,7 +243,8 @@ class _ExpandedlistState extends State<Expandedlist> {
                 );
               },
             )
-      ])),
-    );
+        )
+        ]),
+    )));
   }
 }
