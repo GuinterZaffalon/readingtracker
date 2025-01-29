@@ -101,6 +101,14 @@ class _ExpandedlistState extends State<Expandedlist> {
     }).toList();
   }
 
+  Future<void> editList(int listId, String name) async {
+    await sqfliteHelper.editListName(listId, name);
+  }
+
+  Future<void> deleteList(int listId) async {
+    await sqfliteHelper.deleteList(listId);
+  }
+
   Future<void> saveBooksList() async {
     final fetchedBooksFinished = await getBooksList(widget.id.id);
     final fetchBooksReading = await getBooksReading(widget.id.id);
@@ -110,18 +118,9 @@ class _ExpandedlistState extends State<Expandedlist> {
     });
   }
 
-  Future<void> printBooksOfList(int listId) async {
-    final books = await sqfliteHelper.getBooksOfList(listId);
-
-    final prettyJson = JsonEncoder.withIndent('  ').convert(books);
-
-    print(prettyJson);
-  }
-
   void initState() {
     super.initState();
     saveBooksList();
-    printBooksOfList(widget.id.id);
   }
 
   @override
@@ -220,8 +219,16 @@ class _ExpandedlistState extends State<Expandedlist> {
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               const SizedBox(height: 10),
+                              const Text(
+                                "Editar nome da lista",
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 20,
+                                ),
+                              ),
+                              const SizedBox(height: 10),
                               Padding(
-                                  padding: EdgeInsets.fromLTRB(0, 14, 0, 10),
+                                  padding: EdgeInsets.fromLTRB(20, 15, 20, 15),
                                   child: TextField(
                                     onChanged: (value) {
                                       setState(() {
@@ -244,6 +251,7 @@ class _ExpandedlistState extends State<Expandedlist> {
                                     maxLines: null,
                                   )),
                               Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   newTitle == widget.title.title
                                       ? ElevatedButton(
@@ -255,18 +263,48 @@ class _ExpandedlistState extends State<Expandedlist> {
                                         )
                                       : ElevatedButton(
                                           style: ElevatedButton.styleFrom(
-                                            backgroundColor: Colors.grey,
+                                            backgroundColor: Colors.green,
                                           ),
                                           onPressed: () async {
-                                            // await sqfliteHelper.updateTitleList(
-                                            //     widget.id.id, newTitle);
-                                            // setState(() {
-                                            //   widget.title.title = newTitle;
-                                            // });
+                                            await editList(
+                                                widget.id.id, newTitle);
+                                            setState(() {
+                                              widget.title.title = newTitle;
+                                            });
                                             Navigator.pop(context);
                                           },
                                           child: const Text("Salvar"),
-                                        )
+                                        ),
+                                  const SizedBox(height: 10),
+                                  ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: Colors.red,
+                                    ),
+                                    onPressed: () {
+                                      AlertDialog(
+                                        title: const Text("Cancelar"),
+                                        content: const Text(
+                                            "Tem certeza que deseja cancelar?"),
+                                        actions: [
+                                          TextButton(
+                                            child: const Text("Sim"),
+                                            onPressed: () {
+                                              deleteList(widget.id.id);
+                                              Navigator.pop(context);
+                                            },
+                                          ),
+                                          TextButton(
+                                            child: const Text("Nao"),
+                                            onPressed: () {
+                                              Navigator.pop(context);
+                                            },
+                                          ),
+                                        ],
+                                      );
+                                      Navigator.pop(context);
+                                    },
+                                    child: const Text("Excluir Lista"),
+                                  ),
                                 ],
                               )
                             ],
