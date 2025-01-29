@@ -168,8 +168,6 @@ class SqfliteHelper {
     }
   }
 
-
-
   Future<List<Map<String, dynamic>>> getBooksOfList(int listId) async {
     final db = await openMyDatabase();
 
@@ -198,7 +196,6 @@ class SqfliteHelper {
     );
  }
 
-
   Future<List<Map<dynamic, dynamic>>> getUserList() async {
     final db = await openMyDatabase();
     final result = await db.query(
@@ -207,18 +204,27 @@ class SqfliteHelper {
     return result;
   }
 
+  Future<void> editListName(int listId, String name) async {
+    final db = await openMyDatabase();
+    await db.update(
+      'userList',
+      {'name': name},
+      where: 'id = ?',
+      whereArgs: [listId],
+    );
+  }
+
+  Future<void> deleteList(int listId) async {
+    final db = await openMyDatabase();
+    await db.delete(
+      'userList',
+      where: 'id = ?',
+      whereArgs: [listId],
+    );
+  }
+
   Future<void> clearTable(String tableName) async {
     final db = await openMyDatabase();
     await db.delete(tableName);
   }
-  // Future<List<Map<String, dynamic>>> getBooksOfList(int listId) async {
-  //   final db = await openMyDatabase();
-  //   final result = await db.rawQuery('''
-  //   SELECT booksFinished.*
-  //   FROM userList
-  //   INNER JOIN booksFinished ON userList.bookID = booksFinished.id
-  //   WHERE userList.id = ?
-  // ''', [listId]);
-  //   return result;
-  // }
 }
