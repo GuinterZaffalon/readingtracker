@@ -6,6 +6,7 @@ import 'package:readingtracker/src/model/sqflite_helper.dart';
 import 'package:readingtracker/src/screens/insertBooksList.dart';
 import 'package:readingtracker/src/screens/manualRegisterList.dart';
 import '../components/books.dart';
+import '../components/comment.dart';
 import '../components/listItems.dart';
 import 'list.dart';
 
@@ -146,84 +147,88 @@ class _ExpandedlistState extends State<Expandedlist> {
                 color: Colors.black,
                 onPressed: () {
                   showModalBottomSheet(
-                    context: context,
-                    isScrollControlled: true,
-                    shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(20),
-                        topRight: Radius.circular(20),
-                      ),
-                    ),
-                    builder: (context) => SizedBox(
-                      height: 160,
-                      child: Column(
-                      children: [
-                        const SizedBox(height: 10),
-                        const Text(
-                          "Terminou o livro?",
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 20,
-                          ),
+                      context: context,
+                      isScrollControlled: true,
+                      shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(20),
+                          topRight: Radius.circular(20),
                         ),
-                        const SizedBox(height: 10),
-                        Padding(padding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            SizedBox(
-                              width: 100,
-                              child:
-                            ElevatedButton(
-                              onPressed: () async {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => InsertBooksList(
-                                      id: widget.id,
-                                    ),
+                      ),
+                      builder: (context) => SizedBox(
+                            height: 160,
+                            child: Column(
+                              children: [
+                                const SizedBox(height: 10),
+                                const Text(
+                                  "Terminou o livro?",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 20,
                                   ),
-                                );
-                              },
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: Color.fromRGBO(
-                                    189, 213, 234, 1),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10),
                                 ),
-                              ),
-                              child: const Text("Sim"),
-                            )),
-                            SizedBox(
-                              width: 100,
-                              child:
-                            ElevatedButton(
-                                onPressed: () async {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => ManualRegisterList(
-                                        id: widget.id.id,
-                                      ),
-                                    ),
-                                  );
-                                },
-                                child: const Text("Não"),
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: Color.fromRGBO(
-                                      189, 213, 234, 1),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                ))
+                                const SizedBox(height: 10),
+                                Padding(
+                                    padding: const EdgeInsets.fromLTRB(
+                                        20, 15, 20, 15),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceEvenly,
+                                      children: [
+                                        SizedBox(
+                                            width: 100,
+                                            child: ElevatedButton(
+                                              onPressed: () async {
+                                                Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        InsertBooksList(
+                                                      id: widget.id,
+                                                    ),
+                                                  ),
+                                                );
+                                              },
+                                              style: ElevatedButton.styleFrom(
+                                                backgroundColor: Color.fromRGBO(
+                                                    189, 213, 234, 1),
+                                                shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(10),
+                                                ),
+                                              ),
+                                              child: const Text("Sim"),
+                                            )),
+                                        SizedBox(
+                                            width: 100,
+                                            child: ElevatedButton(
+                                                onPressed: () async {
+                                                  Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          ManualRegisterList(
+                                                        id: widget.id.id,
+                                                      ),
+                                                    ),
+                                                  );
+                                                },
+                                                child: const Text("Não"),
+                                                style: ElevatedButton.styleFrom(
+                                                  backgroundColor:
+                                                      Color.fromRGBO(
+                                                          189, 213, 234, 1),
+                                                  shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10),
+                                                  ),
+                                                ))),
+                                      ],
+                                    )),
+                              ],
                             ),
-                          ],
-                        )
-                          ),
-                      ],
-                    ),
-                  )
-                  );
+                          ));
                 },
               ),
               IconButton(
@@ -232,82 +237,53 @@ class _ExpandedlistState extends State<Expandedlist> {
                 color: Colors.black,
                 onPressed: () {
                   showModalBottomSheet(
-                      context: context,
-                      // isScrollControlled: true,
-                      shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(20),
-                          topRight: Radius.circular(20),
-                        ),
+                    context: context,
+                    isScrollControlled: true,
+                    shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.only(
+                        topRight: Radius.circular(20),
+                        topLeft: Radius.circular(20),
                       ),
-                      builder: (context) => Padding(
-                  padding: EdgeInsets.all(20.0).copyWith(
-                  bottom: MediaQuery.of(context).viewInsets.bottom
-                  ),
-                  child:
-                          Column(
+                    ),
+                    builder: (content) {
+                      return Padding(
+                        padding: EdgeInsets.only(
+                          left: 20,
+                          right: 20,
+                          top: 20,
+                          bottom: MediaQuery.of(context).viewInsets.bottom,
+                        ),
+                        child: SingleChildScrollView(
+                          child: Column(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              const SizedBox(height: 10),
-                              const Text(
-                                "Editar nome da lista",
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 20,
+                              Padding(
+                                padding: const EdgeInsets.all(10),
+                                child: CommentBox(
+                                  onChange: (value) {
+                                    setState(() {
+                                      newTitle = value;
+                                    });
+                                  },
+                                  comment: "Editar nome",
                                 ),
                               ),
-                              const SizedBox(height: 10),
-                              Padding(
-                                  padding: EdgeInsets.fromLTRB(20, 15, 20, 15),
-                                  child: TextField(
-                                    onChanged: (value) {
-                                      setState(() {
-                                        newTitle = value;
-                                      });
-                                    },
-                                    decoration: InputDecoration(
-                                      labelText: "Escreva aqui",
-                                      filled: true,
-                                      prefixIcon: Icon(Icons.note_alt_outlined),
-                                      border: OutlineInputBorder(
-                                        borderSide: BorderSide.none,
-                                      ),
-                                      focusedBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                            color: Color.fromRGBO(
-                                                189, 213, 234, 1)),
-                                      ),
-                                    ),
-                                    maxLines: null,
-                                  )),
-                              Padding(
-                                padding: EdgeInsets.fromLTRB(20, 15, 20, 15),
-                                child: newTitle == widget.title.title
-                                    ? ElevatedButton(
-                                        style: ElevatedButton.styleFrom(
-                                          backgroundColor: Colors.grey,
-                                        ),
-                                        onPressed: () {},
-                                        child: const Text("Salvar"),
-                                      )
-                                    : ElevatedButton(
-                                        style: ElevatedButton.styleFrom(
-                                          backgroundColor: Color.fromRGBO(
-                                              189, 213, 234, 1),
-                                        ),
-                                        onPressed: () async {
-                                          await editList(
-                                              widget.id.id, newTitle);
-                                          setState(() {
-                                            widget.title.title = newTitle;
-                                          });
-                                          Navigator.pop(context);
-                                        },
-                                        child: const Text("Salvar"),
-                                      ),
+                              ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                  padding: const EdgeInsets.fromLTRB(60, 0, 60, 0),
+                                ),
+                                onPressed: () {
+                                  editList(widget.id.id, newTitle);
+                                  Navigator.pop(context);
+                                },
+                                child: Text("Criar"),
                               ),
                             ],
-                          )));
+                          ),
+                        ),
+                      );
+                    },
+                  );
                 },
               ),
               IconButton(
@@ -333,8 +309,10 @@ class _ExpandedlistState extends State<Expandedlist> {
                             onPressed: () {
                               deleteList(widget.id.id);
                               Navigator.pop(
-                                  context, MaterialPageRoute(
-                                  builder: (context) => const ListScreen()));
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const ListScreen()));
                             },
                           ),
                         ],
