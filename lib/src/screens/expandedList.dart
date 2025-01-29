@@ -74,6 +74,7 @@ class _ExpandedlistState extends State<Expandedlist> {
   List<BookReadingInterface> booksReading = [];
   String title = '';
   String author = '';
+  String newTitle = '';
 
   Future<List<BookData>> getBooksList(int listId) async {
     final books = await sqfliteHelper.getBooksOfList(listId);
@@ -205,7 +206,72 @@ class _ExpandedlistState extends State<Expandedlist> {
                 icon: const Icon(Icons.edit_outlined),
                 iconSize: 25,
                 color: Colors.black,
-                onPressed: () {},
+                onPressed: () {
+                  showModalBottomSheet(
+                      context: context,
+                      isScrollControlled: true,
+                      shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(20),
+                          topRight: Radius.circular(20),
+                        ),
+                      ),
+                      builder: (context) => Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              const SizedBox(height: 10),
+                              Padding(
+                                  padding: EdgeInsets.fromLTRB(0, 14, 0, 10),
+                                  child: TextField(
+                                    onChanged: (value) {
+                                      setState(() {
+                                        newTitle = value;
+                                      });
+                                    },
+                                    decoration: InputDecoration(
+                                      labelText: "Escreva aqui",
+                                      filled: true,
+                                      prefixIcon: Icon(Icons.note_alt_outlined),
+                                      border: OutlineInputBorder(
+                                        borderSide: BorderSide.none,
+                                      ),
+                                      focusedBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                            color: Color.fromRGBO(
+                                                189, 213, 234, 1)),
+                                      ),
+                                    ),
+                                    maxLines: null,
+                                  )),
+                              Row(
+                                children: [
+                                  newTitle == widget.title.title
+                                      ? ElevatedButton(
+                                          style: ElevatedButton.styleFrom(
+                                            backgroundColor: Colors.grey,
+                                          ),
+                                          onPressed: () {},
+                                          child: const Text("Salvar"),
+                                        )
+                                      : ElevatedButton(
+                                          style: ElevatedButton.styleFrom(
+                                            backgroundColor: Colors.grey,
+                                          ),
+                                          onPressed: () async {
+                                            // await sqfliteHelper.updateTitleList(
+                                            //     widget.id.id, newTitle);
+                                            // setState(() {
+                                            //   widget.title.title = newTitle;
+                                            // });
+                                            Navigator.pop(context);
+                                          },
+                                          child: const Text("Salvar"),
+                                        )
+                                ],
+                              )
+                            ],
+                          ));
+                },
               ),
             ],
             bottom: const TabBar(
