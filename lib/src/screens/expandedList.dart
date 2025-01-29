@@ -250,67 +250,61 @@ class _ExpandedlistState extends State<Expandedlist> {
                                     ),
                                     maxLines: null,
                                   )),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  newTitle == widget.title.title
-                                      ? ElevatedButton(
-                                          style: ElevatedButton.styleFrom(
-                                            backgroundColor: Colors.grey,
-                                          ),
-                                          onPressed: () {},
-                                          child: const Text("Salvar"),
-                                        )
-                                      : ElevatedButton(
-                                          style: ElevatedButton.styleFrom(
-                                            backgroundColor: Colors.green,
-                                          ),
-                                          onPressed: () async {
-                                            await editList(
-                                                widget.id.id, newTitle);
-                                            setState(() {
-                                              widget.title.title = newTitle;
-                                            });
-                                            Navigator.pop(context);
-                                          },
-                                          child: const Text("Salvar"),
+                              Padding(
+                                padding: EdgeInsets.fromLTRB(20, 15, 20, 15),
+                                child: newTitle == widget.title.title
+                                    ? ElevatedButton(
+                                        style: ElevatedButton.styleFrom(
+                                          backgroundColor: Colors.grey,
                                         ),
-                                  const SizedBox(height: 10),
-                                  ElevatedButton(
-                                    style: ElevatedButton.styleFrom(
-                                      backgroundColor: Colors.red,
-                                    ),
-                                    onPressed: () {
-                                      AlertDialog(
-                                        title: const Text("Cancelar"),
-                                        content: const Text(
-                                            "Tem certeza que deseja cancelar?"),
-                                        actions: [
-                                          TextButton(
-                                            child: const Text("Sim"),
-                                            onPressed: () {
-                                              deleteList(widget.id.id);
-                                              Navigator.pop(context);
-                                            },
-                                          ),
-                                          TextButton(
-                                            child: const Text("Nao"),
-                                            onPressed: () {
-                                              Navigator.pop(context);
-                                            },
-                                          ),
-                                        ],
-                                      );
-                                      Navigator.pop(context);
-                                    },
-                                    child: const Text("Excluir Lista"),
-                                  ),
-                                ],
-                              )
+                                        onPressed: () {},
+                                        child: const Text("Salvar"),
+                                      )
+                                    : ElevatedButton(
+                                        style: ElevatedButton.styleFrom(
+                                          backgroundColor: Colors.green,
+                                        ),
+                                        onPressed: () async {
+                                          await editList(
+                                              widget.id.id, newTitle);
+                                          setState(() {
+                                            widget.title.title = newTitle;
+                                          });
+                                          Navigator.pop(context);
+                                        },
+                                        child: const Text("Salvar"),
+                                      ),
+                              ),
                             ],
                           ));
                 },
               ),
+              IconButton(
+                  icon: const Icon(Icons.delete),
+                  iconSize: 25,
+                  color: Colors.black,
+                  onPressed: () {
+                    AlertDialog(
+                      title: const Text("Cancelar"),
+                      content: const Text("Tem certeza que deseja cancelar?"),
+                      actions: [
+                        TextButton(
+                          child: const Text("Sim"),
+                          onPressed: () {
+                            deleteList(widget.id.id);
+                            Navigator.pop(context);
+                          },
+                        ),
+                        TextButton(
+                          child: const Text("Nao"),
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                        ),
+                      ],
+                    );
+                    Navigator.pop(context);
+                  })
             ],
             bottom: const TabBar(
               labelColor: Colors.black,
