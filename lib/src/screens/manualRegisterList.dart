@@ -1,4 +1,5 @@
 import "package:flutter/material.dart";
+import "package:google_fonts/google_fonts.dart";
 import "package:readingtracker/src/components/listItems.dart";
 import "../components/comment.dart";
 import "../model/sqflite_helper.dart";
@@ -68,12 +69,12 @@ class _ManualRegisterListState extends State<ManualRegisterList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          backgroundColor: const Color.fromRGBO(189, 213, 234, 1),
-          title: const Text("ReadingTracker"),
-          centerTitle: true,
-          automaticallyImplyLeading: false,
-        ),
+    appBar: AppBar(
+    backgroundColor: const Color.fromRGBO(149,203,226, 1),
+    title: Text("reading tracker", style: GoogleFonts.dmSans(),),
+    centerTitle: true,
+    automaticallyImplyLeading: false,
+    ),
         body: SafeArea(
             child: Stepper(
           steps: steps(),

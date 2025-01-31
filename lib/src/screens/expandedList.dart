@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:readingtracker/src/components/bookReading.dart';
 import 'package:readingtracker/src/components/booksList.dart';
 import 'package:readingtracker/src/model/sqflite_helper.dart';
@@ -131,13 +132,11 @@ class _ExpandedlistState extends State<Expandedlist> {
       length: 2,
       child: Scaffold(
           appBar: AppBar(
-            backgroundColor: const Color.fromRGBO(189, 213, 234, 1),
+            backgroundColor: const Color.fromRGBO(149,203,226, 1),
             title: Text(
               widget.title.title,
-              style: const TextStyle(
-                  fontSize: 30,
-                  fontFamily: "Roboto",
-                  fontWeight: FontWeight.bold),
+              style: GoogleFonts.dmSans(textStyle: TextStyle(
+                  fontSize: 25, fontWeight: FontWeight.normal)),
             ),
             centerTitle: true,
             actions: [
@@ -160,13 +159,11 @@ class _ExpandedlistState extends State<Expandedlist> {
                             child: Column(
                               children: [
                                 const SizedBox(height: 10),
-                                const Text(
+                              Text(
                                   "Terminou o livro?",
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 20,
-                                  ),
-                                ),
+                                  style: GoogleFonts.dmSans(textStyle: TextStyle(
+                                      fontSize: 25, fontWeight: FontWeight.normal),
+                                )),
                                 const SizedBox(height: 10),
                                 Padding(
                                     padding: const EdgeInsets.fromLTRB(
@@ -322,16 +319,18 @@ class _ExpandedlistState extends State<Expandedlist> {
                 },
               )
             ],
-            bottom: const TabBar(
+            bottom: TabBar(
               labelColor: Colors.black,
               unselectedLabelColor: Colors.black,
               indicatorColor: Colors.black,
               tabs: [
                 Tab(
-                  child: Text("Para ler"),
+                  child: Text("Para ler", style: GoogleFonts.dmSans(textStyle: TextStyle(
+                      fontSize: 16, fontWeight: FontWeight.normal))),
                 ),
                 Tab(
-                  child: Text("Lidos"),
+                  child: Text("Lidos", style: GoogleFonts.dmSans(textStyle: TextStyle(
+                      fontSize: 16, fontWeight: FontWeight.normal))),
                 ),
               ],
             ),

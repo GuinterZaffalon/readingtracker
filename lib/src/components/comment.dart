@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class CommentBox extends StatelessWidget {
   final Function(String) onChange;
@@ -13,7 +14,8 @@ class CommentBox extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Text(comment,
-            style: TextStyle(fontSize: 20)),
+          style: GoogleFonts.dmSans(textStyle: TextStyle(
+              fontSize: 25, fontWeight: FontWeight.normal))),
         const SizedBox(height: 10),
         Padding(
             padding: EdgeInsets.fromLTRB(0, 14, 0, 10),

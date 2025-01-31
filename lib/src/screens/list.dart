@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:readingtracker/src/components/listItems.dart';
 import 'package:readingtracker/src/model/sqflite_helper.dart';
 import 'package:readingtracker/src/components/comment.dart';
@@ -50,12 +51,12 @@ class _ListScreenState extends State<ListScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: const Color.fromRGBO(189, 213, 234, 1),
-        title: const Text("ReadingTracker"),
-        centerTitle: true,
-        automaticallyImplyLeading: false,
-      ),
+        appBar: AppBar(
+          backgroundColor: const Color.fromRGBO(149,203,226, 1),
+          title: Text("reading tracker", style: GoogleFonts.dmSans(),),
+          centerTitle: true,
+          automaticallyImplyLeading: false,
+        ),
       body: Column(
         children: [
           Padding(
@@ -63,10 +64,8 @@ class _ListScreenState extends State<ListScreen> {
               child: Row(children: [
                 Text(
                   "Listas!",
-                  style: TextStyle(
-                      fontSize: 20,
-                      fontFamily: "Roboto",
-                      fontWeight: FontWeight.bold),
+                  style: GoogleFonts.dmSans(textStyle: TextStyle(
+                      fontSize: 25, fontWeight: FontWeight.bold)),
                 ),
                 Spacer(),
                 IconButton(
@@ -125,8 +124,9 @@ class _ListScreenState extends State<ListScreen> {
                   ),
                 );
               } else {
-                return const Center(
-                    child: Text('Que tal começar criando \b uma lista?'));
+                return Center(
+                    child: Text('Que tal começar criando \b uma lista?', style: GoogleFonts.dmSans(textStyle: TextStyle(
+                fontSize: 16, fontWeight: FontWeight.normal)),));
               }
             },
           )

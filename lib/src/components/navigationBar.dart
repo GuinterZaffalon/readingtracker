@@ -9,7 +9,7 @@ class NavigationBottomBar extends StatelessWidget {
     return BottomAppBar(
 
       height: 60,
-      color: const Color.fromRGBO(189, 213, 234, 1),
+      color: const Color.fromRGBO(149,203,226, 1),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [

@@ -3,6 +3,7 @@ import 'package:readingtracker/src/components/navigationBar.dart';
 import 'package:readingtracker/src/model/ServiceBookAPI.dart';
 import 'package:readingtracker/src/screens/manualRegistrer.dart';
 import 'package:readingtracker/src/screens/register.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key});
@@ -47,32 +48,15 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: const Color.fromRGBO(189, 213, 234, 1),
-        title: const Text("ReadingTracker"),
+        backgroundColor: const Color.fromRGBO(149,203,226, 1),
+        title: Text("reading tracker", style: GoogleFonts.dmSans(),),
         centerTitle: true,
         automaticallyImplyLeading: false,
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          Row(children: [
-            Padding(
-                padding: const EdgeInsets.fromLTRB(15, 12, 10, 0),
-                child:
-                RichText(
-                  text: TextSpan(
-                    style: const TextStyle(
-                      fontSize: 20.0,
-                      color: Colors.black,
-                    ),
-                    children: <TextSpan>[
-                      TextSpan(text: 'Olá,'),
-                      TextSpan(text: ' Guinter', style: const TextStyle(fontWeight: FontWeight.bold)),
-                    ],
-                  ),
-                )
-            )
-          ]),
+
           Padding(
             padding: const EdgeInsets.fromLTRB(10, 20, 10, 0),
             child: TextField(
@@ -85,7 +69,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(25.0),
                   borderSide: const BorderSide(
-                    color: Colors.grey,
+                    color: Colors.black,
                   ),
                 ),
                 focusedBorder: OutlineInputBorder(
@@ -101,7 +85,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   child: const Icon(Icons.search),
                 ),
                 contentPadding: const EdgeInsets.all(15.0),
-                hintText: 'Buscar ',
+                hintText: Text("Buscar livro", style: GoogleFonts.dmSans(),).data,
               ),
             ),
           ),
@@ -111,7 +95,7 @@ class _MyHomePageState extends State<MyHomePage> {
               child: CircularProgressIndicator(), heightFactor: 3)
               : notFound
               ?   Column(children: [
-            Center(child: Text("Livro não encontrado.")),
+            Center(child: Text("Livro não encontrado.", style: GoogleFonts.dmSans(),)),
             SizedBox(height: 10),
             ElevatedButton(
                 onPressed: () async {
@@ -121,12 +105,12 @@ class _MyHomePageState extends State<MyHomePage> {
                         builder: (context) => const ManualRegister(),
                       ));
                 },
-                child: Text("Cadastrar manualmente"))
+                child: Text("Cadastrar manualmente", style: GoogleFonts.dmSans()))
           ])
               : Expanded(
             child: _books.isEmpty
-                ? const Center(
-                child: Text("Busque um livro para começar."))
+                ? Center(
+                child: Text("Busque um livro para começar.", style: GoogleFonts.dmSans()))
                 : ListView.builder(
               itemCount: _books.length,
               itemBuilder: (context, index) {

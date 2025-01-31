@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 abstract class ListItemsInterface {
   late int id;
@@ -34,7 +35,8 @@ class ListItems extends StatelessWidget {
               const SizedBox(width: 10,),
               const Icon(Icons.list_rounded, color: Colors.black, size: 35,),
               const VerticalDivider(width:20, color: Colors.black12, endIndent: 10, indent: 10, thickness: 2,),
-              Text(title.title, style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
+              Text(title.title, style: GoogleFonts.dmSans(textStyle: TextStyle(
+                  fontSize: 20, fontWeight: FontWeight.bold))),
             ],
           )
         )

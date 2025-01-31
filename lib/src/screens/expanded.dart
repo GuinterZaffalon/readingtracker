@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:readingtracker/src/components/starBook.dart';
 import '../model/sqflite_helper.dart';
 import '../components/books.dart';
@@ -77,8 +78,8 @@ class _ExpandedPageState extends State<ExpandedPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: const Color.fromRGBO(189, 213, 234, 1),
-          title: const Text("ReadingTracker"),
+          backgroundColor: const Color.fromRGBO(149,203,226, 1),
+          title: Text("reading tracker", style: GoogleFonts.dmSans(),),
           centerTitle: true,
         ),
         body: Column(children: [
@@ -190,8 +191,8 @@ class _ExpandedPageState extends State<ExpandedPage> {
                         padding: const EdgeInsets.all(10),
                         child: Column(children: [
                           Text("Livro lido em:",
-                              style: TextStyle(
-                                  fontSize: 17, fontWeight: FontWeight.bold)),
+                              style: GoogleFonts.dmSans(textStyle: TextStyle(
+                                  fontSize: 17, fontWeight: FontWeight.bold))),
                           SizedBox(height: 10),
                           Text(
                             book.date != null
@@ -222,8 +223,8 @@ class _ExpandedPageState extends State<ExpandedPage> {
                         padding: const EdgeInsets.all(10),
                         child: Column(children: [
                           Text("Avaliação",
-                              style: TextStyle(
-                                  fontSize: 17, fontWeight: FontWeight.bold)),
+                              style: GoogleFonts.dmSans(textStyle: TextStyle(
+                                  fontSize: 17, fontWeight: FontWeight.bold))),
                           SizedBox(height: 10),
                           RatingStars(rating: book.rating!),
                         ]),
@@ -249,14 +250,15 @@ class _ExpandedPageState extends State<ExpandedPage> {
                       padding: const EdgeInsets.all(10),
                       child: Column(children: [
                         Text("Comentários",
-                            style: TextStyle(
-                                fontSize: 17, fontWeight: FontWeight.bold)),
+                            style: GoogleFonts.dmSans(textStyle: TextStyle(
+                                fontSize: 17, fontWeight: FontWeight.bold))),
                         const SizedBox(height: 10),
                         Text(
                             book.comment!.isNotEmpty
                                 ? book.comment!
                                 : 'Nenhum comentário',
-                            style: TextStyle(fontSize: 16),
+                            style: GoogleFonts.dmSans(textStyle: TextStyle(
+                                fontSize: 16, fontWeight: FontWeight.normal)),
                             textAlign: TextAlign.center),
                         const SizedBox(height: 10),
                       ]),
