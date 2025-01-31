@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import '../components/booksList.dart';
 import '../components/listItems.dart';
@@ -90,9 +91,10 @@ class _InsertBooksListState extends State<InsertBooksList> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: const Color.fromRGBO(189, 213, 234, 1),
-        title: const Text("ReadingTracker"),
+        backgroundColor: const Color.fromRGBO(149,203,226, 1),
+        title: Text("reading tracker", style: GoogleFonts.dmSans(),),
         centerTitle: true,
+        automaticallyImplyLeading: false,
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -101,11 +103,8 @@ class _InsertBooksListState extends State<InsertBooksList> {
             children: [
               Text(
                 "Selecione para adicionar!",
-                style: const TextStyle(
-                    fontSize: 20,
-                    fontFamily: "Roboto",
-                    fontWeight: FontWeight.bold),
-              ),
+            style: GoogleFonts.dmSans(textStyle: TextStyle(
+                fontSize: 20, fontWeight: FontWeight.bold))),
               SizedBox(height: 10,),
               SizedBox(
                 height: 1 * MediaQuery.of(context).size.height,

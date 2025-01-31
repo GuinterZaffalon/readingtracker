@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:readingtracker/src/screens/perfil.dart';
 
 import '../model/sqflite_helper.dart';
@@ -115,8 +116,8 @@ class _ManualRegisterState extends State<ManualRegister> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: const Color.fromRGBO(189, 213, 234, 1),
-          title: const Text("ReadingTracker"),
+          backgroundColor: const Color.fromRGBO(149,203,226, 1),
+          title: Text("reading tracker", style: GoogleFonts.dmSans(),),
           centerTitle: true,
         ),
         resizeToAvoidBottomInset: true,
