@@ -44,6 +44,8 @@ dependencies:
   syncfusion_flutter_datepicker: ^28.1.38
   google_fonts: ^6.2.1
   curved_navigation_bar: ^1.0.6
+  flutter_launcher_icons: ^0.14.3
+  flutter_native_splash: ^2.4.4
 
 dev_dependencies:
   flutter_test:
@@ -97,3 +99,17 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+
+flutter_native_splash:
+  color: "#95CBE2"
+  image: "assets/app/iconTransparente.png"
+  android: true
+  ios: true
+
+flutter_icons:
+  image_path: "assets/app/iconReadingTracker.png"
+  ios: true
+  remove_alpha_ios: true
+  android: "launcher_icon"
+  adaptive_icon_background: "#FFFFFF"
+  adaptive_icon_foreground: "assets/app/iconBranco.png"
