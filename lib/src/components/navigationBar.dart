@@ -8,14 +8,14 @@ class NavigationBottomBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return BottomAppBar(
 
-      height: 60,
+      height: 50,
       color: const Color.fromRGBO(149,203,226, 1),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           IconButton(
             icon: const Icon(Icons.add_home_outlined),
-            iconSize: 35,
+            iconSize: 27,
             color: Colors.black,
             onPressed: () {
               Navigator.push(
@@ -34,7 +34,7 @@ class NavigationBottomBar extends StatelessWidget {
                   ));
             },
             icon: const Icon(Icons.list_rounded),
-            iconSize: 35,
+            iconSize: 27,
             color: Colors.black,
           ),
           IconButton(
@@ -46,7 +46,7 @@ class NavigationBottomBar extends StatelessWidget {
                     ));
               },
               icon: const Icon(Icons.person_2_outlined),
-              iconSize: 35,
+              iconSize: 27,
               color: Colors.black),
         ],
       ),

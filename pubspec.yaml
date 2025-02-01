@@ -43,6 +43,7 @@ dependencies:
   intl: ^0.18.0
   syncfusion_flutter_datepicker: ^28.1.38
   google_fonts: ^6.2.1
+  curved_navigation_bar: ^1.0.6
 
 dev_dependencies:
   flutter_test:

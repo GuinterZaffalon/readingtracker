@@ -3,10 +3,14 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:readingtracker/src/components/starBook.dart';
+import 'package:readingtracker/src/screens/perfil.dart';
 import '../model/sqflite_helper.dart';
 import '../components/books.dart';
 import '../components/navigationBar.dart';
 import 'package:intl/intl.dart';
+
+import 'homePage.dart';
+import 'list.dart';
 
 class ExpandedPage extends StatefulWidget {
   final int bookId;
@@ -267,6 +271,8 @@ class _ExpandedPageState extends State<ExpandedPage> {
             },
           ),
         ]),
-        bottomNavigationBar: NavigationBottomBar());
+    bottomNavigationBar: NavigationBottomBar(
+    ),
+    );
   }
 }

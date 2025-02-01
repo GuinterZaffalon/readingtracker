@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:readingtracker/src/components/navigationBar.dart';
 import 'package:readingtracker/src/model/ServiceBookAPI.dart';
 import 'package:readingtracker/src/screens/manualRegistrer.dart';
+import 'package:readingtracker/src/screens/perfil.dart';
 import 'package:readingtracker/src/screens/register.dart';
 import 'package:google_fonts/google_fonts.dart';
+
+import 'list.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key});
@@ -53,10 +56,10 @@ class _MyHomePageState extends State<MyHomePage> {
         centerTitle: true,
         automaticallyImplyLeading: false,
       ),
-      body: Column(
+      body:
+      Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-
           Padding(
             padding: const EdgeInsets.fromLTRB(10, 20, 10, 0),
             child: TextField(
@@ -156,7 +159,8 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         ],
       ),
-      bottomNavigationBar: NavigationBottomBar(),
+      bottomNavigationBar: NavigationBottomBar(
+      ),
     );
   }
 }

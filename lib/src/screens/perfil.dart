@@ -3,6 +3,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:readingtracker/src/components/books.dart';
 import '../model/sqflite_helper.dart';
 import '../components/navigationBar.dart';
+import 'homePage.dart';
+import 'list.dart';
 
 class perfilPage extends StatefulWidget {
   const perfilPage({Key? key}) : super(key: key);
@@ -162,7 +164,8 @@ class _perfilPageState extends State<perfilPage> {
           )
         ],
       ),
-        bottomNavigationBar: NavigationBottomBar()
+      bottomNavigationBar: NavigationBottomBar(
+      ),
     );
   }
 }
