@@ -104,51 +104,40 @@ class _perfilPageState extends State<perfilPage> {
     return Scaffold(
         appBar: AppBar(
           backgroundColor: const Color.fromRGBO(149,203,226, 1),
-          title: Text("reading tracker", style: GoogleFonts.dmSans(),),
+          title: Text("livros lidos", style: GoogleFonts.dmSans(),),
           centerTitle: true,
           automaticallyImplyLeading: false,
+          actions: [
+            IconButton(
+              icon: const Icon(Icons.filter_list_outlined),
+              iconSize: 35,
+              color: Colors.black,
+              onPressed: () async {
+                final dateRange = await (
+                    showDateRangePicker(
+                      context: context,
+                      confirmText: "Confirmar",
+                      cancelText: "Cancelar",
+                      firstDate: DateTime(2000),
+                      lastDate: DateTime.now(),
+                    )
+                );
+                if (dateRange != null) {
+                  filterBooksByDate(dateRange.start, dateRange.end);
+                }
+              },
+            ), isFiltered ?
+            TextButton(onPressed: () async {
+              saveBooksFinished();
+              setState(() {
+                isFiltered = false;
+              });
+            }, child: Text("Limpar", style: TextStyle(color: Colors.black),),) :
+            Container()
+          ],
         ),
       body: Column(
         children: [
-          Padding(
-              padding: const EdgeInsets.all(10),
-              child: Row(
-                  children: [
-                    Text(
-                      "Livros lidos!",
-                      style: GoogleFonts.dmSans(textStyle: TextStyle(
-                          fontSize: 25, fontWeight: FontWeight.bold)),
-                    ),
-                    Spacer(),
-                     IconButton(
-                          icon: const Icon(Icons.filter_list_outlined),
-                          iconSize: 35,
-                          color: Colors.black,
-                          onPressed: () async {
-                            final dateRange = await (
-                                showDateRangePicker(
-                                  context: context,
-                                  confirmText: "Confirmar",
-                                  cancelText: "Cancelar",
-                                  firstDate: DateTime(2000),
-                                  lastDate: DateTime.now(),
-                                )
-                            );
-                            if (dateRange != null) {
-                              filterBooksByDate(dateRange.start, dateRange.end);
-                            }
-                          },
-                        ), isFiltered ?
-                    TextButton(onPressed: () async {
-                      saveBooksFinished();
-                      setState(() {
-                        isFiltered = false;
-                      });
-                    }, child: Text("Limpar", style: TextStyle(color: Colors.black),),) :
-                    Container()
-                  ]
-              )
-            ),
           Expanded(
             child:
               ListView.builder(
