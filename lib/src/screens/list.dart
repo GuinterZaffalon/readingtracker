@@ -53,65 +53,58 @@ class _ListScreenState extends State<ListScreen> {
     return Scaffold(
         appBar: AppBar(
           backgroundColor: const Color.fromRGBO(149,203,226, 1),
-          title: Text("reading tracker", style: GoogleFonts.dmSans(),),
+          title: Text("listas!", style: GoogleFonts.dmSans(),),
           centerTitle: true,
           automaticallyImplyLeading: false,
+          actions: [
+            IconButton(
+                icon: const Icon(Icons.add_rounded),
+                iconSize: 35,
+                color: Colors.black,
+                onPressed: () {
+                  showModalBottomSheet(
+                      context: context,
+                      isScrollControlled: true,
+                      shape: const RoundedRectangleBorder(borderRadius: BorderRadius.only(
+                        topRight: Radius.circular(20),
+                        topLeft: Radius.circular(20),
+                      )),
+                      builder: (content) {
+                        return Padding(
+                            padding: EdgeInsets.all(20.0).copyWith(
+                                bottom: MediaQuery.of(context).viewInsets.bottom
+                            ),
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Padding(
+                                    padding: const EdgeInsets.all(10),
+                                    child: CommentBox(
+                                      onChange: (value) {
+                                        setState(() {
+                                          comment = value;
+                                        });
+                                      }, comment: "Qual o nome da lista?",)
+                                ),
+                                ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                        padding: const EdgeInsets.fromLTRB(60, 0, 60, 0)
+                                    ),
+                                    onPressed: () {
+                                      saveList(comment);
+                                      Navigator.pop(context);
+                                    },
+                                    child: Text("Criar"))
+                              ],
+                            )
+                        );
+                      });
+                })
+          ],
         ),
       body: Column(
         children: [
-          Padding(
-              padding: const EdgeInsets.all(10),
-              child: Row(children: [
-                Text(
-                  "Listas!",
-                  style: GoogleFonts.dmSans(textStyle: TextStyle(
-                      fontSize: 25, fontWeight: FontWeight.bold)),
-                ),
-                Spacer(),
-                IconButton(
-                    icon: const Icon(Icons.add_rounded),
-                    iconSize: 35,
-                    color: Colors.black,
-                    onPressed: () {
-                      showModalBottomSheet(
-                          context: context,
-                          isScrollControlled: true,
-                          shape: const RoundedRectangleBorder(borderRadius: BorderRadius.only(
-                            topRight: Radius.circular(20),
-                            topLeft: Radius.circular(20),
-                          )),
-                          builder: (content) {
-                            return Padding(
-                              padding: EdgeInsets.all(20.0).copyWith(
-                                bottom: MediaQuery.of(context).viewInsets.bottom
-                              ),
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.all(10),
-                                    child: CommentBox(
-                                        onChange: (value) {
-                                          setState(() {
-                                            comment = value;
-                                          });
-                                    }, comment: "Qual o nome da lista?",)
-                                  ),
-                                  ElevatedButton(
-                                      style: ElevatedButton.styleFrom(
-                                        padding: const EdgeInsets.fromLTRB(60, 0, 60, 0)
-                                      ),
-                                      onPressed: () {
-                                        saveList(comment);
-                                        Navigator.pop(context);
-                                      },
-                                      child: Text("Criar"))
-                                ],
-                              )
-                            );
-                          });
-                    }),
-              ])),
+          SizedBox(height: 10,),
           FutureBuilder<List<Widget>>(
             future: getLists(),
             builder: (context, snapshot) {
