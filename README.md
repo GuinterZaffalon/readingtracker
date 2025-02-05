@@ -19,7 +19,7 @@ O projeto ainda está em desenvolvimento e as próximas atualizações serão vo
 - [x] Adicionar livros ao banco de dados
 - [x] Integração para download das capas
 - [x] Exibir detalhes dos livros
-- [ ] Filtro por data de leitura
+- [x] Filtro por data de leitura
 - [ ] Páginas lidas / restantes
 
 ## 💻 Pré-requisitos
