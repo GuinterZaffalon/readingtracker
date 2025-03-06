@@ -6,6 +6,7 @@ import 'package:readingtracker/src/components/ratting.dart';
 import 'package:readingtracker/src/model/ServiceCoverGet.dart';
 import 'package:readingtracker/src/screens/perfil.dart';
 import '../model/sqflite_helper.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class Registro {
   String? title;
@@ -108,8 +109,8 @@ class _RegisterState extends State<Register> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: const Color.fromRGBO(189, 213, 234, 1),
-        title: const Text("ReadingTracker"),
+        backgroundColor: const Color.fromRGBO(149,203,226, 1),
+        title: Text("reading tracker", style: GoogleFonts.dmSans(),),
         centerTitle: true,
       ),
       resizeToAvoidBottomInset: true,
