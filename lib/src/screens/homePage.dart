@@ -51,13 +51,15 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: const Color.fromRGBO(149,203,226, 1),
-        title: Text("reading tracker", style: GoogleFonts.dmSans(),),
+        backgroundColor: const Color.fromRGBO(149, 203, 226, 1),
+        title: Text(
+          "reading tracker",
+          style: GoogleFonts.dmSans(),
+        ),
         centerTitle: true,
         automaticallyImplyLeading: false,
       ),
-      body:
-      Column(
+      body: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Padding(
@@ -88,79 +90,101 @@ class _MyHomePageState extends State<MyHomePage> {
                   child: const Icon(Icons.search),
                 ),
                 contentPadding: const EdgeInsets.all(15.0),
-                hintText: Text("Buscar livro", style: GoogleFonts.dmSans(),).data,
+                hintText: Text(
+                  "Buscar livro",
+                  style: GoogleFonts.dmSans(),
+                ).data,
               ),
             ),
           ),
           const SizedBox(height: 20),
           isLoading
               ? const Center(
-              child: CircularProgressIndicator(), heightFactor: 3)
+                  child: CircularProgressIndicator(), heightFactor: 3)
               : notFound
-              ?   Column(children: [
-            Center(child: Text("Livro não encontrado.", style: GoogleFonts.dmSans(),)),
-            SizedBox(height: 10),
-            ElevatedButton(
-                onPressed: () async {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const ManualRegister(),
-                      ));
-                },
-                child: Text("Cadastrar manualmente", style: GoogleFonts.dmSans()))
-          ])
-              : Expanded(
-            child: _books.isEmpty
-                ? Center(
-                child: Text("Busque um livro para começar.", style: GoogleFonts.dmSans()))
-                : ListView.builder(
-              itemCount: _books.length,
-              itemBuilder: (context, index) {
-                final book = _books[index];
-                final title =
-                    book['title'] ?? 'Título desconhecido';
-                final author =
-                    (book['author_name'] as List<dynamic>?)
-                        ?.join(', ') ??
-                        'Autor desconhecido';
-                final editionYear =
-                    book['first_publish_year'] ??
-                        'Ano desconhecido';
-                final editora =
-                    book['publisher'] ?? 'Editora desconhecida';
-                return ListTile(
-                  title: Text(title),
-                  subtitle: Text(
-                      'Autor: $author\nEditora: $editora\nAno: $editionYear'),
-                  style: ListTileStyle.list,
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => Register(
-                                registro: Registro(
-                                    title: book['title']
-                                        .toString(),
-                                    author: (book["author_name"]
-                                    as List<dynamic>?)
-                                        ?.join(', '),
-                                    editionYear: book[
-                                    'first_publish_year']
-                                        .toString(),
-                                    publisher: book['publisher']
-                                        .toString(),
-                                    isbn: (book['isbn'][0])
-                                        .toString()))));
-                  },
-                );
-              },
-            ),
-          ),
+                  ? Column(children: [
+                      Center(
+                          child: Text(
+                        "Livro não encontrado.",
+                        style: GoogleFonts.dmSans(),
+                      )),
+                      SizedBox(height: 10),
+                      ElevatedButton(
+                          onPressed: () async {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const ManualRegister(),
+                                ));
+                          },
+                          child: Text("Cadastrar manualmente",
+                              style: GoogleFonts.dmSans()))
+                    ])
+                  : Expanded(
+                      child: _books.isEmpty
+                          ? Center(
+                              child: Text("Busque um livro para começar.",
+                                  style: GoogleFonts.dmSans()))
+                          : ListView.builder(
+                              itemCount: _books.length,
+                              itemBuilder: (context, index) {
+                                final book = _books[index];
+                                final title =
+                                    book['title'] ?? 'Título desconhecido';
+                                final author =
+                                    (book['author_name'] as List<dynamic>?)
+                                            ?.join(', ') ??
+                                        'Autor desconhecido';
+                                final editionYear =
+                                    book['first_publish_year'] ??
+                                        'Ano desconhecido';
+                                final editora =
+                                    book['publisher'] ?? 'Editora desconhecida';
+                                return ListTile(
+                                  title: Text(title),
+                                  subtitle: Text(
+                                      'Autor: $author\nEditora: $editora\nAno: $editionYear'),
+                                  style: ListTileStyle.list,
+                                  onTap: () {
+                                    final authorList =
+                                        book["author_name"] as List<dynamic>?;
+                                    final publisherList =
+                                        book['publisher'] as List<dynamic>?;
+                                    final isbnList =
+                                        book['isbn'] as List<dynamic>?;
+
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => Register(
+                                          registro: Registro(
+                                            title: book['title']?.toString() ??
+                                                'Título desconhecido',
+                                            author: authorList?.join(', ') ??
+                                                'Autor desconhecido',
+                                            editionYear:
+                                                book['first_publish_year']
+                                                        ?.toString() ??
+                                                    'Ano desconhecido',
+                                            publisher:
+                                                publisherList?.join(', ') ??
+                                                    'Editora desconhecida',
+                                            isbn: isbnList != null &&
+                                                    isbnList.isNotEmpty
+                                                ? isbnList[0].toString()
+                                                : 'ISBN desconhecido',
+                                          ),
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                );
+                              },
+                            ),
+                    ),
         ],
       ),
-      bottomNavigationBar: NavigationBottomBar(
-      ),
+      bottomNavigationBar: NavigationBottomBar(),
     );
   }
 }
