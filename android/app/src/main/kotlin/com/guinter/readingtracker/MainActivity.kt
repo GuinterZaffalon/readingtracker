@@ -1,4 +1,4 @@
-package com.example.readingtracker
+package com.guinter.readingtracker
 
 import io.flutter.embedding.android.FlutterActivity
 
