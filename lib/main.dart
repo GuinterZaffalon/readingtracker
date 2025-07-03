@@ -3,7 +3,6 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:readingtracker/src/screens/homePage.dart';
 
 void main() async {
-  await dotenv.load(fileName: ".env");
   runApp(const App());
 }
 
